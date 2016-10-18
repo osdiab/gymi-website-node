@@ -5,13 +5,22 @@ import fetch from 'node-fetch';
 import path from 'path';
 
 const app = express();
+
+// ********************
+// * CONFIGURE ROUTER *
+// ********************
+
 const router = express.Router(); // eslint-disable-line new-cap
 
+// static assets; this includes the compiled frontend app!
 router.use(express.static(path.join(__dirname, 'public')));
 
-/* Uncached routes */
-
-// all uncached routes should have these headers to prevent 304 Unmodified cache returns
+/**
+ * Uncached routes:
+ * All routes that shouldn't be cached (i.e. non-static assets) should have these headers to
+ * prevent 304 Unmodified cache returns. This middleware applies it to all subsequently defined
+ * routes.
+ */
 router.get('/*', (req, res, next) => {
   res.set({
     'Last-Modified': (new Date()).toUTCString(),
@@ -20,6 +29,14 @@ router.get('/*', (req, res, next) => {
   });
   next();
 });
+
+// *****************
+// * DEFINE ROUTES *
+// *****************
+
+/**
+ * API Endpoints
+ */
 
 // quote: fetches a random computer science quote from an API. Either returns the quote as JSON, or
 // sends a 500 on any error.
@@ -41,5 +58,6 @@ router.get('/quote', (req, res) => {
     res.send('Something went wrong!');
   });
 });
+
 app.use(router);
 export default app;

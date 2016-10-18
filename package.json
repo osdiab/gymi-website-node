@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Boilerplate for frontend code at Clever",
   "scripts": {
-    "dev-server": "./node_modules/babel-cli/bin/babel-node.js server.js"
+    "dev-server": "babel-node dev_server.js"
   },
   "repository": {
     "type": "git",

@@ -4,7 +4,7 @@ const webpack = require('webpack');
 module.exports = {
   entry: [
     'webpack-hot-middleware/client',
-    path.join(__dirname, 'demo/index.js'),
+    path.join(__dirname, 'frontend_app.js'),
   ],
   output: {
     path: path.join(__dirname, 'public'),
