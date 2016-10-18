@@ -4,14 +4,23 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import { Provider } from 'react-redux';
+import { IntlProvider } from 'react-intl';
+import { Provider as ReduxProvider } from 'react-redux';
+import browserLocale from 'browser-locale';
 
 import ExampleApp from './components/ExampleApp';
 import store from './store';
 
 export function run() {
   const el = document.getElementById('example-app-wrapper');
-  render(<Provider store={store}>
-    <ExampleApp />
-  </Provider>, el);
+  render(
+    <IntlProvider
+      locale={browserLocale()}
+      defaultLocale="en"
+    >
+      <ReduxProvider store={store}>
+        <ExampleApp />
+      </ReduxProvider>
+    </IntlProvider>
+  , el);
 }

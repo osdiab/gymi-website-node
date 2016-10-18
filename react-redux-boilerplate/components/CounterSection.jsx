@@ -3,6 +3,7 @@
 // Presentational code only; state is passed as properties by the container.
 import { Button } from 'clever-components';
 import React, { PropTypes } from 'react';
+import { FormattedDate } from 'react-intl';
 
 require('./CounterSection.less');
 export function CounterSectionView({ counterValue, incrementCounter }) {
@@ -10,6 +11,10 @@ export function CounterSectionView({ counterValue, incrementCounter }) {
     <h2>Counter</h2>
     <p>The current value is: <span className="CounterSection--value">{counterValue}</span></p>
     <Button type="primary" onClick={incrementCounter} value="Increment Counter" />
+    <p>
+      Today is {' '}
+      <FormattedDate value={Date.now()} month="long" day="numeric" />
+    </p>
   </div>);
 }
 
