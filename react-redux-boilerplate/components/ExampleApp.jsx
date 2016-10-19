@@ -1,9 +1,11 @@
 // View of the React application as a whole.
 import React, { PropTypes } from 'react';
 import { IntlProvider } from 'react-intl';
+import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 
+import Layout from '../components/Layout';
+import HomePage from '../components/HomePage';
 import CounterSection from '../components/CounterSection';
-import LanguageSelector from '../components/LanguageSelector';
 import QuoteSection from '../components/QuoteSection';
 
 export function ExampleAppView({ currentLanguage, defaultLanguage }) {
@@ -15,12 +17,13 @@ export function ExampleAppView({ currentLanguage, defaultLanguage }) {
       key={currentLanguage.localeCode}
       defaultLocale={defaultLanguage.localeCode}
     >
-      <div className="overview">
-        <h1>Example Application</h1>
-        <LanguageSelector />
-        <CounterSection />
-        <QuoteSection />
-      </div>
+      <Router history={browserHistory}>
+        <Route path="/" component={Layout}>
+          <IndexRoute component={HomePage} />
+          <Route path="counter" component={CounterSection} />
+          <Route path="quote" component={QuoteSection} />
+        </Route>
+      </Router>
     </IntlProvider>
   );
 }
