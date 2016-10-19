@@ -5,10 +5,12 @@ import { applyMiddleware, createStore, combineReducers, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
 import counter from './counter';
+import language from './language';
 import quote from './quote';
 
 const store = createStore(combineReducers({
   counter,
+  language,
   quote,
 }), compose(
   applyMiddleware(thunkMiddleware),
