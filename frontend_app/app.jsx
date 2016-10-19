@@ -4,12 +4,16 @@
 
 import React from 'react';
 import { render } from 'react-dom';
+import { addLocaleData } from 'react-intl';
+import en from 'react-intl/locale-data/en';
+import zh from 'react-intl/locale-data/zh';
 import { Provider as ReduxProvider } from 'react-redux';
 
 import ExampleApp from './components/ExampleApp';
 import store from './store';
 
 export function run() {
+  addLocaleData([...en, ...zh]);
   const el = document.getElementById('example-app-wrapper');
   render(
     <ReduxProvider store={store}>
