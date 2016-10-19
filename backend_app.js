@@ -40,7 +40,7 @@ router.get('/*', (req, res, next) => {
 
 // quote: fetches a random computer science quote from an API. Either returns the quote as JSON, or
 // sends a 500 on any error.
-router.get('/quote', (req, res) => {
+router.get('/api/quote', (req, res) => {
   fetch('http://quotes.stormconsultancy.co.uk/random.json').then((response) => {
     if (response.status >= 200 && response.status < 300) {
       return response.json();

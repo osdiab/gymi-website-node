@@ -41,7 +41,7 @@ export function fetchingQuoteFailed(err) {
 export function fetchQuote() {
   return (dispatch) => {
     dispatch(fetchingQuote());
-    fetch('/quote').then((response) => {
+    fetch('/api/quote').then((response) => {
       if (response.status >= 200 && response.status < 300) {
         return response.json();
       }
