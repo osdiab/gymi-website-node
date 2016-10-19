@@ -4,6 +4,7 @@ const webpack = require('webpack');
 module.exports = {
   entry: [
     'webpack-hot-middleware/client',
+    'babel-polyfill',
     path.join(__dirname, 'frontend_app.js'),
   ],
   output: {
