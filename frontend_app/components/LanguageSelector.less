@@ -1,0 +1,29 @@
+.LanguageSelector {
+  padding: 0 5px;
+}
+
+.LanguageSelector--languages {
+  border-top: 1px solid black;
+  list-style-type: none;
+  padding: 20px 0;
+}
+
+.LanguageSelector--languages--entry {
+  &:hover {
+    color: #E16860;
+  }
+  padding: 0 1px;
+  display: inline-block;
+
+  button {
+    text-transform: uppercase;
+    font-size: inherit;
+    font-weight: bold;
+    border: none;
+    background: none;
+
+    &:hover:not([disabled]) {
+      cursor: pointer;
+    }
+  }
+}

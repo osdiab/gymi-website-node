@@ -1,26 +1,27 @@
 // Component
 // View of the section of the page that displays a counter and a button to increment it.
 // Presentational code only; state is passed as properties by the container.
-import { Button } from 'clever-components';
 import React, { PropTypes } from 'react';
 
-// require('./LanguageSelector.less');
+require('./LanguageSelector.less');
 export function LanguageSelectorView({
   currentLanguage, validLanguages, setCurrentLanguage,
 }) {
   const languageButtons = validLanguages.map((lang) => (
-    <span key={lang.localeCode}>
-      <Button
-        type="primary"
+    <li className="LanguageSelector--languages--entry" key={lang.localeCode}>
+      <button
         disabled={currentLanguage.localeCode === lang.localeCode}
         onClick={() => setCurrentLanguage(lang.localeCode)}
-        value={lang.shortDisplayName}
-      />
-    </span>
+      >
+        {lang.shortDisplayName}
+      </button>
+    </li>
   ));
 
   return (<div className="LanguageSelector">
-    {languageButtons}
+    <ul className="LanguageSelector--languages">
+      {languageButtons}
+    </ul>
   </div>);
 }
 

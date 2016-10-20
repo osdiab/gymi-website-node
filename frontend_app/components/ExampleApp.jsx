@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import { IntlProvider } from 'react-intl';
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 
-import Layout from '../components/Layout';
+import WebsiteLayout from '../components/WebsiteLayout';
 import HomePage from '../components/HomePage';
 import CounterSection from '../components/CounterSection';
 import QuoteSection from '../components/QuoteSection';
@@ -18,7 +18,7 @@ export function ExampleAppView({ currentLanguage, defaultLanguage }) {
       defaultLocale={defaultLanguage.localeCode}
     >
       <Router history={browserHistory}>
-        <Route path="/" component={Layout}>
+        <Route path="/" component={WebsiteLayout}>
           <IndexRoute component={HomePage} />
           <Route path="counter" component={CounterSection} />
           <Route path="quote" component={QuoteSection} />
