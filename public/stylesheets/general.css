@@ -1,0 +1,146 @@
+/*
+ general.css
+
+ GYMI-wide common styling.
+*/
+
+/* CSS reset */
+html {
+	box-sizing: border-box;
+	font-family: 'Ubuntu', "FangSong", "仿宋", STFangSong, "华文仿宋", serif;
+}
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+	position:relative;
+	min-height: 100%;
+}
+
+.backgroundText
+{
+	display: block;
+	position: relative;
+	top: -11vw;
+	margin-bottom: -11vw;
+}
+
+.text
+{
+	display: block;
+	z-index: 4;
+	text-align: center;
+	width: 100%;
+	position: absolute;
+	width: 100%;
+	top: 11vw;
+	height: auto;
+}
+
+.background
+{
+	position: relative;
+	width: 100%;
+}
+
+.button
+{
+	border: 1px solid black;
+	font-family: 'Ubuntu';
+	font-weight: 300;
+	font-size: 1vw;
+	color: black;
+	width: 15vw;
+	text-align: center;
+	padding: 1vw;
+}
+
+.button:hover{
+	background-color: #E16860;
+	color: white;
+	cursor: pointer;
+	border: none;
+}
+
+.chevronImage{
+	width: 100%;
+	position: relative;
+	z-index: 3;
+	display: block;
+}
+
+.left{
+	float: left;
+	width: 50%;
+	height: 100%;
+}
+
+.right{
+	position: relative;
+	float: right;
+	width: 50%;
+	height: 100%;
+}
+
+.white_chevron_middle{
+	background-color: white;
+	height: auto;
+}
+
+/* Font classes */
+.UbuntuLight
+{
+	font-family: 'Ubuntu', "FangSong", "仿宋", STFangSong, "华文仿宋", serif;
+	font-weight: 300;
+	color: #3b4042;
+}
+
+.UbuntuMedium
+{
+	font-family: 'Ubuntu', "FangSong", "仿宋", STFangSong, "华文仿宋", serif;
+	font-weight: 500;
+}
+
+.NotoLight
+{
+	font-family: 'Noto Serif',"FangSong", "仿宋", STFangSong, "华文仿宋", serif;
+	font-weight: 400;
+	font-style: italic;
+}
+
+.subHeader{
+	display: block;
+	color: #E16860;
+	font-size: 3vw;
+	height: 6vw;
+}
+
+.subText{
+	display: block;
+	color: black;
+	font-size: 1.5vw;
+	height: auto;
+	width: 70%;
+	margin: 0 auto;
+}
+
+.menuSpacer{
+	width: 69px;
+	display: block;
+	position: relative;
+	height: 100%;
+	min-height: 1px;
+	float: left;
+}
+
+.shownText{
+	width: auto;
+	overflow: hidden;
+	float: none;
+}
