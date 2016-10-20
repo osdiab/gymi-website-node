@@ -1,4 +1,5 @@
 const path = require('path');
+const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 
 module.exports = {
@@ -28,7 +29,7 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        loader: 'style!css!less',
+        loader: 'style!css!postcss!less',
       },
       {
         test: /\.jsx?$/,
@@ -40,5 +41,6 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
   ],
+  postcss: [autoprefixer({ browsers: ['> 5% in CN', '> 5% in US', 'last 2 versions', 'ie >= 9'] })],
 };
 

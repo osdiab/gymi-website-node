@@ -23,6 +23,7 @@
     "node-fetch": "^1.5.3"
   },
   "devDependencies": {
+    "autoprefixer": "^6.5.1",
     "babel-cli": "^6.0.0",
     "babel-core": "^6.7.4",
     "babel-eslint": "^7.0.0",
@@ -43,6 +44,7 @@
     "jsdom-global": "^2.0.0",
     "less": "^2.6.1",
     "less-loader": "^2.2.3",
+    "postcss-loader": "^1.0.0",
     "react": "^15.3.2",
     "react-addons-test-utils": "^15.3.2",
     "react-dom": "^15.0.1",
