@@ -1,7 +1,5 @@
 /* eslint-disable max-len */
 
-import LeadershipTeamSection from './LeadershipTeamSection';
-
 export default [
   {
     id: 'AboutUsPage.title',
@@ -82,5 +80,4 @@ export default [
     id: 'AboutUsPage.collaboratorsSection.pandeagleCulturalInstitute.description',
     defaultMessage: 'Pandeagle Cultural Institute is based in Florida and is a non-profit organization dedicated to promoting a better understanding of Chinese culture in communities.',
   },
-  ...LeadershipTeamSection,
 ];

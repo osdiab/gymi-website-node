@@ -1,7 +1,5 @@
 /* eslint-disable max-len */
 
-import LeadershipTeamSection from './LeadershipTeamSection';
-
 export default [
   {
     id: 'AboutUsPage.title',
@@ -82,6 +80,4 @@ export default [
     id: 'AboutUsPage.collaboratorsSection.pandeagleCulturalInstitute.description',
     defaultMessage: 'Pandeagle Cultural Institute (PCI) 是一家在美国佛罗里达州的非盈利机构。他们致力于在社区中提高人们对中国文化的认识与理解。',
   },
-  ...LeadershipTeamSection,
 ];
-
