@@ -3,10 +3,11 @@ import React, { PropTypes } from 'react';
 import { IntlProvider } from 'react-intl';
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 
-import WebsiteLayout from '../components/WebsiteLayout';
-import HomePage from '../components/HomePage';
-import CounterSection from '../components/CounterSection';
-import QuoteSection from '../components/QuoteSection';
+import messages from '../../messages';
+import WebsiteLayout from './WebsiteLayout';
+import HomePage from './HomePage';
+import CounterSection from './CounterSection';
+import QuoteSection from './QuoteSection';
 
 export function ExampleAppView({ currentLanguage, defaultLanguage }) {
   // NOTE: need key on IntlProvider to trigger page rerender
@@ -15,6 +16,7 @@ export function ExampleAppView({ currentLanguage, defaultLanguage }) {
     <IntlProvider
       locale={currentLanguage.localeCode}
       key={currentLanguage.localeCode}
+      messages={messages[currentLanguage.localeCode]}
       defaultLocale={defaultLanguage.localeCode}
     >
       <Router history={browserHistory}>
