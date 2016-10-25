@@ -4,7 +4,10 @@
     "react"
   ],
   "plugins": [
-    "transform-object-assign"
+    "transform-object-assign",
+    ["react-intl", {
+        "messagesDir": "./messages/build/"
+    }]
   ]
 }
 

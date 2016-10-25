@@ -1,5 +1,5 @@
 import en from './en';
-import zh from './zh';
+import zh from './translations/zh';
 
 // converts messages as defined in these directories to the format
 // expected by react-intl. Instead of array of objects containing a message
