@@ -2,18 +2,18 @@ import React, { PropTypes } from 'react';
 
 import SiteNavigation from './SiteNavigation.jsx';
 
-require('./WebsiteLayout.less');
-export default function WebsiteLayout({ children }) {
+require('./SiteLayout.less');
+export default function SiteLayout({ children }) {
   return (
-    <div className="WebsiteLayout">
+    <div className="SiteLayout">
       <SiteNavigation />
-      <div className="WebsiteLayout--content">
+      <div className="SiteLayout--content">
         {children}
       </div>
     </div>
   );
 }
 
-WebsiteLayout.propTypes = {
+SiteLayout.propTypes = {
   children: PropTypes.node,
 };

@@ -4,8 +4,8 @@ import { IntlProvider } from 'react-intl';
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 
 import messages from '../../messages';
-import WebsiteLayout from './WebsiteLayout';
-import HomePage from './HomePage';
+import SiteLayout from './SiteLayout';
+import HomePage from './pages/HomePage';
 import CounterSection from './CounterSection';
 import QuoteSection from './QuoteSection';
 
@@ -20,7 +20,7 @@ export function ExampleAppView({ currentLanguage, defaultLanguage }) {
       defaultLocale={defaultLanguage.localeCode}
     >
       <Router history={browserHistory}>
-        <Route path="/" component={WebsiteLayout}>
+        <Route path="/" component={SiteLayout}>
           <IndexRoute component={HomePage} />
           <Route path="counter" component={CounterSection} />
           <Route path="quote" component={QuoteSection} />
