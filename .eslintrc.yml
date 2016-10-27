@@ -6,3 +6,10 @@ parserOptions:
   ecmaVersion: 6
 plugins:
   - "react"
+rules:
+  import/no-extraneous-dependencies:
+    - "error"
+    - devDependencies: true
+  react/no-unused-prop-types:
+    - 2
+    - skipShapeProps: true
