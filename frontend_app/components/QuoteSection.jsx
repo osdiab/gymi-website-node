@@ -2,8 +2,9 @@
 // View of the section of the page that displays a button to fetch and display a computer science
 // quote.
 // Presentational code only; state is passed as properties by the container.
-import { Button } from 'clever-components';
 import React, { PropTypes } from 'react';
+
+import Button from './Button';
 
 require('./QuoteSection.less');
 
@@ -30,7 +31,7 @@ export function QuoteSectionView({ fetchError, fetchingQuote, quote, author, fet
     <div className="section QuoteSection">
       <h2>Computer Science Quotes</h2>
       {content}
-      <Button type="primary" onClick={fetchQuote} value={buttonText} />
+      <Button type="primary" action={fetchQuote}>{buttonText}</Button>
     </div>
   );
 }
