@@ -19,11 +19,17 @@
 .HomePage--section--content {
   margin: 0 auto;
   max-width: 600px;
+  padding-top: 50px;
 }
 
 .HomePage--splash {
   h1 {
     font-size: 3em;
+  }
+
+  .PageSection--content {
+    padding-top: 100px;
+    padding-bottom: 50px;
   }
 }
 
@@ -39,19 +45,29 @@
 }
 
 .HomePage--details--column {
+  padding-top: 175px;
+  padding-bottom: 125px;
   flex: 1;
   section {
     padding: 0 100px;
   }
+
+  &:last-of-type {
+    background-color: lightgrey;
+  }
 }
 
-.HomePage--details--leftImage, .HomePage--details--rightImage {
-  display: block;
-  width: 100%;
-  margin-top: -15px;
+.HomePage--details--latestNews {
+  p {
+    text-align: left;
+    padding-bottom: 20px;
+  }
 }
 
 .HomePage--details--leftImage {
+  display: block;
+  width: 100%;
+  margin-top: -15px;
   clip-path: polygon(0 0, 100% 20%, 100% 100%, 0 80%);
 }
 

@@ -1,7 +1,6 @@
 @import "../colors.less";
 
 @overlap: 125px;
-@vertical-padding: 50px;
 
 .PageSection {
   position: relative;
@@ -10,11 +9,10 @@
   clip-path: polygon(50% @overlap, 100% 0, 100% 100%, 0 100%, 0 0);
   width: 100%;
   margin-bottom: -@overlap;
-  padding-top: @overlap + @vertical-padding;
-  padding-bottom: @vertical-padding;
+  padding-top: @overlap;
+  padding-bottom: @overlap;
 
   &:first-of-type {
-    padding-top: @vertical-padding;
     clip-path: none;
   }
   &:last-of-type {

@@ -79,20 +79,25 @@ export const messages = {
     body: {
       id: 'HomePage.latestNews.body',
       defaultMessage: '<p>This past summer, GYMI has been busy hosting several awesome summer camps! ' +
-        'GYMI camps ranged from rural areas in GuiZhou to suburban HangZhou and QuZhou schools for ' +
+        'GYMI camps ranged from rural areas in Guizhou to suburban Hangzhou and Quzhou schools for ' +
         'children under the poverty line. We were able to collect funds from multiple media ' +
         'resources and direct them to where they are most needed.</p>' +
+
         '<p>GYMI camps are unlike other traditional volunteer programs. We build unique mentor-mentee ' +
         'relationships by enfocing a low mentor to mentee ratio. Our mentors teach classes on ' +
         'subjects that they experienced in and accompany their mentees to other mentor-taught ' +
-        'classes. These classes focus on creativity and critical thinking, including subjects such ' +
+        'classes.</p>' +
+
+        '<p>These classes focus on creativity and critical thinking, including subjects such ' +
         'as computer science, public speaking, drama, arts and crafts, etc. At the end of each ' +
         'two-week session, the mentees each display a finished art/drama project in addition to ' +
         'making a speech about their dreams and goals for the future. Following the speech, ' +
-        'mentors and mentees work together to create a one year long follow-up project to help the ' +
-        'mentee achieve their goals. Ultimately, not only does this setup help the mentees achieve ' +
-        'a personal dream, but also, the mentors are able to recognize thier own potential as ' +
-        'future leaders or great teachers.</p>',
+        'mentors and mentees work together to create a one year long follow-up project to help ' +
+        'the mentee achieve their goals.</p>' +
+
+        '<p>Ultimately, not only does this setup help the mentees achieve a personal dream, but ' +
+        'also, the mentors are able to recognize thier own potential as future leaders or great ' +
+        'teachers.</p>',
     },
     timelineButtonText: {
       id: 'HomePage.latestNews.timelineButtonText',
@@ -164,7 +169,7 @@ export default function HomePage() {
         </div>
       </PageSection>
 
-      <PageSection className="HomePage--section HomePage--details">
+      <PageSection className="HomePage--section HomePage--details" style={{ padding: 0 }}>
         <div className="HomePage--details--content">
           <div className="HomePage--details--column">
             <section>
@@ -183,10 +188,10 @@ export default function HomePage() {
           </div>
 
           <div className="HomePage--details--column">
-            <section>
+            <section className="HomePage--details--latestNews">
               <h2><FormattedMessage {...messages.latestNews.title} /></h2>
               <FormattedHTMLMessage {...messages.latestNews.body} />
-              <div>
+              <div className="HomePage--details--button">
                 <Button action={{ href: '/quote', internal: true }}>
                   <FormattedMessage {...messages.latestNews.timelineButtonText} />
                 </Button>
