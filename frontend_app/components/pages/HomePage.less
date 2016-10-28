@@ -1,2 +1,62 @@
+@overlap: 125px;
+@vertical-padding: 50px;
+
 .HomePage {
+  p, h1, h2, h3, h4, h5, h6 {
+    padding-bottom: 60px;
+  }
+}
+
+.HomePage--section {
+  // center contents horizontally
+  text-align: center;
+  margin: 0 auto;
+
+  // for all sections with background images
+  background-size: 100%;
+  background-repeat: no-repeat;
+
+  // generates the chevron shapes programmatically
+  clip-path: polygon(0% 0%, 100% 0, 100% 80%, 50% 100%, 0 80%);
+
+  overflow: hidden;
+  // the padding prevents the overlap from actually overlapping content
+  margin-bottom: -@overlap;
+  padding-top: calc(@overlap + @vertical-padding);
+  padding-bottom: @vertical-padding;
+
+  // Need to reverse z-index of each section so that earlier elements in flow stack first
+  .generate-z-index(@n, @i: 1) when (@i =< @n) {
+    &:nth-of-type(@{i}) {
+      z-index: @n - @i;
+    }
+    .generate-z-index(@n, (@i + 1));
+  }
+  .generate-z-index(20);
+
+  // first section doesn't overlap on top, so remove overlap padding
+  &:first-of-type {
+    padding-top: @vertical-padding;
+  }
+
+  // last section doesn't overlap below, so don't shape nor overlap footer
+  &:last-of-type {
+    margin-bottom: 0;
+    clip-path: none;
+  }
+}
+
+.HomePage--section--content {
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.HomePage--splash {
+  h1 {
+    font-size: 3em;
+  }
+}
+
+.HomePage--about {
+  background-image: url("/images/backgrounds/blueAbstract.jpg");
 }

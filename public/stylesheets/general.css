@@ -7,10 +7,23 @@
 /* CSS reset */
 html {
 	box-sizing: border-box;
-	font-family: 'Ubuntu', "FangSong", "仿宋", STFangSong, "华文仿宋", serif;
+	font-family: 'Noto Serif',"FangSong", "仿宋", STFangSong, "华文仿宋", serif;
 }
 *, *:before, *:after {
 	box-sizing: inherit;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    padding-bottom: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Ubuntu', "FangSong", "仿宋", STFangSong, "华文仿宋", serif;
+    font-weight: 500;
+}
+
+p {
+    font-weight: 400;
 }
 
 * {
@@ -21,6 +34,7 @@ html {
 body {
 	position:relative;
 	min-height: 100%;
+	min-width: 960px;
 }
 
 .backgroundText

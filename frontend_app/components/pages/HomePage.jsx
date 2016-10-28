@@ -137,20 +137,32 @@ export const messages = {
 export default function HomePage() {
   return (
     <div className="HomePage">
-      <PageSection className="HomePage--splash" centered>
-        <h1><FormattedMessage {...messages.splash.header} /></h1>
-        <p><FormattedMessage {...messages.splash.subheader} /></p>
+      <PageSection
+        className="HomePage--section HomePage--splash"
+        videoBackground={{
+          videoUrls: ['/images/media/main_page/home_video_720.mp4'],
+          posterUrl: '/images/media/main_page/home_video_poster.jpg',
+        }}
+        colorBackground="lightBlue"
+        whiteText
+      >
+        <div className="HomePage--section--content">
+          <h1><FormattedMessage {...messages.splash.header} /></h1>
+          <p><FormattedMessage {...messages.splash.subheader} /></p>
+        </div>
       </PageSection>
-      <PageSection className="HomePage--about" centered>
-        <h1><FormattedMessage {...messages.about.header} /></h1>
-        <p><FormattedMessage {...messages.about.subheader} /></p>
-        <div>
-          <Button
-            action={{ href: '/counter', internal: true }}
-            className="HomePage--about--button"
-          >
-            <FormattedMessage {...messages.about.buttonText} />
-          </Button>
+      <PageSection className="HomePage--section HomePage--about" centered>
+        <div className="HomePage--section--content">
+          <h1><FormattedMessage {...messages.about.header} /></h1>
+          <p><FormattedMessage {...messages.about.subheader} /></p>
+          <div>
+            <Button
+              action={{ href: '/counter', internal: true }}
+              className="HomePage--about--button"
+            >
+              <FormattedMessage {...messages.about.buttonText} />
+            </Button>
+          </div>
         </div>
       </PageSection>
 

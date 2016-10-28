@@ -1,7 +1,30 @@
 .PageSection {
-  padding: 20px;
+  position: relative;
 }
 
-.PageSection--centered {
-  text-align: center;
+.PageSection--whiteText {
+  color: white;
+}
+
+.PageSection--colorBackground {
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: .85;
+}
+
+.PageSection--colorBackground--lightBlue {
+  background-color: #4B74B1;
+}
+
+.PageSection--videoBackground {
+  z-index: -2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
 }
