@@ -12,7 +12,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import ExampleApp from './components/ExampleApp';
 import store from './store';
 
-export function run() {
+export default function run() {
   addLocaleData([...en, ...zh]);
   const el = document.getElementById('example-app-wrapper');
   render(
