@@ -12,8 +12,9 @@ require('./PageSection.less');
 export default function PageSection({
   children, className, videoBackground, colorBackground, whiteText,
 }) {
+  // clip-path doesn't work correctly in firefox, edge, and msie, so disable overlap
   const style = {};
-  if (browser.name === 'firefox') {
+  if (['firefox', 'ie', 'edge'].includes(browser.name)) {
     style.marginBottom = 0;
     style.paddingTop = '50px';
   }
