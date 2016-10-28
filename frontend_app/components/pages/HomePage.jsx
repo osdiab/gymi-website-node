@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 
 import Button from '../Button';
 import PageSection from './PageSection';
@@ -8,30 +8,30 @@ require('./HomePage.less');
 
 export const messages = {
   splash: {
-    header: {
-      id: 'HomePage.splash.header',
+    title: {
+      id: 'HomePage.splash.title',
       defaultMessage: 'Join us on the journey of mentoring awesome kids.',
     },
-    subheader: {
-      id: 'HomePage.splash.subheader',
+    body: {
+      id: 'HomePage.splash.body',
       defaultMessage: 'Each summer, Global Youth Mentorship Initiative (GYMI) holds summer ' +
         'sessions that help underprivileged students gain access to mentorship and educational ' +
         'resources.',
     },
   },
   about: {
-    header: {
-      id: 'HomePage.about.header',
+    title: {
+      id: 'HomePage.about.title',
       defaultMessage: 'We are GYMI.',
     },
-    subheader: {
-      id: 'HomePage.about.subheader',
+    body: {
+      id: 'HomePage.about.body',
       defaultMessage: 'We are mentors from all over the world, dedicated with one purpose: to ' +
         'bring inspiration and passion for learning to those who are less privileged and help them ' +
         'expand their borders.',
     },
-    buttonText: {
-      id: 'HomePage.about.buttonText',
+    aboutButton: {
+      id: 'HomePage.about.aboutButton',
       defaultMessage: 'About Us',
     },
   },
@@ -147,25 +147,69 @@ export default function HomePage() {
         whiteText
       >
         <div className="HomePage--section--content">
-          <h1><FormattedMessage {...messages.splash.header} /></h1>
-          <p><FormattedMessage {...messages.splash.subheader} /></p>
+          <h1><FormattedMessage {...messages.splash.title} /></h1>
+          <p><FormattedMessage {...messages.splash.body} /></p>
         </div>
       </PageSection>
-      <PageSection className="HomePage--section HomePage--about" centered>
+
+      <PageSection className="HomePage--section HomePage--about">
         <div className="HomePage--section--content">
-          <h1><FormattedMessage {...messages.about.header} /></h1>
-          <p><FormattedMessage {...messages.about.subheader} /></p>
+          <h2><FormattedMessage {...messages.about.title} /></h2>
+          <p><FormattedMessage {...messages.about.body} /></p>
           <div>
-            <Button
-              action={{ href: '/counter', internal: true }}
-              className="HomePage--about--button"
-            >
-              <FormattedMessage {...messages.about.buttonText} />
+            <Button action={{ href: '/counter', internal: true }}>
+              <FormattedMessage {...messages.about.aboutButton} />
             </Button>
           </div>
         </div>
       </PageSection>
 
+      <PageSection className="HomePage--section HomePage--details">
+        <div className="HomePage--details--content">
+          <div className="HomePage--details--column">
+            <section>
+              <h2><FormattedMessage {...messages.whatWeDo.title} /></h2>
+              <p><FormattedMessage {...messages.whatWeDo.body} /></p>
+            </section>
+            <img
+              src="/images/backgrounds/blueAbstract.jpg"
+              role="presentation"
+              className="HomePage--details--leftImage"
+            />
+            <section>
+              <h2><FormattedMessage {...messages.whyWeDoThis.title} /></h2>
+              <p><FormattedMessage {...messages.whyWeDoThis.body} /></p>
+            </section>
+          </div>
+
+          <div className="HomePage--details--column">
+            <section>
+              <h2><FormattedMessage {...messages.latestNews.title} /></h2>
+              <FormattedHTMLMessage {...messages.latestNews.body} />
+              <div>
+                <Button action={{ href: '/quote', internal: true }}>
+                  <FormattedMessage {...messages.latestNews.timelineButtonText} />
+                </Button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </PageSection>
+
+      <PageSection className="HomePage--section HomePage--joinUs" whiteText>
+        <div className="HomePage--section--content">
+          <h2><FormattedMessage {...messages.joinUs.title} /></h2>
+          <p><FormattedMessage {...messages.joinUs.body} /></p>
+          <div className="HomePage--joinUs--buttons">
+            <Button action={{ href: '/counter', internal: true }}>
+              <FormattedMessage {...messages.joinUs.becomeMentorButton} />
+            </Button>
+            <Button action={{ href: '/counter', internal: true }}>
+              <FormattedMessage {...messages.joinUs.followUsButton} />
+            </Button>
+          </div>
+        </div>
+      </PageSection>
     </div>
   );
 }

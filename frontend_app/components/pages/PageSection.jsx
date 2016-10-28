@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import _ from 'lodash';
+import browser from 'detect-browser';
 
 require('./PageSection.less');
 
@@ -11,6 +12,11 @@ require('./PageSection.less');
 export default function PageSection({
   children, className, videoBackground, colorBackground, whiteText,
 }) {
+  const style = {};
+  if (browser.name === 'firefox') {
+    style.marginBottom = 0;
+    style.paddingTop = '50px';
+  }
   return (
     <section
       className={classnames(
@@ -18,6 +24,7 @@ export default function PageSection({
         className,
         whiteText && 'PageSection--whiteText',
       )}
+      style={style}
     >
       <div className="PageSection--content">
         {children}

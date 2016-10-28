@@ -1,6 +1,3 @@
-@overlap: 125px;
-@vertical-padding: 50px;
-
 .HomePage {
   position: relative;
   z-index: 0;
@@ -10,42 +7,13 @@
 }
 
 .HomePage--section {
-  // center contents horizontally
   text-align: center;
-  margin: 0 auto;
 
   // for all sections with background images
   background-size: 100%;
   background-repeat: no-repeat;
 
-  // generates the chevron shapes programmatically
-  clip-path: polygon(0% 0%, 100% 0, 100% 80%, 50% 100%, 0 80%);
-
   overflow: hidden;
-  // the padding prevents the overlap from actually overlapping content
-  margin-bottom: -@overlap;
-  padding-top: calc(@overlap + @vertical-padding);
-  padding-bottom: @vertical-padding;
-
-  // Need to reverse z-index of each section so that earlier elements in flow stack first
-  .generate-z-index(@n, @i: 1) when (@i =< @n) {
-    &:nth-of-type(@{i}) {
-      z-index: @n - @i;
-    }
-    .generate-z-index(@n, (@i + 1));
-  }
-  .generate-z-index(20);
-
-  // first section doesn't overlap on top, so remove overlap padding
-  &:first-of-type {
-    padding-top: @vertical-padding;
-  }
-
-  // last section doesn't overlap below, so don't shape nor overlap footer
-  &:last-of-type {
-    margin-bottom: 0;
-    clip-path: none;
-  }
 }
 
 .HomePage--section--content {
@@ -61,4 +29,40 @@
 
 .HomePage--about {
   background-image: url("/images/backgrounds/blueAbstract.jpg");
+}
+
+.HomePage--details {
+  background: white;
+}
+.HomePage--details--content {
+  display: flex;
+}
+
+.HomePage--details--column {
+  flex: 1;
+  section {
+    padding: 0 100px;
+  }
+}
+
+.HomePage--details--leftImage, .HomePage--details--rightImage {
+  display: block;
+  width: 100%;
+  margin-top: -15px;
+}
+
+.HomePage--details--leftImage {
+  clip-path: polygon(0 0, 100% 20%, 100% 100%, 0 80%);
+}
+
+.HomePage--joinUs {
+  background-image: url("/images/backgrounds/blueAbstract.jpg");
+}
+
+.HomePage--joinUs--buttons {
+  display: flex;
+  .Button {
+    flex: 1;
+    margin: 0 25px;
+  }
 }
