@@ -1,4 +1,3 @@
-import en from './en';
 import zh from './zh';
 
 // converts messages as defined in these directories to the format
@@ -8,18 +7,11 @@ import zh from './zh';
 function formatMessages(messages) {
   const result = {};
   messages.forEach((entry) => {
-    if (result.hasOwnProperty(entry.id)) {
-      throw new Error(`Duplicate key for message found: '${entry.id}'`);
-    }
-    if (!entry.defaultMessage) {
-      throw new Error(`Missing message for key '${entry.id}'`);
-    }
     result[entry.id] = entry.defaultMessage;
   });
   return result;
 }
 
 export default {
-  en: formatMessages(en),
   zh: formatMessages(zh),
 };
