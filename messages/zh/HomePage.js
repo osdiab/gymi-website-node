@@ -1,23 +1,23 @@
 /* eslint-disable max-len */
 export default [
   {
-    id: 'HomePage.splash.header',
+    id: 'HomePage.splash.title',
     defaultMessage: '和我们一起踏上发掘孩子们潜力，打开他们人生新篇章的奇妙旅途吧！',
   },
   {
-    id: 'HomePage.splash.subheader',
+    id: 'HomePage.splash.body',
     defaultMessage: '每年夏天，吉米公益组织举办针对贫困地区留守学生的暑期导师夏令营。我们让这些偏远地区的孩子能接触到丰富多样的国际化教育资源和出众的大学生导师。',
   },
   {
-    id: 'HomePage.about.header',
+    id: 'HomePage.about.title',
     defaultMessage: '我们是吉米。',
   },
   {
-    id: 'HomePage.about.subheader',
+    id: 'HomePage.about.body',
     defaultMessage: '作为来自世界各地的导师，我们都致力于同一个目的：为偏远地区的孩子们带去灵感和渴望学习的激情，让他们看到大山小镇外的别样风景，梦其所梦，感其所感，和孩子们一起描绘出人生崭新的蓝图。',
   },
   {
-    id: 'HomePage.about.buttonText',
+    id: 'HomePage.about.aboutButton',
     defaultMessage: '关于我们',
   },
   {
@@ -29,19 +29,19 @@ export default [
     defaultMessage: '—《礼记》',
   },
   {
-    id: 'HomePage.details.whatWeDo.title',
+    id: 'HomePage.whatWeDo.title',
     defaultMessage: '我们做什么？',
   },
   {
-    id: 'HomePage.details.whatWeDo.body',
+    id: 'HomePage.whatWeDo.body',
     defaultMessage: '我们精心选拔出的学生导师们以在一对一或小组的形式开展着重于艺术和科技的暑假课程，并跟他们的学生保持至少一年的网络在线跟进。',
   },
   {
-    id: 'HomePage.details.whyWeDoThis.title',
+    id: 'HomePage.whyWeDoThis.title',
     defaultMessage: '我们为什么这样做？',
   },
   {
-    id: 'HomePage.details.whyWeDoThis.body',
+    id: 'HomePage.whyWeDoThis.body',
     defaultMessage: '在世界各地有许多学生因为种种原因，及时有满腔的求知欲也无法解除到基本的学术课程设置之外的教育资源。吉米希望通过动员有才华和激情的本科生来解决这一类型的教育不平等现象。正如苏霍姆林斯基所说：“世界上没有才能的人是没有的。问题在于教育者要去发现每一位学生的禀赋、兴趣、爱好和特长，为他们的表现和发展提供充分的条件和正确引导”，吉米希望引领未来的科学家，艺术家，各行各界的优异人才，从大山里面，走出来。',
   },
   {
