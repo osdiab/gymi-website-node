@@ -1,9 +1,10 @@
 // View of the React application as a whole.
 import React, { PropTypes } from 'react';
 import { IntlProvider } from 'react-intl';
+import { connect } from 'react-redux';
 import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 
-import messages from '../../messages';
+import { translations } from '../messages';
 import SiteLayout from './SiteLayout';
 import HomePage from './pages/HomePage';
 import CounterSection from './CounterSection';
@@ -16,7 +17,7 @@ export function ExampleAppView({ currentLanguage, defaultLanguage }) {
     <IntlProvider
       locale={currentLanguage.localeCode}
       key={currentLanguage.localeCode}
-      messages={messages[currentLanguage.localeCode]}
+      messages={translations[currentLanguage.localeCode]}
       defaultLocale={defaultLanguage.localeCode}
     >
       <Router history={browserHistory}>
@@ -41,7 +42,6 @@ ExampleAppView.propTypes = {
 // Container
 // Injects state and action dispatchers into the Component, thus decoupling the
 // presentation from state management.
-import { connect } from 'react-redux';
 
 function mapStateToProps(state) {
   return {
