@@ -11,7 +11,7 @@ import AboutUsPage from './pages/AboutUsPage';
 import CounterSection from './CounterSection';
 import QuoteSection from './QuoteSection';
 
-export function ExampleAppView({ currentLanguage, defaultLanguage }) {
+export function GymiWebsiteView({ currentLanguage, defaultLanguage }) {
   // NOTE: need key on IntlProvider to trigger page rerender
   // https://github.com/yahoo/react-intl/issues/234
   return (
@@ -36,7 +36,7 @@ export function ExampleAppView({ currentLanguage, defaultLanguage }) {
 const languagePropType = PropTypes.shape({
   localeCode: PropTypes.string.isRequired,
 });
-ExampleAppView.propTypes = {
+GymiWebsiteView.propTypes = {
   currentLanguage: languagePropType.isRequired,
   defaultLanguage: languagePropType.isRequired,
 };
@@ -52,8 +52,8 @@ function mapStateToProps(state) {
   };
 }
 
-const ExampleApp = connect(
+const GymiWebsite = connect(
   mapStateToProps,
-)(ExampleAppView);
+)(GymiWebsiteView);
 
-export default ExampleApp;
+export default GymiWebsite;
