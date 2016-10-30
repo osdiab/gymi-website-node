@@ -1,4 +1,25 @@
+@import "./colors.less";
+@import "./fonts.less";
+
 @sidebar-width: 69px;
+
+.SiteLayout {
+  font-family: @noto-serif;
+
+  h1, h2, h3, h4, h5, h6 {
+      font-family: @ubuntu;
+      font-weight: 500;
+      color: @logo-salmon
+  }
+
+  p {
+      font-weight: 400;
+  }
+
+  position:relative;
+  min-height: 100%;
+  min-width: 960px;
+}
 
 .SiteLayout--wrapper {
   padding-left: @sidebar-width;
