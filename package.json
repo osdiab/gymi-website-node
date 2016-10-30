@@ -63,6 +63,7 @@
     "webpack-dev-middleware": "^1.6.1",
     "webpack-dev-server": "^1.14.1",
     "webpack-hot-middleware": "^2.10.0",
+    "webpack-node-externals": "^1.5.4",
     "whatwg-fetch": "^1.0.0"
   }
 }
