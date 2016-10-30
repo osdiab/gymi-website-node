@@ -3,7 +3,7 @@
 
 import express from 'express';
 
-import router from './router.js';
+import router from './router';
 
 const port = 3000;
 const app = express();
