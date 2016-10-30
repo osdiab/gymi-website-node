@@ -7,11 +7,6 @@ require('./SiteNavigation.less');
 
 const NAV_LINKS = [
   {
-    text: 'Home',
-    url: '/',
-    imageUrl: '/images/menu/person.png',
-  },
-  {
     text: 'About Us',
     url: '/aboutUs',
     imageUrl: '/images/menu/person.png',
