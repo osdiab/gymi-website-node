@@ -15,6 +15,12 @@ export default function AboutUsPage() {
     <ChevronPage className="AboutUsPage ChevronPage">
       <PageSection
         className="AboutUsPage--section AboutUsPage--splash"
+        background={{
+          media: {
+            imageUrl: 'media/page_assets/about_us/group_photo.jpg',
+          },
+          tint: 'lightGreen',
+        }}
       >
         <div className="AboutUsPage--section--content">
           <h1><FormattedMessage {...aboutMessages.splash.title} /></h1>
@@ -30,43 +36,108 @@ export default function AboutUsPage() {
 
       <PageSection className="AboutUsPage--section AboutUsPage--details" style={{ padding: 0 }}>
         <div className="AboutUsPage--details--content">
-          <div className="AboutUsPage--details--column">
+          <div className="AboutUsPage--details--column AboutUsPage--goals">
             <section>
               <h2><FormattedMessage {...aboutMessages.goals.title} /></h2>
               <FormattedHTMLMessage {...aboutMessages.goals.body} />
             </section>
           </div>
 
-          <div className="AboutUsPage--details--column">
+          <div className="AboutUsPage--details--column AboutUsPage--progress">
             <section>
               <h2><FormattedMessage {...aboutMessages.progress.title} /></h2>
               <FormattedHTMLMessage {...aboutMessages.progress.body} />
+              {
+                [
+                  { season: 'summer', year: 2015 },
+                  { season: 'summer', year: 2014 },
+                  { season: 'summer', year: 2013 },
+                ].map(session => (
+                  <Button
+                    className="AboutUsPage--progress--button"
+                    key={session.season + session.year}
+                    action={{
+                      href: `/timeline/${session.season}${session.year}`,
+                    }}
+                  >
+                    <FormattedMessage
+                      {...messages.seasons.seasonalDate[session.season]}
+                      values={{ year: session.year }}
+                    />
+                  </Button>
+                ))
+              }
             </section>
           </div>
         </div>
       </PageSection>
 
-      <PageSection className="AboutUsPage--section AboutUsPage--team">
+      <PageSection className="AboutUsPage--members">
         <div className="AboutUsPage--section--content">
-          <h2><FormattedMessage {...aboutMessages.team.title} /></h2>
-        </div>
-      </PageSection>
+          <section className="AboutUsPage--team">
+            <h2><FormattedMessage {...aboutMessages.team.title} /></h2>
+            <LeadershipTeamSection />
+          </section>
 
-      <PageSection className="AboutUsPage--section AboutUsPage--partners">
-        <div className="AboutUsPage--section--content">
-          <h2><FormattedMessage {...aboutMessages.partners.title} /></h2>
-        </div>
-      </PageSection>
+          <section className="AboutUsPage--partners">
+            <h2><FormattedMessage {...aboutMessages.partners.title} /></h2>
+            {[
+              {
+                name: 'Zhejiang University',
+                logo: '/media/page_assets/about_us/partner_logos/zhejiang.png',
+                id: 'zhejiangUniversity',
+              },
+              {
+                name: 'Nanjing Normal University',
+                logo: '/media/page_assets/about_us/partner_logos/nnu.png',
+                id: 'nanjingNormalUniversity',
+              },
+            ].map(({ name, logo, id }) => (
+              <div className="AboutUsPage--orgProfile">
+                <div className="AboutUsPage--orgProfile--column">
+                  <img
+                    alt={`${name} logo`}
+                    src={logo}
+                  />
+                </div>
+                <div className="AboutUsPage--orgProfile--column">
+                  <h3><FormattedMessage {...aboutMessages.partners[id].name} /></h3>
+                  <p><FormattedMessage {...aboutMessages.partners[id].description} />
+                  </p>
+                </div>
+              </div>
+            ))}
+          </section>
 
-      <PageSection className="AboutUsPage--section AboutUsPage--partners">
-        <div className="AboutUsPage--section--content">
-          <h2><FormattedMessage {...aboutMessages.partners.title} /></h2>
-        </div>
-      </PageSection>
-
-      <PageSection className="AboutUsPage--section AboutUsPage--collaborators">
-        <div className="AboutUsPage--section--content">
-          <h2><FormattedMessage {...aboutMessages.collaborators.title} /></h2>
+          <section className="AboutUsPage--collaborators">
+            <h2><FormattedMessage {...aboutMessages.collaborators.title} /></h2>
+            {[
+              {
+                name: 'The Resolution Project',
+                logo: '/media/page_assets/about_us/collaborator_logos/resolution.png',
+                id: 'resolutionProject',
+              },
+              {
+                name: 'Pandeagle Cultural Institute',
+                logo: '/media/page_assets/about_us/collaborator_logos/pci.jpg',
+                id: 'pandeagleCulturalInstitute',
+              },
+            ].map(({ name, logo, id }) => (
+              <div className="AboutUsPage--orgProfile">
+                <div className="AboutUsPage--orgProfile--column">
+                  <img
+                    alt={`${name} logo`}
+                    src={logo}
+                  />
+                </div>
+                <div className="AboutUsPage--orgProfile--column">
+                  <h3><FormattedMessage {...aboutMessages.collaborators[id].name} /></h3>
+                  <p><FormattedMessage {...aboutMessages.collaborators[id].description} />
+                  </p>
+                </div>
+              </div>
+            ))}
+          </section>
         </div>
       </PageSection>
     </ChevronPage>

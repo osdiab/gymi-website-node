@@ -1,3 +1,5 @@
+@import '../colors';
+
 .AboutUsPage {
   position: relative;
   z-index: 0;
@@ -43,6 +45,14 @@
   display: flex;
 }
 
+.AboutUsPage--goals {
+  background-image: url('/media/page_assets/about_us/students_cards_tinted.jpg');
+  h2 {
+    color: white;
+  }
+  color: white;
+}
+
 .AboutUsPage--details--column {
   padding-top: 175px;
   padding-bottom: 125px;
@@ -54,36 +64,28 @@
   }
 
   &:last-of-type {
-    background-color: lightgrey;
+    background-color: @light-grey;
   }
 }
 
-.AboutUsPage--details--latestNews {
-  p {
-    text-align: left;
-    padding-bottom: 20px;
+.AboutUsPage--members {
+  section {
+    padding-top: 50px;
+  }
+
+  .AboutUsPage--section--content {
+    max-width: 960px;
   }
 }
 
-.AboutUsPage--details--leftImage {
-  display: block;
-  width: 100%;
-  margin-top: -15px;
-  clip-path: polygon(0 0, 100% 20%, 100% 100%, 0 80%);
+.AboutUsPage--progress--button {
+  margin: 0 20px 20px 20px;
 }
 
-.AboutUsPage--donate {
-  background-image: url("/images/backgrounds/blueAbstract.jpg");
-}
-
-.AboutUsPage--joinUs {
-  background-image: url("/images/backgrounds/blueAbstract.jpg");
-}
-
-.AboutUsPage--joinUs--buttons {
+.AboutUsPage--orgProfile {
   display: flex;
-  .Button {
-    flex: 1;
-    margin: 0 25px;
-  }
+}
+
+.AboutUsPage--orgProfile--column {
+  flex: 1;
 }

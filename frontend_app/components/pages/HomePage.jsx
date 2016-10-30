@@ -38,7 +38,7 @@ export default function HomePage() {
           <h2><FormattedMessage {...homeMessages.about.title} /></h2>
           <p><FormattedMessage {...homeMessages.about.body} /></p>
           <div>
-            <Button action={{ href: '/aboutUs', internal: true }}>
+            <Button action={{ href: '/aboutUs' }}>
               <FormattedMessage {...homeMessages.about.aboutButton} />
             </Button>
           </div>
@@ -68,7 +68,7 @@ export default function HomePage() {
               <h2><FormattedMessage {...homeMessages.latestNews.title} /></h2>
               <FormattedHTMLMessage {...homeMessages.latestNews.body} />
               <div className="HomePage--details--button">
-                <Button action={{ href: '/aboutUs', internal: true }}>
+                <Button action={{ href: '/aboutUs' }}>
                   <FormattedMessage {...homeMessages.latestNews.timelineButton} />
                 </Button>
               </div>
@@ -85,7 +85,7 @@ export default function HomePage() {
         <div className="HomePage--section--content">
           <h2><FormattedMessage {...homeMessages.donate.title} /></h2>
           <p><FormattedMessage {...homeMessages.donate.body} /></p>
-          <Button action={{ href: '/aboutUs', internal: true }}>
+          <Button action={{ href: '/aboutUs' }}>
             <FormattedMessage {...homeMessages.donate.learnMoreButton} />
           </Button>
         </div>
@@ -102,10 +102,10 @@ export default function HomePage() {
           <h2><FormattedMessage {...homeMessages.joinUs.title} /></h2>
           <p><FormattedMessage {...homeMessages.joinUs.body} /></p>
           <div className="HomePage--joinUs--buttons">
-            <Button action={{ href: '/aboutUs', internal: true }}>
+            <Button action={{ href: '/aboutUs' }}>
               <FormattedMessage {...homeMessages.joinUs.becomeMentorButton} />
             </Button>
-            <Button action={{ href: '/aboutUs', internal: true }}>
+            <Button action={{ href: '/aboutUs' }}>
               <FormattedMessage {...homeMessages.joinUs.followUsButton} />
             </Button>
           </div>
