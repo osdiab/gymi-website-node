@@ -1,10 +1,11 @@
-import HomePage from './HomePage.js';
-import AboutUsPage from './AboutUsPage.js';
-import TimelinePage from './TimelinePage.js';
-import JoinPage from './JoinPage.js';
-import ContactPage from './ContactPage.js';
-import SiteNavigation from './SiteNavigation.js';
-import LeadershipTeamSection from './LeadershipTeamSection.js';
+import HomePage from './HomePage';
+import AboutUsPage from './AboutUsPage';
+import TimelinePage from './TimelinePage';
+import JoinPage from './JoinPage';
+import ContactPage from './ContactPage';
+import SiteNavigation from './SiteNavigation';
+import LeadershipTeamSection from './LeadershipTeamSection';
+import seasons from './seasons';
 
 export default [
   ...HomePage,
@@ -14,4 +15,5 @@ export default [
   ...ContactPage,
   ...SiteNavigation,
   ...LeadershipTeamSection,
+  ...seasons,
 ];

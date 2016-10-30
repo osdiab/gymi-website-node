@@ -33,6 +33,10 @@ export default [
     '<p>A big thanks to all of the mentors and coordinators for their hard work that made it possible!</p>',
   },
   {
+    id: 'AboutUsPage.progress.seasonalDate',
+    defaultMessage: '{season} {year}',
+  },
+  {
     id: 'AboutUsPage.team.title',
     defaultMessage: 'Leadership Team',
   },
@@ -41,7 +45,7 @@ export default [
     defaultMessage: 'Partners',
   },
   {
-    id: 'AboutUsPage.partners.zhejiangUniversity.title',
+    id: 'AboutUsPage.partners.zhejiangUniversity.name',
     defaultMessage: 'Zhejiang University',
   },
   {
@@ -61,7 +65,7 @@ export default [
     defaultMessage: 'Collaborators',
   },
   {
-    id: 'AboutUsPage.collaborators.resolutionProject.title',
+    id: 'AboutUsPage.collaborators.resolutionProject.name',
     defaultMessage: 'The Resolution Project',
   },
   {
@@ -69,7 +73,7 @@ export default [
     defaultMessage: 'The mission of the Resolution Project is to develop socially-responsible young leaders and empower them to make a positive impact today and to create a generation of leaders with a lifelong commitment to social responsibility.',
   },
   {
-    id: 'AboutUsPage.collaborators.pandeagleCulturalInstitute.title',
+    id: 'AboutUsPage.collaborators.pandeagleCulturalInstitute.name',
     defaultMessage: 'Pandeagle Cultural Institute',
   },
   {
