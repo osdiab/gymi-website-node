@@ -17,8 +17,8 @@ export default function HomePage() {
         className="HomePage--section HomePage--splash"
         background={{
           media: {
-            videoUrls: ['/images/media/videos/homeSplash/720.mp4'],
-            posterUrl: '/images/media/videos/homeSplash/poster.jpg',
+            videoUrls: ['/media/videos/homeSplash/720.mp4'],
+            posterUrl: '/media/videos/homeSplash/poster.jpg',
           },
           tint: 'lightBlue',
         }}
@@ -32,7 +32,7 @@ export default function HomePage() {
 
       <PageSection
         className="HomePage--section HomePage--about"
-        background={{ media: { imageUrl: '/images/backgrounds/blueAbstract.jpg' } }}
+        background={{ media: { imageUrl: '/media/textures/blue_horizontal.jpg' } }}
       >
         <div className="HomePage--section--content">
           <h2><FormattedMessage {...homeMessages.about.title} /></h2>
@@ -53,7 +53,7 @@ export default function HomePage() {
               <p><FormattedMessage {...homeMessages.whatWeDo.body} /></p>
             </section>
             <img
-              src="/images/backgrounds/blueAbstract.jpg"
+              src="/media/textures/blue_horizontal.jpg"
               role="presentation"
               className="HomePage--details--leftImage"
             />
@@ -80,7 +80,7 @@ export default function HomePage() {
       <PageSection
         className="HomePage--section HomePage--donate"
         whiteText
-        background={{ media: { imageUrl: '/images/backgrounds/blueAbstract.jpg' } }}
+        background={{ media: { imageUrl: '/media/textures/blue_horizontal.jpg' } }}
       >
         <div className="HomePage--section--content">
           <h2><FormattedMessage {...homeMessages.donate.title} /></h2>
@@ -94,7 +94,7 @@ export default function HomePage() {
       <PageSection
         className="HomePage--section HomePage--joinUs"
         background={{
-          media: { imageUrl: '/images/backgrounds/blueAbstract.jpg' },
+          media: { imageUrl: '/media/textures/blue_horizontal.jpg' },
         }}
         whiteText
       >

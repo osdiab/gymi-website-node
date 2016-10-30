@@ -9,7 +9,7 @@ const NAV_LINKS = [
   {
     text: 'About Us',
     url: '/aboutUs',
-    imageUrl: '/images/menu/person.png',
+    imageUrl: '/media/icons/person.svg',
   },
 ];
 
@@ -26,7 +26,7 @@ export default function SiteNavigation() {
     <nav className="SiteNavigation">
       <div className="SiteNavigation--logo">
         <Link to="/">
-          <img alt="Home" src="/images/menu/logo.png" />
+          <img alt="Home" src="/media/icons/logo.svg" />
         </Link>
       </div>
       <ul className="SiteNavigation--items">{links}</ul>
