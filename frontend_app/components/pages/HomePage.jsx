@@ -1,12 +1,116 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
+
+import Button from '../Button';
+import ChevronPage from './ChevronPage';
+import messages from '../../messages';
+import PageSection from './PageSection';
+
+require('./HomePage.less');
+
+const homeMessages = messages.HomePage;
 
 export default function HomePage() {
   return (
-    <div className="HomePage">
-      <h1>Example Application</h1>
-      <p>Welcome to this website! There is a counter, and a quote page.</p>
-      <FormattedMessage id="HomePage.splash.header" />
-    </div>
+    <ChevronPage className="HomePage">
+      <PageSection
+        className="HomePage--section HomePage--splash"
+        background={{
+          media: {
+            videoUrls: ['/images/media/videos/homeSplash/720.mp4'],
+            posterUrl: '/images/media/videos/homeSplash/poster.jpg',
+          },
+          tint: 'lightBlue',
+        }}
+        whiteText
+      >
+        <div className="HomePage--section--content">
+          <h1><FormattedMessage {...homeMessages.splash.title} /></h1>
+          <p><FormattedMessage {...homeMessages.splash.body} /></p>
+        </div>
+      </PageSection>
+
+      <PageSection
+        className="HomePage--section HomePage--about"
+        background={{ media: { imageUrl: '/images/backgrounds/blueAbstract.jpg' } }}
+      >
+        <div className="HomePage--section--content">
+          <h2><FormattedMessage {...homeMessages.about.title} /></h2>
+          <p><FormattedMessage {...homeMessages.about.body} /></p>
+          <div>
+            <Button action={{ href: '/aboutUs', internal: true }}>
+              <FormattedMessage {...homeMessages.about.aboutButton} />
+            </Button>
+          </div>
+        </div>
+      </PageSection>
+
+      <PageSection className="HomePage--section HomePage--details" style={{ padding: 0 }}>
+        <div className="HomePage--details--content">
+          <div className="HomePage--details--column">
+            <section>
+              <h2><FormattedMessage {...homeMessages.whatWeDo.title} /></h2>
+              <p><FormattedMessage {...homeMessages.whatWeDo.body} /></p>
+            </section>
+            <img
+              src="/images/backgrounds/blueAbstract.jpg"
+              role="presentation"
+              className="HomePage--details--leftImage"
+            />
+            <section>
+              <h2><FormattedMessage {...homeMessages.whyWeDoThis.title} /></h2>
+              <p><FormattedMessage {...homeMessages.whyWeDoThis.body} /></p>
+            </section>
+          </div>
+
+          <div className="HomePage--details--column">
+            <section className="HomePage--details--latestNews">
+              <h2><FormattedMessage {...homeMessages.latestNews.title} /></h2>
+              <FormattedHTMLMessage {...homeMessages.latestNews.body} />
+              <div className="HomePage--details--button">
+                <Button action={{ href: '/aboutUs', internal: true }}>
+                  <FormattedMessage {...homeMessages.latestNews.timelineButton} />
+                </Button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </PageSection>
+
+      <PageSection
+        className="HomePage--section HomePage--donate"
+        whiteText
+        background={{ media: { imageUrl: '/images/backgrounds/blueAbstract.jpg' } }}
+      >
+        <div className="HomePage--section--content">
+          <h2><FormattedMessage {...homeMessages.donate.title} /></h2>
+          <p><FormattedMessage {...homeMessages.donate.body} /></p>
+          <Button action={{ href: '/aboutUs', internal: true }}>
+            <FormattedMessage {...homeMessages.donate.learnMoreButton} />
+          </Button>
+        </div>
+      </PageSection>
+
+      <PageSection
+        className="HomePage--section HomePage--joinUs"
+        background={{
+          media: { imageUrl: '/images/backgrounds/blueAbstract.jpg' },
+        }}
+        whiteText
+      >
+        <div className="HomePage--section--content">
+          <h2><FormattedMessage {...homeMessages.joinUs.title} /></h2>
+          <p><FormattedMessage {...homeMessages.joinUs.body} /></p>
+          <div className="HomePage--joinUs--buttons">
+            <Button action={{ href: '/aboutUs', internal: true }}>
+              <FormattedMessage {...homeMessages.joinUs.becomeMentorButton} />
+            </Button>
+            <Button action={{ href: '/aboutUs', internal: true }}>
+              <FormattedMessage {...homeMessages.joinUs.followUsButton} />
+            </Button>
+          </div>
+        </div>
+      </PageSection>
+    </ChevronPage>
   );
 }

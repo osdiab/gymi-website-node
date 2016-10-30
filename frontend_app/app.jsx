@@ -9,15 +9,15 @@ import en from 'react-intl/locale-data/en';
 import zh from 'react-intl/locale-data/zh';
 import { Provider as ReduxProvider } from 'react-redux';
 
-import ExampleApp from './components/ExampleApp';
+import GymiWebsite from './components/GymiWebsite';
 import store from './store';
 
-export function run() {
+export default function run() {
   addLocaleData([...en, ...zh]);
-  const el = document.getElementById('example-app-wrapper');
+  const el = document.getElementById('gymi-app-container');
   render(
     <ReduxProvider store={store}>
-      <ExampleApp />
+      <GymiWebsite />
     </ReduxProvider>
   , el);
 }

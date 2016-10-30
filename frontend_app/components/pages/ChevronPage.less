@@ -1,0 +1,29 @@
+// defines styles that cause PageSections to render as chevrons.
+
+@overlap: 125px;
+
+.ChevronPage .PageSection {
+  text-align: center;
+
+  // for all sections with background images
+  background-color: white; // default; needs opaque bg for chevron shapes
+  background-size: 100%;
+  background-repeat: no-repeat;
+
+  overflow: hidden;
+}
+
+.ChevronPage:not(.ChevronPage--unsupported) .PageSection {
+  // generates the chevron shapes programmatically
+  clip-path: polygon(50% @overlap, 100% 0, 100% 100%, 0 100%, 0 0);
+  margin-bottom: -@overlap;
+  padding-top: @overlap;
+  padding-bottom: @overlap;
+
+  &:first-of-type {
+    clip-path: none;
+  }
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}

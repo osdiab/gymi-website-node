@@ -1,3 +1,5 @@
+@import "colors.less";
+
 .LanguageSelector {
   padding: 0 5px;
 }
@@ -6,11 +8,12 @@
   border-top: 1px solid black;
   list-style-type: none;
   padding: 20px 0;
+  text-align: center;
 }
 
 .LanguageSelector--languages--entry {
   &:hover {
-    color: #E16860;
+    color: @logo-salmon;
   }
   padding: 0 1px;
   display: inline-block;
@@ -23,6 +26,7 @@
     background: none;
 
     &:hover:not([disabled]) {
+      color: inherit;
       cursor: pointer;
     }
   }

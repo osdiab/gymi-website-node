@@ -1,2 +1,3 @@
-import { run } from './app';
-run();
+import app from './app';
+
+app();
