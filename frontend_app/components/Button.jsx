@@ -14,7 +14,8 @@ export default function Button({
   disabled = false,
 }) {
   const actionIsFunc = _.isFunction(action);
-  const linkType = action.internal ? Link : 'a';
+  const linkIsInternal = action.href && !(/^(?:[a-z]+:)?\/\//.test(action.href));
+  const linkType = linkIsInternal ? Link : 'a';
   const ElemType = actionIsFunc ? 'button' : linkType;
 
   const finalClassName = classnames(
@@ -26,8 +27,8 @@ export default function Button({
   const actionAttributes = actionIsFunc ? {
     onClick: action,
   } : {
-    to: (action.internal ? action.href : null),
-    href: (action.internal ? null : action.href),
+    to: (linkIsInternal ? action.href : null),
+    href: (linkIsInternal ? null : action.href),
     target: action.target || null,
   };
 
@@ -54,7 +55,6 @@ Button.propTypes = {
     PropTypes.shape({
       href: PropTypes.string.isRequired,
       target: PropTypes.oneOf(['_self', '_blank']),
-      internal: PropTypes.bool,
     }),
   ]),
   type: PropTypes.oneOf(Button.TYPES),
