@@ -17,8 +17,8 @@ export default function HomePage() {
         className="HomePage--section HomePage--splash"
         background={{
           media: {
-            videoUrls: ['/images/media/main_page/home_video_720.mp4'],
-            posterUrl: '/images/media/main_page/home_video_poster.jpg',
+            videoUrls: ['/images/media/videos/homeSplash/720.mp4'],
+            posterUrl: '/images/media/videos/homeSplash/poster.jpg',
           },
           tint: 'lightBlue',
         }}
