@@ -1,13 +1,17 @@
 // Component
-// View of the section of the page that displays a counter and a button to increment it.
+// View of the selector for which language to display the page in.
 // Presentational code only; state is passed as properties by the container.
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+
+import { setCurrentLanguage as setLanguageAction } from '../actions';
 
 require('./LanguageSelector.less');
+
 export function LanguageSelectorView({
   currentLanguage, validLanguages, setCurrentLanguage,
 }) {
-  const languageButtons = validLanguages.map((lang) => (
+  const languageButtons = validLanguages.map(lang => (
     <li className="LanguageSelector--languages--entry" key={lang.localeCode}>
       <button
         disabled={currentLanguage.localeCode === lang.localeCode}
@@ -38,10 +42,6 @@ LanguageSelectorView.propTypes = {
 // Container
 // Injects state and action dispatchers into the Component, thus decoupling the
 // presentation from state management.
-import { connect } from 'react-redux';
-
-import { setCurrentLanguage } from '../actions';
-
 function mapStateToProps(state) {
   return {
     currentLanguage: state.language.currentLanguage,
@@ -50,8 +50,8 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return { setCurrentLanguage: (localeCode) =>
-    dispatch(setCurrentLanguage(localeCode)) };
+  return { setCurrentLanguage: localeCode =>
+    dispatch(setLanguageAction(localeCode)) };
 }
 
 const LanguageSelector = connect(

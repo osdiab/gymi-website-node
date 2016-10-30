@@ -12,13 +12,8 @@ const NAV_LINKS = [
     imageUrl: '/images/menu/person.png',
   },
   {
-    text: 'Counter',
-    url: '/counter',
-    imageUrl: '/images/menu/person.png',
-  },
-  {
-    text: 'Quote',
-    url: '/quote',
+    text: 'About Us',
+    url: '/aboutUs',
     imageUrl: '/images/menu/person.png',
   },
 ];
