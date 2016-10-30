@@ -10,7 +10,7 @@ require('./PageSection.less');
  * background of the PageSection.
  */
 export default function PageSection({
-  children, className, videoBackground, colorBackground, whiteText, style,
+  children, className, videoBackground, colorBackground, style,
 }) {
   // clip-path doesn't work correctly in firefox, edge, and msie, so disable overlap
   const patchStyle = {};
@@ -18,14 +18,14 @@ export default function PageSection({
     patchStyle.marginBottom = 0;
     patchStyle.paddingTop = '50px';
   }
-  const finalStyle = Object.assign({}, patchStyle, style);
+  const bgStyle = videoBackground || colorBackground ? { background: 'none' } : {};
+  const finalStyle = Object.assign({}, patchStyle, bgStyle, style);
 
   return (
     <section
       className={classnames(
         'PageSection',
         className,
-        whiteText && 'PageSection--whiteText',
       )}
       style={finalStyle}
     >
@@ -57,6 +57,5 @@ PageSection.propTypes = {
     posterUrl: PropTypes.string.isRequired,
   }),
   colorBackground: PropTypes.oneOf(PageSection.backgroundColors),
-  whiteText: PropTypes.bool,
   style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };

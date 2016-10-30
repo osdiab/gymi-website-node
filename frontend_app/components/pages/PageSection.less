@@ -1,27 +1,8 @@
 @import "../colors.less";
 
-@overlap: 125px;
-
 .PageSection {
   position: relative;
-
-  // generates the chevron shapes programmatically
-  clip-path: polygon(50% @overlap, 100% 0, 100% 100%, 0 100%, 0 0);
   width: 100%;
-  margin-bottom: -@overlap;
-  padding-top: @overlap;
-  padding-bottom: @overlap;
-
-  &:first-of-type {
-    clip-path: none;
-  }
-  &:last-of-type {
-    margin-bottom: 0;
-  }
-}
-
-.PageSection--whiteText {
-  color: white;
 }
 
 .PageSection--colorBackground {

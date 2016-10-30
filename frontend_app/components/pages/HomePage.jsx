@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 
 import Button from '../Button';
+import ChevronPage from './ChevronPage';
 import messages from '../../messages';
 import PageSection from './PageSection';
 
@@ -11,7 +12,7 @@ const homeMessages = messages.HomePage;
 
 export default function HomePage() {
   return (
-    <div className="HomePage">
+    <ChevronPage className="HomePage">
       <PageSection
         className="HomePage--section HomePage--splash"
         videoBackground={{
@@ -19,7 +20,7 @@ export default function HomePage() {
           posterUrl: '/images/media/main_page/home_video_poster.jpg',
         }}
         colorBackground="lightBlue"
-        whiteText
+        style={{ color: 'white' }}
       >
         <div className="HomePage--section--content">
           <h1><FormattedMessage {...homeMessages.splash.title} /></h1>
@@ -27,7 +28,10 @@ export default function HomePage() {
         </div>
       </PageSection>
 
-      <PageSection className="HomePage--section HomePage--about">
+      <PageSection
+        className="HomePage--section HomePage--about"
+        style={{ backgroundImage: 'url("/images/backgrounds/blueAbstract.jpg")' }}
+      >
         <div className="HomePage--section--content">
           <h2><FormattedMessage {...homeMessages.about.title} /></h2>
           <p><FormattedMessage {...homeMessages.about.body} /></p>
@@ -71,7 +75,29 @@ export default function HomePage() {
         </div>
       </PageSection>
 
-      <PageSection className="HomePage--section HomePage--joinUs" whiteText>
+      <PageSection
+        className="HomePage--section HomePage--donate"
+        style={{
+          color: 'white',
+          backgroundImage: 'url("/images/backgrounds/blueAbstract.jpg")',
+        }}
+      >
+        <div className="HomePage--section--content">
+          <h2><FormattedMessage {...homeMessages.donate.title} /></h2>
+          <p><FormattedMessage {...homeMessages.donate.body} /></p>
+          <Button action={{ href: '/counter', internal: true }}>
+            <FormattedMessage {...homeMessages.donate.learnMoreButton} />
+          </Button>
+        </div>
+      </PageSection>
+
+      <PageSection
+        className="HomePage--section HomePage--joinUs"
+        style={{
+          color: 'white',
+          backgroundImage: 'url("/images/backgrounds/blueAbstract.jpg")',
+        }}
+      >
         <div className="HomePage--section--content">
           <h2><FormattedMessage {...homeMessages.joinUs.title} /></h2>
           <p><FormattedMessage {...homeMessages.joinUs.body} /></p>
@@ -85,6 +111,6 @@ export default function HomePage() {
           </div>
         </div>
       </PageSection>
-    </div>
+    </ChevronPage>
   );
 }
