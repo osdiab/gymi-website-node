@@ -15,12 +15,14 @@ export default function HomePage() {
     <ChevronPage className="HomePage">
       <PageSection
         className="HomePage--section HomePage--splash"
-        videoBackground={{
-          videoUrls: ['/images/media/main_page/home_video_720.mp4'],
-          posterUrl: '/images/media/main_page/home_video_poster.jpg',
+        background={{
+          media: {
+            videoUrls: ['/images/media/main_page/home_video_720.mp4'],
+            posterUrl: '/images/media/main_page/home_video_poster.jpg',
+          },
+          tint: 'lightBlue',
         }}
-        colorBackground="lightBlue"
-        style={{ color: 'white' }}
+        whiteText
       >
         <div className="HomePage--section--content">
           <h1><FormattedMessage {...homeMessages.splash.title} /></h1>
@@ -30,7 +32,7 @@ export default function HomePage() {
 
       <PageSection
         className="HomePage--section HomePage--about"
-        style={{ backgroundImage: 'url("/images/backgrounds/blueAbstract.jpg")' }}
+        background={{ media: { imageUrl: '/images/backgrounds/blueAbstract.jpg' } }}
       >
         <div className="HomePage--section--content">
           <h2><FormattedMessage {...homeMessages.about.title} /></h2>
@@ -77,10 +79,8 @@ export default function HomePage() {
 
       <PageSection
         className="HomePage--section HomePage--donate"
-        style={{
-          color: 'white',
-          backgroundImage: 'url("/images/backgrounds/blueAbstract.jpg")',
-        }}
+        whiteText
+        background={{ media: { imageUrl: '/images/backgrounds/blueAbstract.jpg' } }}
       >
         <div className="HomePage--section--content">
           <h2><FormattedMessage {...homeMessages.donate.title} /></h2>
@@ -93,10 +93,10 @@ export default function HomePage() {
 
       <PageSection
         className="HomePage--section HomePage--joinUs"
-        style={{
-          color: 'white',
-          backgroundImage: 'url("/images/backgrounds/blueAbstract.jpg")',
+        background={{
+          media: { imageUrl: '/images/backgrounds/blueAbstract.jpg' },
         }}
+        whiteText
       >
         <div className="HomePage--section--content">
           <h2><FormattedMessage {...homeMessages.joinUs.title} /></h2>

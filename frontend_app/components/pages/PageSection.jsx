@@ -5,12 +5,8 @@ import browser from 'detect-browser';
 
 require('./PageSection.less');
 
-/**
- * If videoBackground is present, it will be used to play a video in the
- * background of the PageSection.
- */
 export default function PageSection({
-  children, className, videoBackground, colorBackground, style,
+  children, className, background, whiteText, style,
 }) {
   // clip-path doesn't work correctly in firefox, edge, and msie, so disable overlap
   const patchStyle = {};
@@ -18,7 +14,15 @@ export default function PageSection({
     patchStyle.marginBottom = 0;
     patchStyle.paddingTop = '50px';
   }
-  const bgStyle = videoBackground || colorBackground ? { background: 'none' } : {};
+
+  // if a video background or tint is present, the background must be set to none or that content
+  // won't be visible (negative z-index). If an image is present, we should set the background image
+  // to that, rather than clearing it.
+  let bgStyle = {};
+  if (background) {
+    bgStyle = background.media && background.media.imageUrl ?
+      { backgroundImage: `url("${background.media.imageUrl}")` } : { background: 'none' };
+  }
   const finalStyle = Object.assign({}, patchStyle, bgStyle, style);
 
   return (
@@ -26,22 +30,29 @@ export default function PageSection({
       className={classnames(
         'PageSection',
         className,
+        whiteText && 'PageSection--whiteText',
       )}
       style={finalStyle}
     >
       <div className="PageSection--content">
         {children}
       </div>
-      {videoBackground &&
+      {background && background.media && background.media.videoUrls &&
         <video
           className="PageSection--videoBackground"
           autoPlay muted loop preload
-          poster={videoBackground.posterUrl}
+          poster={background.media.posterUrl}
         >
-          {_.map(videoBackground.videoUrls, url => <source key={url} src={url} />)};
+          {_.map(background.media.videoUrls, url => <source key={url} src={url} />)};
         </video>
       }
-      {colorBackground && <div className={`PageSection--colorBackground PageSection--colorBackground--${colorBackground}`} />}
+      {background && background.tint &&
+        <div
+          className={classnames(
+            'PageSection--backgroundTint',
+            `PageSection--backgroundTint--${background.tint}`
+          )}
+        />}
     </section>
   );
 }
@@ -52,10 +63,18 @@ PageSection.backgroundColors = [
 PageSection.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
-  videoBackground: PropTypes.shape({
-    videoUrls: PropTypes.arrayOf(PropTypes.string).isRequired,
-    posterUrl: PropTypes.string.isRequired,
+  background: PropTypes.shape({
+    media: PropTypes.oneOfType([
+      PropTypes.shape({
+        videoUrls: PropTypes.arrayOf(PropTypes.string).isRequired,
+        posterUrl: PropTypes.string.isRequired,
+      }),
+      PropTypes.shape({
+        imageUrl: PropTypes.string,
+      }),
+    ]),
+    tint: PropTypes.oneOf(PageSection.backgroundColors),
   }),
-  colorBackground: PropTypes.oneOf(PageSection.backgroundColors),
+  whiteText: PropTypes.bool,
   style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };

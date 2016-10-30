@@ -15,8 +15,6 @@ export default function AboutUsPage() {
     <ChevronPage className="AboutUsPage ChevronPage">
       <PageSection
         className="AboutUsPage--section AboutUsPage--splash"
-        colorBackground="lightBlue"
-        whiteText
       >
         <div className="AboutUsPage--section--content">
           <h1><FormattedMessage {...aboutMessages.splash.title} /></h1>
@@ -66,7 +64,7 @@ export default function AboutUsPage() {
         </div>
       </PageSection>
 
-      <PageSection className="AboutUsPage--section AboutUsPage--collaborators" whiteText>
+      <PageSection className="AboutUsPage--section AboutUsPage--collaborators">
         <div className="AboutUsPage--section--content">
           <h2><FormattedMessage {...aboutMessages.collaborators.title} /></h2>
         </div>
