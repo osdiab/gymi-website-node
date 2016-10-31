@@ -1,0 +1,31 @@
+{
+  "dev": {
+    "driver": "sqlite3",
+    "filename": "dev.db"
+  },
+
+  "staging": {
+    "driver": "pg",
+    "user": {"ENV": "STAGING_USERNAME"},
+    "password": {"ENV": "STAGING_PASSWORD"},
+    "host": "ec2-50-17-249-147.compute-1.amazonaws.com",
+    "database": "d3gl4hm0igl4gr",
+    "native": true,
+    "schema": "gymi"
+  },
+
+  "test": {
+    "driver": "sqlite3",
+    "filename": ":memory:"
+  },
+
+  "prod": {
+    "driver": "pg",
+    "user": {"ENV": "PRODUCTION_USERNAME"},
+    "password": {"ENV": "PRODUCTION_PASSWORD"},
+    "host": "ec2-54-221-225-242.compute-1.amazonaws.com",
+    "database": "demk5dko3045p3",
+    "native": true,
+    "schema": "gymi"
+  }
+}
