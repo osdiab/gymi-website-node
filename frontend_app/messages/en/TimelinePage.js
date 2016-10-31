@@ -6,10 +6,6 @@ export default [
     defaultMessage: 'Timeline',
   },
   {
-    id: 'TimelinePage.seasonalDate',
-    defaultMessage: '{season} {year}',
-  },
-  {
     id: 'TimelinePage.february2013.description',
     defaultMessage: 'GYMI was founded!',
   },
