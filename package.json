@@ -20,6 +20,7 @@
   "homepage": "https://github.com/osdiab/gymi-website-node#readme",
   "dependencies": {
     "express": "^4.13.4",
+    "jsonwebtoken": "^7.1.9",
     "node-fetch": "^1.5.3",
     "pg-native": "1.10.0"
   },
