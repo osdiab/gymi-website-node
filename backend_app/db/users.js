@@ -1,21 +1,76 @@
-import db from './';
+import db, { ApplicationError } from './';
+
+// flexible find function—can search for id or username.
+const find = identifier => new Promise((resolve, reject) => {
+  db.get(
+    'select * from users where id = ? or username = ?',
+    identifier,
+    identifier,
+    (err, result) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(result);
+    },
+  );
+});
 
 export default {
-  // flexible find function—can search for id or username.
-  find: identifier => new Promise((resolve, reject) => {
-    db.get(
-      'SELECT * FROM users WHERE id = ? OR username = ?',
-      identifier,
-      identifier,
-      (err, result) => {
-        if (err) {
-          reject(new Error('Could not execute query'));
-          return;
+  create: (
+    username,
+    passwordHash,
+    name,
+    role,
+  ) => new Promise((resolve, reject) => {
+    if (!isNaN(username)) {
+      throw new ApplicationError('Username cannot be a number', 400);
+    }
+
+    find(username).then((user) => {
+      if (user) {
+        throw new ApplicationError('User already exists', 400);
+      }
+      return;
+    }).then(() => {
+      db.run('BEGIN');
+      db.run(
+        'INSERT INTO users (username, password_hash) VALUES (?, ?)',
+        username,
+        passwordHash,
+        function afterUserInsertion(err) {
+          if (err) {
+            db.run('ROLLBACK');
+            throw err;
+          }
+          const newUserId = this.lastID;
+
+          db.run(
+            'INSERT INTO user_profiles (user_id, name, role) VALUES (?, ?, ?)',
+            newUserId,
+            name,
+            role,
+            (insertProfileErr) => {
+              if (insertProfileErr) {
+                db.run('ROLLBACK');
+                throw err;
+              }
+              db.run('COMMIT');
+              resolve(newUserId);
+            }
+          );
         }
-        resolve(result);
-      },
-    );
+      );
+    }).catch((err) => {
+      if (err instanceof ApplicationError) {
+        reject(err);
+        return;
+      }
+      reject(new Error('Could not execute query'));
+    });
   }),
+
+  find,
   setPassword: (id, newPasswordHash) => new Promise((resolve, reject) => {
     db.run(
       'UPDATE users SET password_hash = ? WHERE id = ?',
