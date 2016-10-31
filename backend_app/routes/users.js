@@ -12,7 +12,7 @@ const TOKEN_SECRET = 'super secret'; // TODO: make this an env variable
 const BCRYPT_ROUNDS = 10;
 
 export const sessions = {
-  authenticate: async (req, res) => {
+  authenticate: (req, res) => {
     const userIdentifier = req.params.id;
     if (!userIdentifier) {
       res.status(400).send({
@@ -20,23 +20,27 @@ export const sessions = {
       });
       return;
     }
-    if (!req.body.password) {
+    if (!req.body || !req.body.password) {
       res.status(400).send({
         message: 'Missing password',
       });
       return;
     }
 
-    try {
-      const user = await usersDb.find(userIdentifier);
-      bcrypt.hash(req.body.password, BCRYPT_ROUNDS, (err, hash) => {
+    usersDb.find(userIdentifier).then((user) => {
+      if (!user) {
+        res.sendStatus(403);
+        return;
+      }
+
+      bcrypt.compare(req.body.password, user.password_hash, (err, match) => {
         if (err) {
           res.status(500).send({
             message: 'Could not authenticate the user',
           });
           return;
         }
-        if (user.pw_hash !== hash) {
+        if (!match) {
           res.sendStatus(403);
           return;
         }
@@ -45,16 +49,16 @@ export const sessions = {
           jwt.sign({
             id: user.id,
           }, TOKEN_SECRET, {
-            expiresIn: '1 week',
+            expiresIn: '7 days',
           })
         );
       });
-    } catch (err) {
+    }).catch(() => {
       res.status(500).send({
         message: 'Could not load the user',
       });
       return;
-    }
+    });
   },
 
   verify: (req, res, next) => {
