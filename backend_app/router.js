@@ -1,5 +1,6 @@
 // Defines an express app that runs the boilerplate codebase.
 
+import bodyParser from 'body-parser';
 import express from 'express';
 import path from 'path';
 
@@ -11,6 +12,8 @@ export default function createRouter() {
 
   // static assets; this includes the compiled frontend app!
   router.use(express.static(path.join(__dirname, '..', 'public')));
+
+  router.use(bodyParser.json()); // parse json bodies
 
   /**
    * Uncached routes:
