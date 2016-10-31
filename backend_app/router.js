@@ -1,8 +1,10 @@
 // Defines an express app that runs the boilerplate codebase.
 
 import express from 'express';
-import fetch from 'node-fetch';
 import path from 'path';
+
+import users, { sessions, credentials, interests } from './routes/users';
+import submissions from './routes/submissions';
 
 export default function createRouter() {
   const router = express.Router(); // eslint-disable-line new-cap
@@ -33,50 +35,26 @@ export default function createRouter() {
    * API Endpoints
    */
 
-  // login endpoint
-  router.post('/api/users/:id/sessions', (req, res) => {
-    res.status(501);
-    res.send('Not yet implemented!');
-  });
-  // logout endpoint
-  router.delete('/api/users/:id/sessions', (req, res) => {
-    res.status(501);
-    res.send('Not yet implemented!');
-  });
+  /*
+   * users endpoints
+   */
+  // authenticate. Returns a json web token to use with requests.
+  router.post('/api/users/:id/sessions', sessions.create);
+  router.get('/api/users', sessions.verify, users.list);
+  router.get('/api/users/:id', sessions.verify, users.find);
+  // sets a user's password
+  router.patch('/api/users/:id/credentials', sessions.verify, credentials.set);
+  router.get('/api/users/:id/interests', sessions.verify, interests.list);
+  router.put('/api/users/:id/interests', sessions.verify, interests.update);
 
-  // submissions endpoints
-  router.get('/api/submissions', (req, res) => {
-    res.status(501);
-    res.send('Not yet implemented!');
-  });
-  router.post('/api/submissions', (req, res) => {
-    res.status(501);
-    res.send('Not yet implemented!');
-  });
 
-  // interests endpoints
-  router.get('/api/users/:id/interests', (req, res) => {
-    res.status(501);
-    res.send('Not yet implemented!');
-  });
-  router.put('/api/users/:id/interests', (req, res) => {
-    res.status(501);
-    res.send('Not yet implemented!');
-  });
-
-  // users endpoints
-  router.get('/api/users', (req, res) => {
-    res.status(501);
-    res.send('Not yet implemented!');
-  });
-  router.get('/api/users/:id', (req, res) => {
-    res.status(501);
-    res.send('Not yet implemented!');
-  });
-  router.patch('/api/users/:id/credentials', (req, res) => {
-    res.status(501);
-    res.send('Not yet implemented!');
-  });
+  /*
+   * submissions endpoints
+   */
+  // lists submissions
+  router.get('/api/submissions', sessions.verify, submissions.list);
+  // posts a submission
+  router.post('/api/submissions', sessions.verify, submissions.post);
 
   /**
    * Frontend app catch-all hook
