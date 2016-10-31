@@ -33,25 +33,49 @@ export default function createRouter() {
    * API Endpoints
    */
 
-  // quote: fetches a random computer science quote from an API. Either returns the quote as JSON,
-  // or sends a 500 on any error.
-  router.get('/api/quote', (req, res) => {
-    fetch('http://quotes.stormconsultancy.co.uk/random.json').then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        return response.json();
-      }
+  // login endpoint
+  router.post('/api/users/:id/sessions', (req, res) => {
+    res.status(501);
+    res.send('Not yet implemented!');
+  });
+  // logout endpoint
+  router.delete('/api/users/:id/sessions', (req, res) => {
+    res.status(501);
+    res.send('Not yet implemented!');
+  });
 
-      const error = new Error(response.statusText);
-      error.response = response;
-      throw error;
-    }).then((response) => {
-      res.json(response);
-    }).catch((err) => {
-      // TODO: in a real app, this should actually handle errors
-      console.error(err); // eslint-disable-line no-console
-      res.status(500);
-      res.send('Something went wrong!');
-    });
+  // submissions endpoints
+  router.get('/api/submissions', (req, res) => {
+    res.status(501);
+    res.send('Not yet implemented!');
+  });
+  router.post('/api/submissions', (req, res) => {
+    res.status(501);
+    res.send('Not yet implemented!');
+  });
+
+  // interests endpoints
+  router.get('/api/users/:id/interests', (req, res) => {
+    res.status(501);
+    res.send('Not yet implemented!');
+  });
+  router.put('/api/users/:id/interests', (req, res) => {
+    res.status(501);
+    res.send('Not yet implemented!');
+  });
+
+  // users endpoints
+  router.get('/api/users', (req, res) => {
+    res.status(501);
+    res.send('Not yet implemented!');
+  });
+  router.get('/api/users/:id', (req, res) => {
+    res.status(501);
+    res.send('Not yet implemented!');
+  });
+  router.patch('/api/users/:id/credentials', (req, res) => {
+    res.status(501);
+    res.send('Not yet implemented!');
   });
 
   /**
