@@ -24,6 +24,8 @@
     "express": "^4.13.4",
     "jsonwebtoken": "^7.1.9",
     "node-fetch": "^1.5.3",
+    "react-slick": "^0.14.5",
+    "slick-carousel": "^1.6.0",
     "sqlite3": "^3.1.8"
   },
   "devDependencies": {
