@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/osdiab/gymi-website-node#readme",
   "dependencies": {
+    "bcrypt": "^0.8.7",
     "express": "^4.13.4",
     "jsonwebtoken": "^7.1.9",
     "node-fetch": "^1.5.3",
