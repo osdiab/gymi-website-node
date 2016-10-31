@@ -64,7 +64,7 @@ export const sessions = {
   verify: (req, res, next) => {
     const authHeader = req.get('Authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      res.send(401).message({
+      res.status(401).send({
         message: 'Missing Authorization header with Bearer token',
       });
       return;
