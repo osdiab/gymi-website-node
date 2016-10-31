@@ -4,7 +4,8 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import path from 'path';
 
-import users, { sessions, credentials, interests } from './routes/users';
+import users, { interests } from './routes/users';
+import sessions from './routes/sessions';
 import submissions from './routes/submissions';
 
 export default function createRouter() {
@@ -42,11 +43,12 @@ export default function createRouter() {
    * users endpoints
    */
   // authenticate. Returns a json web token to use with requests.
-  router.post('/api/users/:id/sessions', sessions.authenticate);
+  router.post('/api/sessions', sessions.authenticate);
   router.get('/api/users', sessions.verify, users.list);
   router.get('/api/users/:id', sessions.verify, users.find);
+  router.post('/api/users', users.create);
   // sets a user's password
-  router.patch('/api/users/:id/credentials', sessions.verify, credentials.set);
+  router.patch('/api/users/:id/credentials', sessions.verify, sessions.setCredentials);
   router.get('/api/users/:id/interests', sessions.verify, interests.list);
   router.put('/api/users/:id/interests', sessions.verify, interests.update);
 
