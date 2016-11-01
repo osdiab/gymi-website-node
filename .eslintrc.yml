@@ -15,3 +15,4 @@ rules:
   react/no-unused-prop-types:
     - 2
     - skipShapeProps: true
+  import/prefer-default-export: 0
