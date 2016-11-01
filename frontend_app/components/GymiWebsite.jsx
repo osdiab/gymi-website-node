@@ -8,6 +8,7 @@ import { translations } from '../messages';
 import SiteLayout from './SiteLayout';
 import HomePage from './pages/HomePage';
 import AboutUsPage from './pages/AboutUsPage';
+import TimelinePage from './pages/TimelinePage';
 
 export function GymiWebsiteView({ currentLanguage, defaultLanguage }) {
   // NOTE: need key on IntlProvider to trigger page rerender
@@ -23,6 +24,7 @@ export function GymiWebsiteView({ currentLanguage, defaultLanguage }) {
         <Route path="/" component={SiteLayout}>
           <IndexRoute component={HomePage} />
           <Route path="aboutUs" component={AboutUsPage} />
+          <Route path="timeline" component={TimelinePage} />
         </Route>
       </Router>
     </IntlProvider>
