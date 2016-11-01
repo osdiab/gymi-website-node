@@ -50,15 +50,15 @@ export default [
     defaultMessage: '大家好！我出生于中国杭州，现在是加拿大约克大学Schulich商学院的学生。在作为吉米夏令营的志愿者领队之后，我很高兴能够加入正式吉米团队成为公关副主席。与吉米团队一起工作最棒的事就是，那些人性里最初的美好，通过这一平台能够在现实生活里创在实在的价值，影响并改变了发展地区学生们的生活。',
   },
   {
-    id: 'LeadershipTeamSection.keyingQue.name',
+    id: 'LeadershipTeamSection.KeyingQue.name',
     defaultMessage: 'Keying (Claire) Que',
   },
   {
-    id: 'LeadershipTeamSection.keyingQue.title',
+    id: 'LeadershipTeamSection.KeyingQue.title',
     defaultMessage: '人事部主席',
   },
   {
-    id: 'LeadershipTeamSection.keyingQue.description',
+    id: 'LeadershipTeamSection.KeyingQue.description',
     defaultMessage: '我刚与2015年12月以心理学和人力资源专业毕业与美国明尼苏达大学(University of Minnesota)。我现在在人力资源领域工作，同时是吉米的人力资源副总裁。在中国杭州出生长大的我， 在16岁时独自来到美国开始六年的求学生涯。我很感激我有这样的学习机会，这几年的经历塑造了现在的我，同时激起了我加入吉米的想法。在吉米的工作让我有了帮助学生们获得发掘自我追求兴趣的机会， 也是我对自己受到的教育机会的回报。我喜欢旅行，读书，尝试新的食物和品酒，也希望不久之后可以获得潜水证。',
   },
   {

@@ -5,6 +5,7 @@ import Button from '../Button';
 import ChevronPage from './ChevronPage';
 import messages from '../../messages';
 import PageSection from './PageSection';
+import LeadershipTeamSection from './LeadershipTeamSection';
 
 require('./AboutUsPage.less');
 
@@ -93,7 +94,7 @@ export default function AboutUsPage() {
                 id: 'nanjingNormalUniversity',
               },
             ].map(({ name, logo, id }) => (
-              <div className="AboutUsPage--orgProfile">
+              <div key={id} className="AboutUsPage--orgProfile">
                 <div className="AboutUsPage--orgProfile--column">
                   <img
                     alt={`${name} logo`}
@@ -123,7 +124,7 @@ export default function AboutUsPage() {
                 id: 'pandeagleCulturalInstitute',
               },
             ].map(({ name, logo, id }) => (
-              <div className="AboutUsPage--orgProfile">
+              <div key={id} className="AboutUsPage--orgProfile">
                 <div className="AboutUsPage--orgProfile--column">
                   <img
                     alt={`${name} logo`}
