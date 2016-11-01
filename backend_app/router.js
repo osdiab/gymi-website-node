@@ -77,6 +77,10 @@ export default function createRouter() {
     submissionQuestions.destroy,
   );
 
+  router.all('/api/*', () => {
+    throw new ApplicationError(404);
+  });
+
   router.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
     if (err instanceof ApplicationError) {
       if (err.noMessage) {
