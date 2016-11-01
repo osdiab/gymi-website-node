@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import _ from 'lodash';
 
 import { ApplicationError } from '../errors';
 import usersDb from '../db/users';
@@ -77,9 +78,13 @@ export default {
     ).then(() => res.sendStatus(200));
   },
 
-  assertRole: assertedRole => (req, res, next) => {
+  assertRole: assertedRoles => (req, res, next) => {
     if (!res.locals.authData) {
-      throw new ApplicationError('Not authenticated, please get a new token', 403);
+      throw new ApplicationError(401);
+    }
+    const rolesToCheck = _.isArray(assertedRoles) ? assertedRoles : [assertedRoles];
+    if (!rolesToCheck.includes(res.locals.authData.role)) {
+      throw new ApplicationError(403);
     }
     next();
   },
