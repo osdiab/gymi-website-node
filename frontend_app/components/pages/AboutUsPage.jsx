@@ -53,17 +53,17 @@ export default function AboutUsPage() {
                   { season: 'summer', year: 2015 },
                   { season: 'summer', year: 2014 },
                   { season: 'summer', year: 2013 },
-                ].map(session => (
+                ].map(({ season, year }) => (
                   <Button
                     className="AboutUsPage--progress--button"
-                    key={session.season + session.year}
+                    key={season + year}
                     action={{
-                      href: `/timeline/${session.season}${session.year}`,
+                      href: `/timeline/${season}${year}`,
                     }}
                   >
                     <FormattedMessage
-                      {...messages.seasons.seasonalDate[session.season]}
-                      values={{ year: session.year }}
+                      {...messages.seasons.seasonalDate[season]}
+                      values={{ year }}
                     />
                   </Button>
                 ))
