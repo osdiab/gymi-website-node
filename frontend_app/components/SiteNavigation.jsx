@@ -1,24 +1,35 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router';
 
+import messages from '../messages';
 import LanguageSelector from '../components/LanguageSelector';
 
 require('./SiteNavigation.less');
 
+const navigationMessages = messages.SiteNavigation;
+
 const NAV_LINKS = [
   {
-    text: 'About Us',
+    id: 'aboutUs',
     url: '/aboutUs',
     imageUrl: '/media/icons/person.svg',
+  },
+  {
+    id: 'timeline',
+    url: '/timeline',
+    imageUrl: '/media/icons/documents.svg',
   },
 ];
 
 export default function SiteNavigation() {
-  const links = NAV_LINKS.map(({ text, url, imageUrl }) => (
+  const links = NAV_LINKS.map(({ id, url, imageUrl }) => (
     <li className="SiteNavigation--items--item" key={url}>
       <Link to={url}>
-        <img alt={text} className="SiteNavigation--items--item--icon" src={imageUrl} />
-        <div className="SiteNavigation--items--item--text">{text}</div>
+        <img role="presentation" className="SiteNavigation--items--item--icon" src={imageUrl} />
+        <div className="SiteNavigation--items--item--text">
+          <FormattedMessage {...navigationMessages[id]} />
+        </div>
       </Link>
     </li>
   ));
