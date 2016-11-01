@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import path from 'path';
 
+import { ApplicationError } from './errors';
 import users from './routes/users';
 import interests from './routes/interests';
 import sessions from './routes/sessions';
@@ -75,6 +76,22 @@ export default function createRouter() {
     '/api/submissionQuestions', sessions.verify, sessions.assertRole('admin'),
     submissionQuestions.destroy,
   );
+
+  router.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+    if (err instanceof ApplicationError) {
+      if (!err.message || err.message === '') {
+        res.sendStatus(err.statusCode);
+        return;
+      }
+      res.status(err.statusCode).send({
+        message: err.message,
+        data: err.data || {},
+      });
+      return;
+    }
+
+    res.sendStatus(500); // uncaught exception
+  });
 
   /**
    * Frontend app catch-all hook

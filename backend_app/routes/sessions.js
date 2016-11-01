@@ -1,52 +1,51 @@
 import jwt from 'jsonwebtoken';
 
+import { ApplicationError } from '../errors';
 import usersDb from '../db/users';
 import { hashPassword, comparePassword, validatePassword } from './passwords';
 
 const TOKEN_SECRET = 'super secret'; // TODO: make this an env variable
 
 export default {
-  authenticate: (req, res) => {
+  authenticate: (req, res, next) => {
     const userIdentifier = req.body.username;
     if (!userIdentifier) {
-      res.status(400).send({ message: 'Missing username' });
-      return;
+      throw new ApplicationError('Missing username', 400);
     }
     if (!req.body.password) {
-      res.status(400).send({ message: 'Missing password' });
-      return;
+      throw new ApplicationError('Missing password', 400);
     }
 
+    // Security note: from this point on, do not reveal whether the user exists or a password is
+    // incorrect.
     usersDb.find(userIdentifier).then((user) => {
+      // user does not exist
       if (!user) {
-        res.sendStatus(403);
-        return;
+        throw new ApplicationError('', 403);
       }
 
-      comparePassword(req.body.password, user.password_hash).then((match) => {
-        if (!match) {
-          res.sendStatus(403);
-          return;
-        }
-        res.send(jwt.sign({ id: user.id }, TOKEN_SECRET, { expiresIn: '7 days' }));
-      });
-    }).catch(() => res.status(500).send({ message: 'Could not authenticate the user' }));
+      return Promise.all([user, comparePassword(req.body.password, user.password_hash)]);
+    }).then(([user, passwordMatches]) => {
+      // password is wrong
+      if (!passwordMatches) {
+        throw new ApplicationError(null, 403);
+      }
+      res.send(jwt.sign({
+        id: user.id, role: user.role,
+      }, TOKEN_SECRET, { expiresIn: '7 days' }));
+    }).catch(err => next(err));
   },
 
   verify: (req, res, next) => {
     const authHeader = req.get('Authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      res.status(401).send({
-        message: 'Missing Authorization header with Bearer token',
-      });
-      return;
+      throw new ApplicationError('Missing Authorization header with Bearer token', 401);
     }
 
     const token = authHeader.substring('Bearer '.length);
     jwt.verify(token, TOKEN_SECRET, (err, decoded) => {
       if (err) {
-        res.status(401).send({ message: 'Could not verify token' });
-        return;
+        throw new ApplicationError('Could not verify token', 401);
       }
 
       res.locals.authData = decoded; // eslint-disable-line no-param-reassign
@@ -56,29 +55,32 @@ export default {
 
   setCredentials: (req, res) => {
     if (isNaN(req.params.id)) {
-      res.status(400).send({ message: 'Invalid user id' });
-      return;
+      throw new ApplicationError('Invalid user id', 400);
     }
     const userId = parseInt(req.params.id, 10);
     const tokenUserId = res.locals.authData.id;
     if (!req.body.password) {
-      res.status(400).send({ message: 'Missing replacement password' });
-      return;
+      throw new ApplicationError('Missing new password', 400);
     }
 
     if (userId !== tokenUserId) {
-      res.sendStatus(403);
-      return;
+      throw new ApplicationError(null, 403);
     }
 
     const passwordValidation = validatePassword(req.body.password);
     if (!passwordValidation.valid) {
-      res.status(400).send({ message: passwordValidation.message });
-      return;
+      throw new ApplicationError(passwordValidation.message, 400);
     }
 
-    hashPassword(req.body.password).then(hash => usersDb.setPassword(userId, hash)
-    ).then(() => res.sendStatus(200)
-    ).catch(() => res.status(500).send({ message: 'Could not set new password' }));
+    hashPassword(req.body.password).then(
+      hash => usersDb.setPassword(userId, hash)
+    ).then(() => res.sendStatus(200));
+  },
+
+  assertRole: assertedRole => (req, res, next) => {
+    if (!res.locals.authData) {
+      throw new ApplicationError('Not authenticated, please get a new token', 403);
+    }
+    next();
   },
 };

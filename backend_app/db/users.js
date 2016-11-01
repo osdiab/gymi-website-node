@@ -1,6 +1,8 @@
-import db, { ApplicationError } from './';
+import db from './';
+import { ApplicationError } from '../errors';
 
 // flexible find function—can search for id or username.
+// TODO: don't throw ApplicationErrors from here, db shouldn't know about app logic
 const find = identifier => new Promise((resolve, reject) => {
   db.get(
     'select * from users where id = ? or username = ?',
@@ -17,12 +19,7 @@ const find = identifier => new Promise((resolve, reject) => {
 });
 
 export default {
-  create: (
-    username,
-    passwordHash,
-    name,
-    role,
-  ) => new Promise((resolve, reject) => {
+  create: (username, passwordHash, name, role) => new Promise((resolve, reject) => {
     if (!isNaN(username)) {
       throw new ApplicationError('Username cannot be a number', 400);
     }
@@ -61,13 +58,7 @@ export default {
           );
         }
       );
-    }).catch((err) => {
-      if (err instanceof ApplicationError) {
-        reject(err);
-        return;
-      }
-      reject(new Error('Could not execute query'));
-    });
+    }).catch(err => reject(err));
   }),
 
   find,

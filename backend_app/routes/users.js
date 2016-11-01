@@ -1,5 +1,5 @@
 import usersDb from '../db/users';
-import { ApplicationError } from '../db';
+import { ApplicationError } from '../errors';
 import { hashPassword, validatePassword } from './passwords';
 
 const VALID_ROLES = [
