@@ -13,15 +13,10 @@ const NOT_YET_IMPLEMENTED = (req, res) => {
   res.send('Not yet implemented!');
 };
 
-export const interests = {
-  list: NOT_YET_IMPLEMENTED,
-  update: NOT_YET_IMPLEMENTED,
-};
-
 export default {
   list: NOT_YET_IMPLEMENTED,
   find: NOT_YET_IMPLEMENTED,
-
+  setInterests: NOT_YET_IMPLEMENTED,
   create: (req, res) => {
     const { username, password, name, role } = req.body;
     if ([username, password, name, role].includes(undefined)) {

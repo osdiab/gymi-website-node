@@ -4,9 +4,11 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import path from 'path';
 
-import users, { interests } from './routes/users';
+import users from './routes/users';
+import interests from './routes/interests';
 import sessions from './routes/sessions';
 import submissions from './routes/submissions';
+import submissionQuestions from './routes/submissionQuestions';
 
 export default function createRouter() {
   const router = express.Router(); // eslint-disable-line new-cap
@@ -49,9 +51,8 @@ export default function createRouter() {
   router.post('/api/users', users.create);
   // sets a user's password
   router.patch('/api/users/:id/credentials', sessions.verify, sessions.setCredentials);
-  router.get('/api/users/:id/interests', sessions.verify, interests.list);
-  router.put('/api/users/:id/interests', sessions.verify, interests.update);
-
+  router.get('/api/users/:user_id/interests', sessions.verify, interests.list);
+  router.put('/api/users/:id/interests', sessions.verify, users.setInterests);
 
   /*
    * submissions endpoints
@@ -60,6 +61,20 @@ export default function createRouter() {
   router.get('/api/submissions', sessions.verify, submissions.list);
   // posts a submission
   router.post('/api/submissions', sessions.verify, submissions.post);
+
+  /*
+   * admin endpoints
+   */
+  router.put('/api/interests', sessions.verify, sessions.assertRole('admin'), interests.create);
+  router.delete('/api/interests', sessions.verify, sessions.assertRole('admin'), interests.destroy);
+  router.put(
+    '/api/submissionQuestions', sessions.verify, sessions.assertRole('admin'),
+    submissionQuestions.create,
+  );
+  router.delete(
+    '/api/submissionQuestions', sessions.verify, sessions.assertRole('admin'),
+    submissionQuestions.destroy,
+  );
 
   /**
    * Frontend app catch-all hook
