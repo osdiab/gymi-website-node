@@ -1,4 +1,6 @@
-import usersDb from '../db/users';
+import _ from 'lodash';
+
+import usersDb, { VALID_LIST_FILTERS } from '../db/users';
 import { ApplicationError } from '../errors';
 import { hashPassword, validatePassword } from './passwords';
 
@@ -14,7 +16,12 @@ const NOT_YET_IMPLEMENTED = (req, res) => {
 };
 
 export default {
-  list: NOT_YET_IMPLEMENTED,
+  list: (req, res) => {
+    const filters = req.body.filters ? _.pick(req.body.filters, VALID_LIST_FILTERS) : {};
+    usersDb.list(filters).then((users) => {
+      res.send({ data: users });
+    });
+  },
   find: NOT_YET_IMPLEMENTED,
   setInterests: NOT_YET_IMPLEMENTED,
   create: (req, res) => {
