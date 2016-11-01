@@ -3,21 +3,21 @@ import _ from 'lodash';
 import db from './';
 import { ApplicationError } from '../errors';
 
+const PUBLIC_USER_FIELDS = ['id', 'username', 'role', 'name'];
 // flexible find function—can search for id or username.
 // TODO: don't throw ApplicationErrors from here, db shouldn't know about app logic
-const find = identifier => new Promise((resolve, reject) => {
-  db.get(
-    'select * from users where id = ? or username = ?',
-    identifier,
-    identifier,
-    (err, result) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(result);
-    },
-  );
+const find = (identifier, getPasswordHash = false) => new Promise((resolve, reject) => {
+  const fields = getPasswordHash ? PUBLIC_USER_FIELDS.concat('password_hash') :
+    PUBLIC_USER_FIELDS;
+  const query = `SELECT ${fields.join(', ')} FROM users WHERE id = ? OR username = ?`;
+
+  db.get(query, identifier, identifier, (err, result) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    resolve(result);
+  });
 });
 
 export default {
@@ -32,32 +32,17 @@ export default {
       }
       return;
     }).then(() => {
-      db.run('BEGIN');
       db.run(
-        'INSERT INTO users (username, password_hash) VALUES (?, ?)',
+        'INSERT INTO users (username, password_hash, name, role) VALUES (?, ?, ?, ?)',
         username,
         passwordHash,
+        name,
+        role,
         function afterUserInsertion(err) {
           if (err) {
-            db.run('ROLLBACK');
             throw err;
           }
-          const newUserId = this.lastID;
-
-          db.run(
-            'INSERT INTO user_profiles (user_id, name, role) VALUES (?, ?, ?)',
-            newUserId,
-            name,
-            role,
-            (insertProfileErr) => {
-              if (insertProfileErr) {
-                db.run('ROLLBACK');
-                throw err;
-              }
-              db.run('COMMIT');
-              resolve(newUserId);
-            }
-          );
+          resolve(this.lastID);
         }
       );
     }).catch(err => reject(err));

@@ -19,7 +19,7 @@ export default {
 
     // Security note: from this point on, do not reveal whether the user exists or a password is
     // incorrect.
-    usersDb.find(userIdentifier).then((user) => {
+    usersDb.find(userIdentifier, true).then((user) => {
       // user does not exist
       if (!user) {
         throw new ApplicationError(401);
@@ -37,6 +37,7 @@ export default {
     }).catch(err => next(err));
   },
 
+  // middleware that verifies that a token is present and is legitimate.
   verify: (req, res, next) => {
     const authHeader = req.get('Authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
