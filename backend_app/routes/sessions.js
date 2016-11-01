@@ -21,14 +21,14 @@ export default {
     usersDb.find(userIdentifier).then((user) => {
       // user does not exist
       if (!user) {
-        throw new ApplicationError('', 403);
+        throw new ApplicationError(401);
       }
 
       return Promise.all([user, comparePassword(req.body.password, user.password_hash)]);
     }).then(([user, passwordMatches]) => {
       // password is wrong
       if (!passwordMatches) {
-        throw new ApplicationError(null, 403);
+        throw new ApplicationError(401);
       }
       res.send(jwt.sign({
         id: user.id, role: user.role,
@@ -64,7 +64,7 @@ export default {
     }
 
     if (userId !== tokenUserId) {
-      throw new ApplicationError(null, 403);
+      throw new ApplicationError(401);
     }
 
     const passwordValidation = validatePassword(req.body.password);

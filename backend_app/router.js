@@ -79,7 +79,7 @@ export default function createRouter() {
 
   router.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
     if (err instanceof ApplicationError) {
-      if (!err.message || err.message === '') {
+      if (err.noMessage) {
         res.sendStatus(err.statusCode);
         return;
       }
@@ -90,6 +90,8 @@ export default function createRouter() {
       return;
     }
 
+    // log the error for debugging
+    console.log(err); // eslint-disable-line no-console
     res.sendStatus(500); // uncaught exception
   });
 
