@@ -55,6 +55,25 @@ export default {
     });
   },
 
+  // same as verify, but just continues if not present rather than throwing an error.
+  populate: (req, res, next) => {
+    const authHeader = req.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      next();
+      return;
+    }
+
+    const token = authHeader.substring('Bearer '.length);
+    jwt.verify(token, TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        next();
+        return;
+      }
+      res.locals.authData = decoded; // eslint-disable-line no-param-reassign
+      next();
+    });
+  },
+
   setCredentials: (req, res) => {
     if (isNaN(req.params.id)) {
       throw new ApplicationError('Invalid user id', 400);
