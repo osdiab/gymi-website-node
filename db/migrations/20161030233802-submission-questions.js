@@ -18,6 +18,7 @@ exports.up = function(db, callback) {
   db.createTable('submission_questions', {
     id: { type: 'int', primaryKey: true, autoIncrement: true, notNull: true },
     title: { type: 'string', notNull: true },
+    archived: { type: 'boolean', defaultValue: false },
   }, callback);
 };
 
