@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import db from './';
 import { ApplicationError } from '../errors';
 
@@ -62,6 +64,41 @@ export default {
   }),
 
   find,
+  list: (filters = {}) => new Promise((resolve, reject) => {
+    const whereClauses = _.chain(filters).mapValues(
+      val => (_.isArray(val) ? val : [val])
+    ).map((value, key) => {
+      switch (key) {
+        case 'primaryInterest':
+          return {
+            clause: 'INNER JOIN primary_user_topics ON users.id = primary_user_topics.user_id AND ' +
+              'primary_user_topics.topic_id IN ?',
+            value,
+          };
+        case 'period':
+          return {
+            clause: 'INNER JOIN active_users ON users.id = active_users.user_id AND ' +
+              'active_users.period_id IN ?',
+            value,
+          };
+        default:
+          return null;
+      }
+    }).compact()
+    .value();
+
+    const completeClauses = whereClauses.map(entry => entry.clause).join(' ');
+    const query = `SELECT users.id, users.username FROM users ${completeClauses}`;
+    const queryArgs = whereClauses.map(entry => entry.value);
+
+    db.get.apply(this, _.flatten([query, queryArgs, (err, result) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(result);
+    }]));
+  }),
   setPassword: (id, newPasswordHash) => new Promise((resolve, reject) => {
     db.run(
       'UPDATE users SET password_hash = ? WHERE id = ?',
@@ -80,4 +117,6 @@ export default {
       }
     );
   }),
+
 };
+export const VALID_LIST_FILTERS = ['primaryInterest', 'period'];
