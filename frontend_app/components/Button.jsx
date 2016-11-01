@@ -12,6 +12,7 @@ export default function Button({
   type = 'secondary',
   size = 'medium',
   disabled = false,
+  style = {},
 }) {
   const actionIsFunc = _.isFunction(action);
   const linkIsInternal = action.href && !(/^(?:[a-z]+:)?\/\//.test(action.href));
@@ -37,6 +38,7 @@ export default function Button({
       className={finalClassName}
       disabled={disabled}
       {...actionAttributes}
+      style={style}
     >
       {children}
     </ElemType>
@@ -60,4 +62,5 @@ Button.propTypes = {
   type: PropTypes.oneOf(Button.TYPES),
   size: PropTypes.oneOf(Button.SIZES),
   disabled: PropTypes.bool,
+  style: PropTypes.objectOf(PropTypes.string),
 };
