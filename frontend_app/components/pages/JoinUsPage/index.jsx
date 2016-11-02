@@ -14,23 +14,28 @@ const SECTIONS = [
     id: 'becomeAMentor',
     questions: ['where', 'requirements', 'sessionCoordinators', 'faq'],
     buttonUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeE1W4ZM6T8qCypmxCNI6Bo7lUMJzPHXj_Se0kBIplq3nIXoA/viewform?c=0&w=1',
+    color: 'salmon',
   },
   {
     id: 'joinTheGymiTeam',
     questions: ['availablePositions', 'requirements'],
     buttonUrl: '/contactUs',
+    color: 'purple',
   },
   {
     id: 'makeADonation',
     buttonUrl: 'https://www.paypal.com/donate/?token=utLA_vrF2l3R74XC7tkgAW1czfs8JN2LYgldjA0FayZMcKqT7FXAAvvjyBOClYSPymEdZ0',
+    color: 'green',
   },
   {
     id: 'becomeASponsor',
     buttonUrl: '/contactUs',
+    color: 'blue',
   },
   {
     id: 'becomeAnAdvisor',
     buttonUrl: '/contactUs',
+    color: 'yellow',
   },
 ];
 

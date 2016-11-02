@@ -1,0 +1,99 @@
+@import '../../colors';
+
+.JoinUsPage--QuestionSection {
+  display: flex;
+  text-align: left;
+  padding: 50px;
+  max-width: 1260px;
+  margin: 0 auto;
+
+  ul {
+    list-style-type: none;
+  }
+
+  div {
+    flex: 1;
+    padding: 20px;
+    min-height: 250px;
+  }
+
+  button:not(.Button) {
+    border: none;
+    background: none;
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.JoinUsPage--QuestionSection--titleButton {
+      &.JoinUsPage--QuestionSection--salmon {
+        &:hover, &:focus {
+          h2 {
+            color: @light-salmon;
+          }
+        }
+      }
+
+      &.JoinUsPage--QuestionSection--purple {
+        h2 {
+          color: @medium-purple;
+        }
+        &:hover, &:focus {
+          h2 {
+            color: @light-purple;
+          }
+        }
+      }
+
+      &.JoinUsPage--QuestionSection--green {
+        h2 {
+          color: @light-green;
+        }
+        &:hover, &:focus {
+          h2 {
+            color: @lighter-green;
+          }
+        }
+      }
+
+      &.JoinUsPage--QuestionSection--blue {
+        h2 {
+          color: @moody-blue;
+        }
+        &:hover, &:focus {
+          h2 {
+            color: @pale-blue;
+          }
+        }
+      }
+
+      &.JoinUsPage--QuestionSection--yellow {
+        h2 {
+          color: @medium-yellow;
+        }
+        &:hover, &:focus {
+          h2 {
+            color: @medium-dark-yellow;
+          }
+        }
+      }
+    }
+
+    &:not(.JoinUsPage--QuestionSection--titleButton) {
+      font-weight: bold;
+      font-size: 1em;
+      font-face: inherit;
+      text-align: left;
+      padding: 10px;
+      color: @medium-blue;
+      &:hover, &:focus {
+        color: @logo-salmon;
+      }
+    }
+  }
+
+  h2 {
+    font-size: 6em;
+    text-transform: uppercase;
+    text-align: left;
+  }
+}
