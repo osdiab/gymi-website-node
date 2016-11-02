@@ -1,3 +1,6 @@
+// TODO: this needs to be cleaned up
+// TODO: add hot module reloading on the backend workflow as well
+// TODO: get server side rendering working on backend
 const path = require('path');
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
