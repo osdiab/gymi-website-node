@@ -55,10 +55,13 @@ module.exports = [
     output: {
       path: path.join(__dirname, 'build'),
       filename: 'backend.bundle.js',
-      publicPath: '/',
       libraryTarget: 'commonjs2',
     },
     target: 'node',
+    node: {
+      __dirname: false,
+      __filename: false,
+    },
     externals: [nodeExternals()],
     resolve: {
       extensions: ['', '.js', '.jsx'],
