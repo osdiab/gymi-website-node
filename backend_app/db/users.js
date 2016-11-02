@@ -1,3 +1,4 @@
+// TODO: don't throw ApplicationErrors from here, db shouldn't know about app logic
 import _ from 'lodash';
 
 import db from './';
@@ -5,19 +6,14 @@ import { ApplicationError } from '../errors';
 
 const PUBLIC_USER_FIELDS = ['id', 'username', 'role', 'name'];
 // flexible find function—can search for id or username.
-// TODO: don't throw ApplicationErrors from here, db shouldn't know about app logic
+// Returns one entry, or null.
 const find = (identifier, getPasswordHash = false) => new Promise((resolve, reject) => {
-  const fields = getPasswordHash ? PUBLIC_USER_FIELDS.concat('password_hash') :
+  const columns = getPasswordHash ? PUBLIC_USER_FIELDS.concat('password_hash') :
     PUBLIC_USER_FIELDS;
-  const query = `SELECT ${fields.join(', ')} FROM users WHERE id = ? OR username = ?`;
+  const clause = isNaN(identifier) ? 'username = $<identifier>' : 'id = $<identifier>';
+  const query = `SELECT $<columns:name> FROM users WHERE ${clause}`;
 
-  db.get(query, identifier, identifier, (err, result) => {
-    if (err) {
-      reject(err);
-      return;
-    }
-    resolve(result);
-  });
+  return db.oneOrNone(query, { columns, identifier }).then(resolve).catch(reject);
 });
 
 export default {
@@ -31,39 +27,32 @@ export default {
         throw new ApplicationError('User already exists', 400);
       }
       return;
-    }).then(() => {
-      db.run(
-        'INSERT INTO users (username, password_hash, name, role) VALUES (?, ?, ?, ?)',
-        username,
-        passwordHash,
-        name,
-        role,
-        function afterUserInsertion(err) {
-          if (err) {
-            throw err;
-          }
-          resolve(this.lastID);
-        }
-      );
-    }).catch(err => reject(err));
+    }).then(() => db.one(
+      'INSERT INTO users (username, password_hash, name, role) VALUES ($1, $2, $3, $4) RETURNING id',
+      [username, passwordHash, name, role],
+    )).then(({ id }) => resolve(id))
+    .catch(reject);
   }),
 
   find,
   list: (filters = {}) => new Promise((resolve, reject) => {
-    const whereClauses = _.chain(filters).mapValues(
+    const normalizedFilters = _.chain(filters).mapValues(
       val => (_.isArray(val) ? val : [val])
-    ).map((value, key) => {
+    );
+    const whereClauses = normalizedFilters.map((value, key) => {
       switch (key) {
         case 'primaryInterest':
           return {
+            key: 'primaryInterests',
             clause: 'INNER JOIN primary_user_topics ON users.id = primary_user_topics.user_id AND ' +
-              'primary_user_topics.topic_id IN ?',
+              'primary_user_topics.topic_id IN $<primaryInterests:csv>',
             value,
           };
         case 'period':
           return {
+            key: 'periods',
             clause: 'INNER JOIN active_users ON users.id = active_users.user_id AND ' +
-              'active_users.period_id IN ?',
+              'active_users.period_id IN $<periods:csv>',
             value,
           };
         default:
@@ -74,33 +63,15 @@ export default {
 
     const completeClauses = whereClauses.map(entry => entry.clause).join(' ');
     const query = `SELECT users.id, users.username FROM users ${completeClauses}`;
-    const queryArgs = whereClauses.map(entry => entry.value);
+    const queryArgs = _.chain(whereClauses).mapKeys('key').mapValues('value').value();
 
-    db.get.apply(this, _.flatten([query, queryArgs, (err, result) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(result);
-    }]));
+    return db.manyOrNone(query, queryArgs).then(resolve).catch(reject);
   }),
   setPassword: (id, newPasswordHash) => new Promise((resolve, reject) => {
-    db.run(
-      'UPDATE users SET password_hash = ? WHERE id = ?',
-      newPasswordHash,
-      id,
-      function handlePasswordSet(err) {
-        if (err) {
-          reject(new Error('Could not persist password'));
-          return;
-        }
-        if (this.changes < 1) {
-          reject(new Error('No user to persist'));
-          return;
-        }
-        resolve();
-      }
-    );
+    db.one(
+      'UPDATE users SET password_hash = $1 WHERE id = $2',
+      [newPasswordHash, id]
+    ).then(resolve).catch(reject);
   }),
 
 };

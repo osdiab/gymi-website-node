@@ -24,7 +24,7 @@ export default {
   },
   find: NOT_YET_IMPLEMENTED,
   setInterests: NOT_YET_IMPLEMENTED,
-  create: (req, res) => {
+  create: (req, res, next) => {
     const { username, password, name, role } = req.body;
     if ([username, password, name, role].includes(undefined)) {
       res.status(400).send({
@@ -63,18 +63,8 @@ export default {
       }
     }
 
-    hashPassword(password).then(hash => usersDb.create(
-      username, hash, name, role,
-    )).then((newUserId) => {
-      res.send({ data: { id: newUserId, username, name, role } });
-    }).catch((err) => {
-      if (err instanceof ApplicationError) {
-        res.status(err.statusCode).send({ message: err.message });
-        return;
-      }
-      res.status(500).send({
-        message: 'Could not save new account',
-      });
-    });
+    hashPassword(password).then(hash => usersDb.create(username, hash, name, role))
+    .then(id => res.send({ data: { id, username, name, role } }))
+    .catch(next);
   },
 };

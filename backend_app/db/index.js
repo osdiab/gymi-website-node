@@ -1,6 +1,12 @@
-import sqlite3 from 'sqlite3';
-import path from 'path';
+import pgPromise from 'pg-promise';
 
-const db = new sqlite3.Database(path.join(__dirname, '..', '..', 'db', 'dev.db'));
+const db = pgPromise()({
+  host: process.env.GYMI_WEBSITE_DEV_DB_HOST,
+  database: process.env.GYMI_WEBSITE_DEV_DB_DATABASE,
+  user: process.env.GYMI_WEBSITE_DEV_DB_USERNAME,
+  password: process.env.GYMI_WEBSITE_DEV_DB_PASSWORD,
+  port: 5432,
+  ssl: true,
+});
 
 export default db;

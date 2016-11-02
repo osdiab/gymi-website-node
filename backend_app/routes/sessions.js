@@ -34,7 +34,7 @@ export default {
       res.send(jwt.sign({
         id: user.id, role: user.role,
       }, TOKEN_SECRET, { expiresIn: '7 days' }));
-    }).catch(err => next(err));
+    }).catch(next);
   },
 
   // middleware that verifies that a token is present and is legitimate.
