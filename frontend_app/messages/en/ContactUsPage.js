@@ -1,58 +1,58 @@
 export default [
   {
-    id: 'ContactPage.splash.title',
+    id: 'ContactUsPage.splash.title',
     defaultMessage: 'Contact Us',
   },
   {
-    id: 'ContactPage.address.title',
+    id: 'ContactUsPage.address.title',
     defaultMessage: 'Columbia University GYMI Leadership Team',
   },
   {
-    id: 'ContactPage.address.firstLine',
+    id: 'ContactUsPage.address.firstLine',
     defaultMessage: '116th St & Broadway',
   },
   {
-    id: 'ContactPage.address.secondLine',
+    id: 'ContactUsPage.address.secondLine',
     defaultMessage: 'New York, NY 10027, United States',
   },
   {
-    id: 'ContactPage.emails.general',
+    id: 'ContactUsPage.emails.general',
     defaultMessage: 'General',
   },
   {
-    id: 'ContactPage.emails.press',
+    id: 'ContactUsPage.emails.press',
     defaultMessage: 'Press/Sponsor',
   },
   {
-    id: 'ContactPage.contactForm.title',
+    id: 'ContactUsPage.contactForm.title',
     defaultMessage: 'Contact Form',
   },
   {
-    id: 'ContactPage.contactForm.name',
+    id: 'ContactUsPage.contactForm.name',
     defaultMessage: 'Name',
   },
   {
-    id: 'ContactPage.contactForm.email',
+    id: 'ContactUsPage.contactForm.email',
     defaultMessage: 'Email',
   },
   {
-    id: 'ContactPage.contactForm.occasion',
+    id: 'ContactUsPage.contactForm.occasion',
     defaultMessage: 'Occasion',
   },
   {
-    id: 'ContactPage.contactForm.generalInquiries',
+    id: 'ContactUsPage.contactForm.generalInquiries',
     defaultMessage: 'General Inquiries',
   },
   {
-    id: 'ContactPage.contactForm.pressInformation',
+    id: 'ContactUsPage.contactForm.pressInformation',
     defaultMessage: 'Press Information',
   },
   {
-    id: 'ContactPage.contactForm.message',
+    id: 'ContactUsPage.contactForm.message',
     defaultMessage: 'Message',
   },
   {
-    id: 'ContactPage.contactForm.send',
+    id: 'ContactUsPage.contactForm.send',
     defaultMessage: 'Send',
   },
 ];
