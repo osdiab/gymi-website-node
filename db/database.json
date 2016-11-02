@@ -1,11 +1,19 @@
 {
   "dev": {
-    "driver": "sqlite3",
-    "filename": "dev.db"
+    "driver": "pg",
+    "native": true,
+    "user": {"ENV": "GYMI_WEBSITE_DEV_DB_USERNAME"},
+    "password": {"ENV": "GYMI_WEBSITE_DEV_DB_PASSWORD"},
+    "host": {"ENV": "GYMI_WEBSITE_DEV_DB_HOST"},
+    "database": {"ENV": "GYMI_WEBSITE_DEV_DB_DATABASE"}
   },
 
   "prod": {
-    "driver": "sqlite3",
-    "filename": "prod.db"
+    "driver": "pg",
+    "native": true,
+    "user": {"ENV": "GYMI_WEBSITE_PROD_DB_USERNAME"},
+    "password": {"ENV": "GYMI_WEBSITE_PROD_DB_PASSWORD"},
+    "host": {"ENV": "GYMI_WEBSITE_PROD_DB_HOST"},
+    "database": {"ENV": "GYMI_WEBSITE_PROD_DB_DATABASE"}
   }
 }
