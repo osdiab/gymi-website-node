@@ -6,17 +6,17 @@ import express from 'express';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from './webpack.config.js';
+import webpackConfig from './webpack.config';
 
 import router from './backend_app/router';
 
 const app = express();
 const port = 3000;
-const compiler = webpack(webpackConfig);
+const compiler = webpack(webpackConfig[0]);
 
 // hook in webpack-compiled and bundled code (javascript, stylesheets...)
 app.use(webpackDevMiddleware(compiler, {
-  publicPath: webpackConfig.output.publicPath,
+  publicPath: webpackConfig[0].output.publicPath,
   stats: { colors: true },
 }));
 
