@@ -2,7 +2,7 @@ import HomePage from './HomePage';
 import AboutUsPage from './AboutUsPage';
 import TimelinePage from './TimelinePage';
 import JoinUsPage from './JoinUsPage';
-// import ContactPage from './ContactPage';
+import ContactUsPage from './ContactUsPage';
 import SiteNavigation from './SiteNavigation';
 import LeadershipTeamSection from './LeadershipTeamSection';
 import seasons from './seasons';
@@ -12,7 +12,7 @@ export default [
   ...AboutUsPage,
   ...TimelinePage,
   ...JoinUsPage,
-  // ...ContactPage,
+  ...ContactUsPage,
   ...SiteNavigation,
   ...LeadershipTeamSection,
   ...seasons,

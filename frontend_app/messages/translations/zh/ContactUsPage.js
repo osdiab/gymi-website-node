@@ -1,58 +1,59 @@
 export default [
   {
     id: 'ContactPage.splash.title',
-    defaultMessage: 'Contact Us',
+    defaultMessage: '联系我们',
   },
   {
     id: 'ContactPage.address.title',
-    defaultMessage: 'Columbia University GYMI Leadership Team',
+    defaultMessage: '哥伦比亚大学吉米公益组织领导团队',
   },
   {
     id: 'ContactPage.address.firstLine',
-    defaultMessage: '116th St & Broadway',
+    defaultMessage: '百老汇大道和第116街',
   },
   {
     id: 'ContactPage.address.secondLine',
-    defaultMessage: 'New York, NY 10027, United States',
+    defaultMessage: '美国纽约州 纽约市 10027',
   },
   {
     id: 'ContactPage.emails.general',
-    defaultMessage: 'General',
+    defaultMessage: '综合',
   },
   {
     id: 'ContactPage.emails.press',
-    defaultMessage: 'Press/Sponsor',
+    defaultMessage: '媒体/赞助',
   },
   {
     id: 'ContactPage.contactForm.title',
-    defaultMessage: 'Contact Form',
+    defaultMessage: '联系表格',
   },
   {
     id: 'ContactPage.contactForm.name',
-    defaultMessage: 'Name',
+    defaultMessage: '姓名',
   },
   {
     id: 'ContactPage.contactForm.email',
-    defaultMessage: 'Email',
+    defaultMessage: '邮箱',
   },
   {
     id: 'ContactPage.contactForm.occasion',
-    defaultMessage: 'Occasion',
+    defaultMessage: '主题',
   },
   {
     id: 'ContactPage.contactForm.generalInquiries',
-    defaultMessage: 'General Inquiries',
+    defaultMessage: '主题',
   },
   {
     id: 'ContactPage.contactForm.pressInformation',
-    defaultMessage: 'Press Information',
+    defaultMessage: '媒体信息',
   },
   {
     id: 'ContactPage.contactForm.message',
-    defaultMessage: 'Message',
+    defaultMessage: '消息内容',
   },
   {
     id: 'ContactPage.contactForm.send',
-    defaultMessage: 'Send',
+    defaultMessage: '发送',
   },
 ];
+
