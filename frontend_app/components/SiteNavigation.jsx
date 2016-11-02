@@ -20,6 +20,11 @@ const NAV_LINKS = [
     url: '/timeline',
     imageUrl: '/media/icons/documents.svg',
   },
+  {
+    id: 'joinUs',
+    url: '/joinUs',
+    imageUrl: '/media/icons/handshake.svg',
+  },
 ];
 
 export default function SiteNavigation() {
