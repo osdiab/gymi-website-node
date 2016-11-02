@@ -58,7 +58,7 @@ export default function PageSection({
 }
 
 PageSection.BACKGROUND_TINTS = [
-  'lightBlue', 'orange', 'lightGreen',
+  'lightBlue', 'orange', 'lightGreen', 'white',
 ];
 PageSection.propTypes = {
   children: PropTypes.node.isRequired,
