@@ -22,6 +22,7 @@ export default function AboutUsPage() {
           },
           tint: 'lightGreen',
         }}
+        whiteText
       >
         <div className="AboutUsPage--section--content">
           <h1><FormattedMessage {...aboutMessages.splash.title} /></h1>

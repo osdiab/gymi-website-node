@@ -32,7 +32,9 @@ export default function HomePage() {
 
       <PageSection
         className="HomePage--section HomePage--about"
-        background={{ media: { imageUrl: '/media/textures/blue_horizontal.jpg' } }}
+        background={{
+          media: { imageUrl: '/media/page_assets/home/shermin_with_kids.png' }, tint: 'white',
+        }}
       >
         <div className="HomePage--section--content">
           <h2><FormattedMessage {...homeMessages.about.title} /></h2>
@@ -52,11 +54,7 @@ export default function HomePage() {
               <h2><FormattedMessage {...homeMessages.whatWeDo.title} /></h2>
               <p><FormattedMessage {...homeMessages.whatWeDo.body} /></p>
             </section>
-            <img
-              src="/media/textures/blue_horizontal.jpg"
-              role="presentation"
-              className="HomePage--details--leftImage"
-            />
+            <div className="HomePage--details--leftImage" />
             <section>
               <h2><FormattedMessage {...homeMessages.whyWeDoThis.title} /></h2>
               <p><FormattedMessage {...homeMessages.whyWeDoThis.body} /></p>

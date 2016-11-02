@@ -8,20 +8,19 @@
   }
 }
 
+.HomePage--section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .PageSection--content {
+    width: 100%;
+  }
+}
+
 .HomePage--section--content {
   margin: 0 auto;
   max-width: 600px;
-  padding-top: 50px;
-}
-
-.HomePage--splash {
-  h1 {
-    font-size: 3em;
-  }
-
-  .PageSection--content {
-    padding: 0 50px;
-  }
+  padding-top: 100px;
 }
 
 .HomePage--details--content {
@@ -55,6 +54,11 @@
   width: 100%;
   margin-top: -15px;
   clip-path: polygon(0 0, 100% 20%, 100% 100%, 0 80%);
+  margin-bottom: 40px;
+  min-height: 450px;
+  background-image: url("/media/page_assets/home/happy_kid_cropped.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 .HomePage--joinUs--buttons {
