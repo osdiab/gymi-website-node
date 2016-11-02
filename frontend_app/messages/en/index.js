@@ -1,7 +1,7 @@
 import HomePage from './HomePage';
 import AboutUsPage from './AboutUsPage';
 import TimelinePage from './TimelinePage';
-import JoinPage from './JoinPage';
+import JoinUsPage from './JoinUsPage';
 import ContactPage from './ContactPage';
 import SiteNavigation from './SiteNavigation';
 import LeadershipTeamSection from './LeadershipTeamSection';
@@ -11,7 +11,7 @@ export default [
   ...HomePage,
   ...AboutUsPage,
   ...TimelinePage,
-  ...JoinPage,
+  ...JoinUsPage,
   ...ContactPage,
   ...SiteNavigation,
   ...LeadershipTeamSection,
