@@ -8,7 +8,7 @@ export default {
     const requiredFields = ['title'];
     if (_.isEmpty(req.body.title)) {
       throw new ApplicationError(
-        'Missing required field', 400, { missing: 'title', requiredFields }
+        'Missing required fields', 400, { missing: ['title'], requiredFields }
       );
     }
     topicsDb.create(req.body.title).then((result) => {
@@ -19,19 +19,20 @@ export default {
     }).catch(next);
   },
   destroy: (req, res, next) => {
+    const requiredFields = ['id'];
     const id = (req.params.id || req.body.id);
     if (_.isEmpty(id)) {
-      throw new ApplicationError('id is missing', 400);
+      throw new ApplicationError(
+        'Missing required fields', 400, { missing: ['id'], requiredFields }
+      );
     }
     topicsDb.destroy(id).then(() => {
       res.sendStatus(204);
     }).catch(next);
   },
   list: (req, res, next) => {
-    topicsDb.list().then((topics) => {
-      res.send({
-        data: topics,
-      });
-    }).catch(next);
+    topicsDb.list(!!req.query.showArchived).then(
+      topics => res.send({ data: topics })
+    ).catch(next);
   },
 };

@@ -20,9 +20,9 @@ const transporter = nodemailer.createTransport({
 
 export default {
   send: (req, res, next) => {
-    const requiredBody = ['reason', 'sender', 'message', 'name'];
-    if (_.compact(requiredBody.map(field => req.body[field])).length !== requiredBody.length) {
-      throw new ApplicationError('Missing field', 400, { requiredBody });
+    const requiredFields = ['reason', 'sender', 'message', 'name'];
+    if (_.compact(requiredFields.map(field => req.body[field])).length !== requiredFields.length) {
+      throw new ApplicationError('Missing required fields', 400, { requiredFields });
     }
 
     const { sender, reason, message, name } = req.body;

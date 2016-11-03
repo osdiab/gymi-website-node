@@ -9,7 +9,9 @@ export default {
     const userId = req.params.userId;
 
     if (_.isEmpty(userId)) {
-      throw new ApplicationError('Missing id field', 400, { requiredFields });
+      throw new ApplicationError(
+        'Missing required fields', 400, { missing: ['id'], requiredFields }
+      );
     }
 
     interestsDb.list(userId).then((interests) => {
@@ -24,7 +26,7 @@ export default {
     const values = req.body;
 
     if (_.compact(_.values(values)).length !== requiredFields.length) {
-      throw new ApplicationError('Missing field', 400, { requiredFields });
+      throw new ApplicationError('Missing required fields', 400, { requiredFields });
     }
 
     const dbFunc = req.body.primary ? interestsDb.add : interestsDb.updatePrimary;
@@ -41,7 +43,7 @@ export default {
     const values = req.body;
 
     if (_.compact(_.values(values)).length !== requiredFields.length) {
-      throw new ApplicationError('Missing field', 400, { requiredFields });
+      throw new ApplicationError('Missing required fields', 400, { requiredFields });
     }
 
     interestsDb.remove(values.userId, values.topicId).then(() => {

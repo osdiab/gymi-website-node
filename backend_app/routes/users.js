@@ -25,35 +25,26 @@ export default {
   find: NOT_YET_IMPLEMENTED,
   setInterests: NOT_YET_IMPLEMENTED,
   create: (req, res, next) => {
-    const { username, password, name, role } = req.body;
-    if ([username, password, name, role].includes(undefined)) {
-      res.status(400).send({
-        message: 'Field is missing',
-        data: { requiredFields: ['username', 'password', 'name', 'role'] },
+    const requiredFields = ['username', 'password', 'name', 'role'];
+    const values = _.pick(req.body, requiredFields);
+    const { username, password, name, role } = values;
+    if (_.omitBy(values, _.isEmpty).length > 0) {
+      throw new ApplicationError('Missing required fields', 400, {
+        requiredFields,
       });
-      return;
-    }
-
-    if ([username, password, name, role].map(val => val.length).includes(0)) {
-      res.status(400).send({
-        message: 'Field is empty',
-        data: { requiredFields: ['username', 'password', 'name', 'role'] },
-      });
-      return;
     }
 
     const passwordValidation = validatePassword(req.body.password);
     if (!passwordValidation.valid) {
-      res.status(400).send({ message: passwordValidation.message });
-      return;
+      throw new ApplicationError('Invalid password', 400, {
+        message: passwordValidation.message,
+      });
     }
 
     if (!VALID_ROLES.includes(role)) {
-      res.status(400).send({
-        message: 'Invalid role',
-        data: { validRoles: VALID_ROLES },
+      throw new ApplicationError('Invalid role', 400, {
+        validRoles: VALID_ROLES,
       });
-      return;
     }
 
     // Only admins can create non-admin accounts

@@ -8,16 +8,20 @@ import submissionsDb from '../db/submissions';
 export default {
   list: (req, res, next) => {
     const validFilters = ['userId', 'after'];
-    const filters = _.pick(req.params, validFilters);
-    if (filters.includes('')) {
-      throw new ApplicationError('Filter cannot be empty', 400);
-    }
+    const filters = _.omitBy(_.pick(req.params, validFilters), _.isEmpty);
 
     if (filters.after) {
       filters.after = moment(filters.after);
       if (!filters.after.isValid()) {
         throw new ApplicationError('After is not a valid date');
       }
+    }
+
+    if (filters.userId) {
+      if (isNaN(filters.userId)) {
+        throw new ApplicationError('userId is not an integer');
+      }
+      filters.userId = parseInt(filters.userId, 10);
     }
 
     const { getPrimaryInterests } = req.params;
@@ -40,16 +44,16 @@ export default {
     const requiredFields = ['userId', 'answers'];
     const values = _.pick(req.body, requiredFields);
     if (_.compact(_.values(values)).length !== requiredFields.length) {
-      throw new ApplicationError('Missing fields', 400, { requiredFields });
+      throw new ApplicationError('Missing required fields', 400, { requiredFields });
     }
 
     values.answers.forEach((a) => {
-      if (!a.questionId) {
-        throw new ApplicationError('Answer missing question ID', 400, {
+      if (_.isEmpty(a.questionId)) {
+        throw new ApplicationError('Answer missing questionId', 400, {
           answer: a,
         });
       }
-      if (!a.body) {
+      if (_.isEmpty(a.body)) {
         throw new ApplicationError('Answer missing body', 400, {
           answer: a,
         });

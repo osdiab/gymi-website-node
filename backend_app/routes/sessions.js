@@ -9,12 +9,17 @@ const TOKEN_SECRET = 'super secret'; // TODO: make this an env variable
 
 export default {
   authenticate: (req, res, next) => {
+    const requiredFields = ['username', 'password'];
     const userIdentifier = req.body.username;
     if (!userIdentifier) {
-      throw new ApplicationError('Missing username', 400);
+      throw new ApplicationError('Missing required fields', 400, {
+        requiredFields, missing: ['username'],
+      });
     }
     if (!req.body.password) {
-      throw new ApplicationError('Missing password', 400);
+      throw new ApplicationError('Missing required fields', 400, {
+        requiredFields, missing: ['password'],
+      });
     }
 
     // Security note: from this point on, do not reveal whether the user exists or a password is
@@ -75,14 +80,24 @@ export default {
   },
 
   setCredentials: (req, res) => {
+    const requiredFields = ['id', 'newPassword'];
+    if (!req.params.id) {
+      throw new ApplicationError('Missing required fields', 400, {
+        requiredFields, missing: ['id'],
+      });
+    }
+
+    if (!req.body.password) {
+      throw new ApplicationError('Missing required fields', 400, {
+        requiredFields, missing: ['password'],
+      });
+    }
+
     if (isNaN(req.params.id)) {
       throw new ApplicationError('Invalid user id', 400);
     }
     const userId = parseInt(req.params.id, 10);
     const tokenUserId = res.locals.authData.id;
-    if (!req.body.password) {
-      throw new ApplicationError('Missing new password', 400);
-    }
 
     if (userId !== tokenUserId) {
       throw new ApplicationError(401);
@@ -95,7 +110,7 @@ export default {
 
     hashPassword(req.body.password).then(
       hash => usersDb.setPassword(userId, hash)
-    ).then(() => res.sendStatus(200));
+    ).then(() => res.sendStatus(204));
   },
 
   assertRole: assertedRoles => (req, res, next) => {
