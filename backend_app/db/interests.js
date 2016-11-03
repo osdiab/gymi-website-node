@@ -6,9 +6,21 @@ const list = userId => new Promise((resolve, reject) => {
   db.manyOrNone(query, { columns }).then(resolve).catch(reject);
 });
 
+const getPrimaryForUsers = userIds => new Promise((resolve, reject) =>
+  db.manyOrNone(
+    `SELECT user_id, topic_id
+    FROM primary_user_interests
+    INNER_JOIN topics ON topic_id = topic.id
+    WHERE user_id IN $<userIds:csv>`,
+    { userIds },
+  ).then(resolve).catch(reject)
+);
+
 const add = (userId, topicId) => new Promise((resolve, reject) =>
   db.oneOrNone(
-    'INSERT INTO user_interests (topic_id, user_id) VALUES ($<topicId>, $<userId> ON CONFLICT DO NOTHING',
+    `INSERT INTO user_interests (topic_id, user_id)
+    VALUES ($<topicId>, $<userId>)
+    ON CONFLICT DO NOTHING`,
     { userId, topicId },
   ).then(resolve).catch(reject)
 );
@@ -32,4 +44,5 @@ export default {
   add,
   remove,
   updatePrimary,
+  getPrimaryForUsers,
 };

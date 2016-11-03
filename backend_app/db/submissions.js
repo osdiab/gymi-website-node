@@ -55,7 +55,7 @@ const create = (userId, answers) => new Promise((resolve, reject) => {
       const answersQuery = pgPromise.helpers.insert(
         answers.map(a => Object.assign({}, a, { submission_id: id })), answersCols
       );
-      return tx.none(answersQuery);
+      return tx.none(answersQuery).then(() => id);
     })
   ).then(resolve).catch(reject);
 });
