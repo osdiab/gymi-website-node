@@ -36,7 +36,7 @@ const SESSIONS = [
 
 const CAROUSEL_SETTINGS = {
   autoplay: true,
-  autoplayInterval: 10000,
+  autoplayInterval: 5000,
   wrapAround: true,
 };
 
