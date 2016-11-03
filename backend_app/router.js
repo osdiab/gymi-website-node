@@ -7,6 +7,7 @@ import path from 'path';
 import { ApplicationError } from './errors';
 import users from './routes/users';
 import interests from './routes/interests';
+import topics from './routes/topics';
 import sessions from './routes/sessions';
 import submissions from './routes/submissions';
 import submissionQuestions from './routes/submissionQuestions';
@@ -58,22 +59,33 @@ export default function createRouter() {
   router.post('/api/users', sessions.populate, users.create);
   // sets a user's password
   router.patch('/api/users/:id/credentials', sessions.verify, sessions.setCredentials);
+
+  /*
+   * interests endpoints
+   */
   router.get('/api/users/:user_id/interests', sessions.verify, interests.list);
-  router.put('/api/users/:id/interests', sessions.verify, users.setInterests);
+  router.post('/api/users/:id/interests', sessions.verify, interests.add);
+  router.delete('/api/users/:id/interests', sessions.verify, interests.remove);
 
   /*
    * submissions endpoints
    */
-  // lists submissions
   router.get('/api/submissions', sessions.verify, submissions.list);
-  // posts a submission
-  router.post('/api/submissions', sessions.verify, submissions.post);
+  router.post('/api/submissions', sessions.verify, submissions.create);
 
   /*
-   * admin endpoints
+   * topics endpoints
    */
-  router.put('/api/interests', sessions.verify, sessions.assertRole('admin'), interests.create);
-  router.delete('/api/interests', sessions.verify, sessions.assertRole('admin'), interests.destroy);
+  router.get('/api/topics', sessions.verify, topics.list);
+  router.put('/api/topics', sessions.verify, sessions.assertRole('admin'), topics.create);
+  router.delete('/api/topics', sessions.verify, sessions.assertRole('admin'), topics.destroy);
+
+  /*
+   * submission questions endpoints
+   */
+  router.get(
+    '/api/submissionQuestions', sessions.verify, submissionQuestions.list,
+  );
   router.put(
     '/api/submissionQuestions', sessions.verify, sessions.assertRole('admin'),
     submissionQuestions.create,
