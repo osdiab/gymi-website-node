@@ -18,6 +18,7 @@ exports.up = function(db, callback) {
   db.createTable('topics', {
     id: { type: 'int', primaryKey: true, autoIncrement: true, notNull: true },
     title: { type: 'string', unique: true, notNull: true },
+    archived: { type: 'boolean', defaultValue: false },
   }, callback);
 };
 
