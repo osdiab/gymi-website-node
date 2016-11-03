@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import Button from '../../Button';
 import ChevronPage from '../ChevronPage';
 import messages from '../../../messages';
 import PageSection from '../PageSection';
@@ -13,28 +14,37 @@ const SECTIONS = [
   {
     id: 'becomeAMentor',
     questions: ['where', 'requirements', 'sessionCoordinators', 'faq'],
-    buttonUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSeE1W4ZM6T8qCypmxCNI6Bo7lUMJzPHXj_Se0kBIplq3nIXoA/viewform?c=0&w=1',
+    btn: 'https://docs.google.com/forms/d/e/1FAIpQLSeE1W4ZM6T8qCypmxCNI6Bo7lUMJzPHXj_Se0kBIplq3nIXoA/viewform?c=0&w=1',
     color: 'salmon',
   },
   {
     id: 'joinTheGymiTeam',
     questions: ['availablePositions', 'requirements'],
-    buttonUrl: '/contactUs',
+    btn: '/contactUs',
     color: 'purple',
   },
   {
     id: 'makeADonation',
-    buttonUrl: 'https://www.paypal.com/donate/?token=utLA_vrF2l3R74XC7tkgAW1czfs8JN2LYgldjA0FayZMcKqT7FXAAvvjyBOClYSPymEdZ0',
+    btn: (
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+        <input type="hidden" name="cmd" value="_s-xclick" />
+        <input type="hidden" name="hosted_button_id" value="ZL6RVZAW2JVU4" />
+        <Button
+          className="JoinUsPage--QuestionSection--Button-btn"
+          action="submit"
+        >Donate</Button>
+      </form>
+    ),
     color: 'green',
   },
   {
     id: 'becomeASponsor',
-    buttonUrl: '/contactUs',
+    btn: '/contactUs',
     color: 'blue',
   },
   {
     id: 'becomeAnAdvisor',
-    buttonUrl: '/contactUs',
+    btn: '/contactUs',
     color: 'yellow',
   },
 ];

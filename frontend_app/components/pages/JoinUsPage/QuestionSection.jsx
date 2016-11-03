@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
+import _ from 'lodash';
 
 import Button from '../../Button';
 import messages from '../../../messages';
@@ -16,7 +17,7 @@ export default class QuestionSection extends React.Component {
   }
 
   render() {
-    const { id, questions, buttonUrl, color } = this.props;
+    const { id, questions, btn, color } = this.props;
     const { currentQuestion } = this.state;
 
     return (
@@ -42,9 +43,16 @@ export default class QuestionSection extends React.Component {
           <article className="JoinUsPage--QuestionSection--response">
             <FormattedHTMLMessage {...joinMessages[id][currentQuestion].description} />
           </article>
-          <Button className="JoinUsPage--QuestionSection--Button" action={{ href: buttonUrl }}>
-            <FormattedMessage {...joinMessages[id].button} />
-          </Button>
+          <div className="JoinUsPage--QuestionSection--Button--container">
+            { _.isString(btn) ? (
+              <Button
+                className="JoinUsPage--QuestionSection--Button--btn"
+                action={{ href: btn }}
+              >
+                <FormattedMessage {...joinMessages[id].button} />
+              </Button>
+            ) : btn }
+          </div>
         </div>
       </section>
     );
@@ -60,7 +68,7 @@ const COLORS = [
 ];
 QuestionSection.propTypes = {
   id: PropTypes.string.isRequired,
-  buttonUrl: PropTypes.string.isRequired,
+  btn: PropTypes.oneOfType([PropTypes.node, PropTypes.string]).isRequired,
   questions: PropTypes.arrayOf(PropTypes.string),
   color: PropTypes.oneOf(COLORS),
 };
