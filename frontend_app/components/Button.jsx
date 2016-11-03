@@ -14,10 +14,23 @@ export default function Button({
   disabled = false,
   style = {},
 }) {
-  const actionIsFunc = _.isFunction(action);
-  const linkIsInternal = action.href && !(/^(?:[a-z]+:)?\/\//.test(action.href));
-  const linkType = linkIsInternal ? Link : 'a';
-  const ElemType = actionIsFunc ? 'button' : linkType;
+  let ElemType = null;
+  let actionAttributes = null;
+  if (_.isFunction(action)) {
+    ElemType = 'button';
+    actionAttributes = { onClick: action, type: 'button' };
+  } else if (_.isString(action)) {
+    ElemType = 'button';
+    actionAttributes = { type: action };
+  } else {
+    const linkIsInternal = action.href && !(/^(?:[a-z]+:)?\/\//.test(action.href));
+    ElemType = linkIsInternal ? Link : 'a';
+    actionAttributes = {
+      to: (linkIsInternal ? action.href : null),
+      href: (linkIsInternal ? null : action.href),
+      target: action.target || null,
+    };
+  }
 
   const finalClassName = classnames(
     className,
@@ -25,13 +38,6 @@ export default function Button({
     `Button--${size}`,
     `Button--${type}`,
   );
-  const actionAttributes = actionIsFunc ? {
-    onClick: action,
-  } : {
-    to: (linkIsInternal ? action.href : null),
-    href: (linkIsInternal ? null : action.href),
-    target: action.target || null,
-  };
 
   return (
     <ElemType
@@ -58,6 +64,7 @@ Button.propTypes = {
       href: PropTypes.string.isRequired,
       target: PropTypes.oneOf(['_self', '_blank']),
     }),
+    PropTypes.oneOf(['submit', 'reset', 'button', 'menu']),
   ]),
   type: PropTypes.oneOf(Button.TYPES),
   size: PropTypes.oneOf(Button.SIZES),
