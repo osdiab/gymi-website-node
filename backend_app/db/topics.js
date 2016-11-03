@@ -1,8 +1,9 @@
 import db from './';
 
-const list = () => new Promise((resolve, reject) => {
+const list = (showArchived = false) => new Promise((resolve, reject) => {
   const columns = ['id', 'title'];
-  const query = 'SELECT $<columns:name> FROM topics';
+  const clause = showArchived ? '' : 'WHERE archived = false';
+  const query = `SELECT $<columns:name> FROM topics ${clause}`;
   db.manyOrNone(query, { columns }).then(resolve).catch(reject);
 });
 
