@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import nodemailer from 'nodemailer';
-import isEmail from 'isemail';
+import emailValidator from 'email-validator';
 
 import { ApplicationError } from '../errors';
 
@@ -26,7 +26,7 @@ export default {
     }
 
     const { sender, reason, message, name } = req.body;
-    if (!isEmail.validate(sender)) {
+    if (!emailValidator.validate(sender)) {
       throw new ApplicationError('Invalid email', 400);
     }
 
