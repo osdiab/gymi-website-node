@@ -42,7 +42,14 @@ exports.up = function(db, callback) {
         mapping: 'id'
       },
     },
-  }, callback);
+  }, (err) => {
+    if (err) {
+      callback(err);
+      return;
+    }
+
+    db.addIndex('user_interests', 'user_interests_uniq', ['user_id', 'topic_id'], callback);
+  });
 };
 
 exports.down = function(db, callback) {
