@@ -44,6 +44,7 @@
     "less": "^2.6.1",
     "less-loader": "^2.2.3",
     "lodash": "^4.16.4",
+    "moment": "^2.15.2",
     "node-fetch": "^1.5.3",
     "nodemailer": "^2.6.4",
     "nuka-carousel": "^2.0.3",
