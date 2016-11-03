@@ -2,7 +2,8 @@
 import React, { PropTypes } from 'react';
 import { IntlProvider } from 'react-intl';
 import { connect } from 'react-redux';
-import { IndexRoute, Router, Route, browserHistory } from 'react-router';
+import { IndexRoute, Router, Route, browserHistory, applyRouterMiddleware } from 'react-router';
+import { useScroll } from 'react-router-scroll';
 
 import { translations } from '../messages';
 import SiteLayout from './SiteLayout';
@@ -22,7 +23,10 @@ export function GymiWebsiteView({ currentLanguage, defaultLanguage }) {
       messages={translations[currentLanguage.localeCode]}
       defaultLocale={defaultLanguage.localeCode}
     >
-      <Router history={browserHistory}>
+      <Router
+        history={browserHistory}
+        render={applyRouterMiddleware(useScroll())}
+      >
         <Route path="/" component={SiteLayout}>
           <IndexRoute component={HomePage} />
           <Route path="aboutUs" component={AboutUsPage} />
