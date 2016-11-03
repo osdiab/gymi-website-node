@@ -53,6 +53,7 @@
     "pg-promise": "^5.3.5",
     "react": "^15.3.2",
     "react-dom": "^15.0.1",
+    "react-images": "^0.5.1",
     "react-intl": "^2.1.5",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
