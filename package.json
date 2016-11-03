@@ -38,6 +38,7 @@
     "detect-browser": "^1.5.0",
     "email-validator": "^1.0.7",
     "express": "^4.13.4",
+    "express-force-ssl": "^0.3.2",
     "file-loader": "^0.9.0",
     "jsdom-global": "^2.0.0",
     "jsonwebtoken": "^7.1.9",
