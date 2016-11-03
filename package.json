@@ -28,7 +28,7 @@
     "babel-preset-node6": "^11.0.0",
     "babel-preset-react": "^6.5.0",
     "babel-register": "^6.7.2",
-    "bcrypt": "^0.8.7",
+    "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.2",
     "browser-locale": "^1.0.0",
     "classnames": "^2.2.5",

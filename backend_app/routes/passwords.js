@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const BCRYPT_ROUNDS = 10;
 const MIN_PASSWORD_LENGTH = 5;
