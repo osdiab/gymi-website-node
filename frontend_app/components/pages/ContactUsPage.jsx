@@ -1,3 +1,4 @@
+// TODO: convert alerts into internationalized messages in UI
 import 'whatwg-fetch';
 import emailValidator from 'email-validator';
 import _ from 'lodash';
@@ -17,6 +18,10 @@ export default class ContactUsPage extends React.Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.state = {
+      sent: false,
+      sendTriggered: false,
+    };
   }
   onSubmit(e) {
     e.preventDefault();
@@ -36,6 +41,9 @@ export default class ContactUsPage extends React.Component {
       alert('Please enter a valid email address.');
     }
 
+    this.setState({
+      sendTriggered: true,
+    });
     fetch('/api/emails', {
       method: 'POST',
       headers: {
@@ -45,6 +53,16 @@ export default class ContactUsPage extends React.Component {
       body: JSON.stringify({
         name, message, reason, sender,
       }),
+    }).then(() => {
+      this.setState({
+        sent: true,
+      });
+    }).catch(() => {
+      this.setState({
+        sendTriggered: false,
+        sent: false,
+      });
+      alert('Oh no! Something went wrong. Please email us at the addresses above.');
     });
   }
   render() {
@@ -146,8 +164,10 @@ export default class ContactUsPage extends React.Component {
                   maxLength="1000"
                 />
               </div>
-              <Button action="submit">
-                <FormattedMessage {...contactMessages.contactForm.send} />
+              <Button action="submit" disabled={this.state.sendTriggered}>
+                <FormattedMessage
+                  {...contactMessages.contactForm[this.state.sent ? 'sent' : 'send']}
+                />
               </Button>
             </form>
           </div>

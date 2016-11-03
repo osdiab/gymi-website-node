@@ -55,5 +55,9 @@ export default [
     id: 'ContactUsPage.contactForm.send',
     defaultMessage: '发送',
   },
+  {
+    id: 'ContactUsPage.contactForm.sent',
+    defaultMessage: '发送了',
+  },
 ];
 

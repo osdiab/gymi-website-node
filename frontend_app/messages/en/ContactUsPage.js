@@ -55,4 +55,8 @@ export default [
     id: 'ContactUsPage.contactForm.send',
     defaultMessage: 'Send',
   },
+  {
+    id: 'ContactUsPage.contactForm.sent',
+    defaultMessage: 'Sent!',
+  },
 ];
