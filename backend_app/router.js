@@ -10,6 +10,7 @@ import interests from './routes/interests';
 import sessions from './routes/sessions';
 import submissions from './routes/submissions';
 import submissionQuestions from './routes/submissionQuestions';
+import emails from './routes/emails';
 
 export default function createRouter() {
   const router = express.Router(); // eslint-disable-line new-cap
@@ -41,6 +42,11 @@ export default function createRouter() {
   /**
    * API Endpoints
    */
+
+  /*
+   * send inquiry/press email
+   */
+  router.post('/api/emails', emails.send);
 
   /*
    * users endpoints
