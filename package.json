@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "description": "Global Youth Mentorship Initiative (GYMI) website",
   "scripts": {
-    "dev-server": "babel-node dev_server.js"
+    "dev-server": "nodemon dev_server.js --exec babel-node",
+    "build": "webpack",
+    "start": "webpack && node build/backend.bundle.js"
   },
   "repository": {
     "type": "git",
@@ -72,6 +74,7 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1",
     "ignore-styles": "^5.0.1",
+    "nodemon": "^1.11.0",
     "postcss-loader": "^1.0.0",
     "react-addons-test-utils": "^15.3.2",
     "webpack-dev-middleware": "^1.6.1",
