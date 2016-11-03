@@ -77,7 +77,7 @@ export default function createRouter() {
    * topics endpoints
    */
   router.get('/api/topics', sessions.verify, topics.list);
-  router.put('/api/topics', sessions.verify, sessions.assertRole('admin'), topics.create);
+  router.post('/api/topics', sessions.verify, sessions.assertRole('admin'), topics.create);
   router.delete('/api/topics', sessions.verify, sessions.assertRole('admin'), topics.destroy);
 
   /*
@@ -86,7 +86,7 @@ export default function createRouter() {
   router.get(
     '/api/submissionQuestions', sessions.verify, submissionQuestions.list,
   );
-  router.put(
+  router.post(
     '/api/submissionQuestions', sessions.verify, sessions.assertRole('admin'),
     submissionQuestions.create,
   );
