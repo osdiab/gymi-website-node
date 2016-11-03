@@ -10,6 +10,7 @@ import HomePage from './pages/HomePage';
 import AboutUsPage from './pages/AboutUsPage';
 import TimelinePage from './pages/TimelinePage';
 import JoinUsPage from './pages/JoinUsPage';
+import ContactUsPage from './pages/ContactUsPage';
 
 export function GymiWebsiteView({ currentLanguage, defaultLanguage }) {
   // NOTE: need key on IntlProvider to trigger page rerender
@@ -27,6 +28,7 @@ export function GymiWebsiteView({ currentLanguage, defaultLanguage }) {
           <Route path="aboutUs" component={AboutUsPage} />
           <Route path="timeline" component={TimelinePage} />
           <Route path="joinUs" component={JoinUsPage} />
+          <Route path="contactUs" component={ContactUsPage} />
         </Route>
       </Router>
     </IntlProvider>

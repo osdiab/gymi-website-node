@@ -1,0 +1,77 @@
+@import '../colors';
+@import '../fonts';
+
+// to get the 2-column background looking right, screw around with padding.
+// TODO: clean up by adding to PageSection
+.ContactUsPage--splash {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 500px;
+}
+
+.ContactUsPage--details {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.ContactUsPage--details--content {
+  display: flex;
+}
+
+.ContactUsPage--details--map, .ContactUsPage--details--contact {
+  flex: 1;
+}
+
+.ContactUsPage--details--map {
+  background-image: url('/media/page_assets/contact/columbia_map.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.ContactUsPage--details--contact {
+  padding-top: 200px;
+  padding-bottom: 125px;
+}
+
+.ContactUsPage--section--content {
+  padding-top: 50px;
+}
+
+.ContactUsPage--details--contact--emails--prompt {
+  padding-right: 10px;
+}
+
+.ContactUsPage--contactForm--row {
+  padding: 10px 0;
+}
+
+.ContactUsPage--contactForm {
+  label {
+    padding: 0 10px;
+  }
+  input[type=text] {
+    border: 0;
+    border-bottom: 1px solid @medium-grey;
+    padding: 5px;
+
+    &:focus {
+      border-bottom: 1px solid @logo-salmon;
+    }
+  }
+
+  label[for=ContactUsPage--contactForm--message] {
+    display: block;
+    padding: 10px;
+    font-weight: bold;
+    font-family: @ubuntu;
+  }
+  legend {
+    font-weight: bold;
+    font-family: @ubuntu;
+  }
+
+  fieldset {
+    border: none;
+  }
+}

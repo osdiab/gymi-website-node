@@ -25,6 +25,11 @@ const NAV_LINKS = [
     url: '/joinUs',
     imageUrl: '/media/icons/handshake.svg',
   },
+  {
+    id: 'contactUs',
+    url: '/contactUs',
+    imageUrl: '/media/icons/phone.svg',
+  },
 ];
 
 export default function SiteNavigation() {
