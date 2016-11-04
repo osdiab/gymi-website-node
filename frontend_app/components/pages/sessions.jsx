@@ -123,7 +123,7 @@ export function Summer2015Page() {
       },
     ]}
     imageGallery={[
-      '/media/page_assets/summer_2015/other_photos/00.png',
+      '/media/page_assets/summer_2015/other_photos/00.jpg',
       '/media/page_assets/summer_2015/other_photos/01.jpg',
       '/media/page_assets/summer_2015/other_photos/02.jpg',
       '/media/page_assets/summer_2015/other_photos/03.jpg',
