@@ -47,7 +47,7 @@ module.exports = [
             plugins: [
               'transform-object-assign',
             ],
-          }
+          },
         },
       ],
     },
@@ -101,7 +101,7 @@ module.exports = [
             plugins: [
               'transform-object-assign',
             ],
-          }
+          },
         },
       ],
     },
