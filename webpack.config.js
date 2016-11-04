@@ -32,16 +32,14 @@ module.exports = [
         },
         {
           test: /\.(css|less)$/i,
-          loader: ExtractTextPlugin.extract(
-            'style-loader', 'css-loader!postcss-loader!less-loader'
-          ),
+          loader: 'style-loader!css-loader!postcss-loader!less-loader',
         },
         {
           test: /\.jsx?$/,
           exclude: /node_modules/,
           loader: 'babel',
-          babelrc: false,
           query: {
+            babelrc: false,
             presets: ['es2015', 'react'],
           },
         },
@@ -49,7 +47,6 @@ module.exports = [
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
-      new ExtractTextPlugin('styles.css'),
     ],
     postcss: [autoprefixer({ browsers: ['> 5% in CN', '> 5% in US', 'last 2 versions', 'ie >= 9'] })],
   },
@@ -90,15 +87,15 @@ module.exports = [
           test: /\.jsx?$/,
           exclude: /node_modules/,
           loader: 'babel',
-          babelrc: false,
           query: {
+            babelrc: false,
             presets: ['node6', 'react'],
           },
         },
       ],
     },
     plugins: [
-      new ExtractTextPlugin('styles.css'),
+      new ExtractTextPlugin(path.join('..', 'public', 'stylesheets', 'bundle.css')),
     ],
     postcss: [autoprefixer({ browsers: ['> 5% in CN', '> 5% in US', 'last 2 versions', 'ie >= 9'] })],
   },
