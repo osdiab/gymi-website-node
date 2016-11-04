@@ -10,6 +10,18 @@ import { findSupportedLanguage } from '../frontend_app/reducers/language';
 import Routes from '../frontend_app/components/Routes';
 import { translations } from '../frontend_app/messages';
 
+const googleAnalyticsCode = `
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-86896275-1', 'auto');
+  ga('send', 'pageview');
+
+</script>`;
+
 function renderFullPage(html, preloadedState) {
   return `
 <!DOCTYPE html>
@@ -26,6 +38,7 @@ function renderFullPage(html, preloadedState) {
       window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState)}
     </script>
     <script src="/bundle.js" type="text/javascript" charset="utf-8"></script>
+    ${googleAnalyticsCode}
   </body>
 </html>`;
 }
