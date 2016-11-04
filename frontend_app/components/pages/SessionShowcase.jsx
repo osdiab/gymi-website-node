@@ -11,7 +11,7 @@ import messages from '../../messages';
 require('./SessionShowcase.less');
 
 export default function SessionShowcase({
-  messagesId, season, year, imageDetails, imageGallery, backgroundImageUrl,
+  messagesId, season, year, imageDetails, imageGallery, backgroundImageUrl, backgroundTint,
 }) {
   return (
     <ChevronPage className={`SessionShowcase--${messagesId}`}>
@@ -19,6 +19,7 @@ export default function SessionShowcase({
         className="SessionShowcase--section SessionShowcase--splash"
         background={{
           media: { imageUrl: backgroundImageUrl },
+          tint: backgroundTint,
         }}
         whiteText
       >
@@ -84,4 +85,5 @@ SessionShowcase.propTypes = {
   })).isRequired,
   imageGallery: PropTypes.arrayOf(PropTypes.shape({ original: PropTypes.string })),
   backgroundImageUrl: PropTypes.string.isRequired,
+  backgroundTint: PropTypes.string,
 };

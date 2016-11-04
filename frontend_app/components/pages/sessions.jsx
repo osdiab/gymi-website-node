@@ -42,6 +42,7 @@ export function Summer2013Page() {
       '/media/page_assets/summer_2013/other_photos/009.jpg',
     ].map(i => ({ original: i, thumbnail: i }))}
     backgroundImageUrl="/media/page_assets/summer_2013/teamwork.png"
+    backgroundTint="orange"
   />);
 }
 
@@ -84,6 +85,7 @@ export function Summer2014Page() {
       '/media/page_assets/summer_2014/other_photos/08.jpg',
     ].map(i => ({ original: i, thumbnail: i, height: 600 }))}
     backgroundImageUrl="/media/page_assets/summer_2014/main.jpg"
+    backgroundTint="lightBlue"
   />);
 }
 
@@ -134,5 +136,6 @@ export function Summer2015Page() {
       '/media/page_assets/summer_2015/other_photos/08.jpg',
     ].map(i => ({ original: i, thumbnail: i }))}
     backgroundImageUrl="/media/page_assets/summer_2015/main.jpg"
+    backgroundTint="lightGreen"
   />);
 }
