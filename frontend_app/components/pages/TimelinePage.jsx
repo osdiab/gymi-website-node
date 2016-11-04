@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage, FormattedDate } from 'react-intl';
 import ImageGallery from 'react-image-gallery';
+import 'react-image-gallery/styles/css/image-gallery.css';
 
 import Button from '../Button';
 import ChevronPage from './ChevronPage';

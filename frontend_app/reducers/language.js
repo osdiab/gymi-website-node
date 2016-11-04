@@ -2,7 +2,11 @@
 // Note: reducers MUST not have side effects, so don't update the state; return a new one.
 // The default value is this store's initial values.
 
-import browserLocale from 'browser-locale';
+let browserLocale = require('browser-locale');
+
+if (!(typeof window !== 'undefined' && window.document)) {
+  browserLocale = () => 'en';
+}
 
 export function getValidLanguages() {
   return [
@@ -22,10 +26,11 @@ export function getDefaultLanguage() {
 }
 
 export function findSupportedLanguage(localeCode, validLanguages) {
-  return validLanguages.find((entry) => localeCode.startsWith(entry.localeCode));
+  return validLanguages.find(entry => localeCode.startsWith(entry.localeCode));
 }
 
 function fetchStoredLanguage() {
+  if (!(typeof window !== 'undefined' && window.document)) return undefined;
   const storedLanguage = localStorage.getItem('state.language.currentLanguage');
   if (!storedLanguage) {
     return undefined;
@@ -34,6 +39,7 @@ function fetchStoredLanguage() {
 }
 
 function persistCurrentLanguage(lang) {
+  if (!(typeof window !== 'undefined' && window.document)) return undefined;
   return localStorage.setItem('state.language.currentLanguage',
                               JSON.stringify(lang));
 }

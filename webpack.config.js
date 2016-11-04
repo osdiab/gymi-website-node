@@ -5,6 +5,7 @@ const path = require('path');
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = [
   {
@@ -30,23 +31,16 @@ module.exports = [
           loader: 'url',
         },
         {
-          test: /\.css$/,
-          loaders: ['style', 'css'],
-        },
-        {
-          test: /\.less$/,
-          loader: 'style!css!postcss!less',
+          test: /\.(css|less)$/i,
+          loader: 'style-loader!css-loader!postcss-loader!less-loader',
         },
         {
           test: /\.jsx?$/,
           exclude: /node_modules/,
           loader: 'babel',
-          babelrc: false,
           query: {
+            babelrc: false,
             presets: ['es2015', 'react'],
-            plugins: [
-              'transform-object-assign',
-            ],
           },
         },
       ],
@@ -84,28 +78,24 @@ module.exports = [
           loader: 'url',
         },
         {
-          test: /\.css$/,
-          loaders: ['style', 'css'],
-        },
-        {
-          test: /\.less$/,
-          loader: 'style!css!postcss!less',
+          test: /\.(css|less)$/i,
+          loader: ExtractTextPlugin.extract(
+            'style-loader', 'css-loader!postcss-loader!less-loader'
+          ),
         },
         {
           test: /\.jsx?$/,
           exclude: /node_modules/,
           loader: 'babel',
-          babelrc: false,
           query: {
+            babelrc: false,
             presets: ['node6', 'react'],
-            plugins: [
-              'transform-object-assign',
-            ],
           },
         },
       ],
     },
     plugins: [
+      new ExtractTextPlugin(path.join('..', 'public', 'stylesheets', 'bundle.css')),
     ],
     postcss: [autoprefixer({ browsers: ['> 5% in CN', '> 5% in US', 'last 2 versions', 'ie >= 9'] })],
   },
