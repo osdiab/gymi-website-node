@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import SiteNavigation from './SiteNavigation';
+import Footer from './Footer';
 
 require('./SiteLayout.less');
 
@@ -9,9 +10,10 @@ export default function SiteLayout({ children }) {
     <div className="SiteLayout">
       <SiteNavigation />
       <div className="SiteLayout--wrapper">
-        <div className="SiteLayout--content">
+        <main className="SiteLayout--content">
           {children}
-        </div>
+        </main>
+        <Footer />
       </div>
     </div>
   );

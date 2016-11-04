@@ -18,7 +18,7 @@ function renderFullPage(html, preloadedState) {
     <link rel="stylesheet" type="text/css" href="/stylesheets/general.css" />
     <link rel="stylesheet" type="text/css" href="/stylesheets/bundle.css" />
     <link rel="shortcut icon" type="image/png" href="/media/favicon.png"/>
-    <link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,400i|Ubuntu:500,300italic' rel='stylesheet' type='text/css'/>
+    <link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,400i|Ubuntu:400,400i,500' rel='stylesheet' type='text/css'/>
   </head>
   <body>
     <div id="gymi-app-container">${html}</div>
