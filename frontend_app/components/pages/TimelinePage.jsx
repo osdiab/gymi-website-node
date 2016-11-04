@@ -113,7 +113,7 @@ export default function TimelinePage() {
               <Button
                 className="TimelinePage--timelineLink--button"
                 action={{
-                  href: `/timeline/${period}_${year}`,
+                  href: `/timeline/${period}${year}`,
                 }}
               >
                 View
