@@ -41,6 +41,13 @@ module.exports = [
           test: /\.jsx?$/,
           exclude: /node_modules/,
           loader: 'babel',
+          babelrc: false,
+          query: {
+            presets: ['es2015', 'react'],
+            plugins: [
+              'transform-object-assign',
+            ],
+          }
         },
       ],
     },
@@ -88,6 +95,13 @@ module.exports = [
           test: /\.jsx?$/,
           exclude: /node_modules/,
           loader: 'babel',
+          babelrc: false,
+          query: {
+            presets: ['node6', 'react'],
+            plugins: [
+              'transform-object-assign',
+            ],
+          }
         },
       ],
     },
