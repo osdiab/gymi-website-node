@@ -76,20 +76,6 @@ export default function HomePage() {
       </PageSection>
 
       <PageSection
-        className="HomePage--section HomePage--donate"
-        whiteText
-        background={{ media: { imageUrl: '/media/textures/blue_horizontal.jpg' } }}
-      >
-        <div className="HomePage--section--content">
-          <h2><FormattedMessage {...homeMessages.donate.title} /></h2>
-          <p><FormattedMessage {...homeMessages.donate.body} /></p>
-          <Button action={{ href: '/aboutUs' }}>
-            <FormattedMessage {...homeMessages.donate.learnMoreButton} />
-          </Button>
-        </div>
-      </PageSection>
-
-      <PageSection
         className="HomePage--section HomePage--joinUs"
         background={{
           media: { imageUrl: '/media/textures/blue_horizontal.jpg' },
@@ -112,3 +98,18 @@ export default function HomePage() {
     </ChevronPage>
   );
 }
+
+      // <PageSection
+      //   className="HomePage--section HomePage--donate"
+      //   whiteText
+      //   background={{ media: { imageUrl: '/media/textures/blue_horizontal.jpg' } }}
+      // >
+      //   <div className="HomePage--section--content">
+      //     <h2><FormattedMessage {...homeMessages.donate.title} /></h2>
+      //     <p><FormattedMessage {...homeMessages.donate.body} /></p>
+      //     <Button action={{ href: '/aboutUs' }}>
+      //       <FormattedMessage {...homeMessages.donate.learnMoreButton} />
+      //     </Button>
+      //   </div>
+      // </PageSection>
+
