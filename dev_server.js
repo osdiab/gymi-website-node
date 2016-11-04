@@ -10,6 +10,8 @@ import webpackConfig from './webpack.config';
 
 import router from './backend_app/router';
 
+require('babel-polyfill');
+
 const app = express();
 const port = 3000;
 const compiler = webpack(webpackConfig[0]);
