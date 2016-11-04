@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage, FormattedDate } from 'react-intl';
-import Carousel from 'nuka-carousel';
+import ImageGallery from 'react-image-gallery';
 
 import Button from '../Button';
 import ChevronPage from './ChevronPage';
@@ -34,10 +34,47 @@ const SESSIONS = [
   { period: 'summer', year: 2015 },
 ];
 
-const CAROUSEL_SETTINGS = {
-  autoplay: true,
-  autoplayInterval: 5000,
-  wrapAround: true,
+const imageGalleryOpts = {
+  showFullscreenButton: false,
+  items: TIMELINE_SLIDES.map(({ period, year }) => {
+    const imageSrc = `/media/page_assets/timeline/carousel/${year}_${period.toLowerCase()}.jpg`;
+    return {
+      original: imageSrc,
+      thumbnail: imageSrc,
+      description: `${period} ${year}`,
+    };
+  }),
+  renderItem: (item) => {
+    const [period, year] = item.description.split(' ');
+    return (
+      <div className="image-gallery-image">
+        <img src={item.original} alt={item.originalAlt} />
+        { item.description &&
+          <div className="TimelinePage--gallery--description image-gallery-description">
+            <h2>
+              { SEASONS.includes(period) ? (
+                <FormattedMessage
+                  {...seasonsMessages.seasonalDate[period.toLowerCase()]}
+                  values={{ year }}
+                />
+              ) : (
+                <FormattedDate
+                  value={new Date(`${period} ${year}`)}
+                  year="numeric"
+                  month="long"
+                />
+              ) }
+            </h2>
+            <p>
+              <FormattedMessage
+                {...timelineMessages[`${period.toLowerCase()}${year}`].description}
+              />
+            </p>
+          </div>
+        }
+      </div>
+    );
+  },
 };
 
 export default function TimelinePage() {
@@ -52,43 +89,9 @@ export default function TimelinePage() {
         }}
         whiteText
       >
-        <div className="TimelinePage--section--content">
+        <div className="TimelinePage--section--content TimelinePage--gallery">
           <h1><FormattedMessage {...timelineMessages.title} /></h1>
-
-          <Carousel {...CAROUSEL_SETTINGS}>
-            { TIMELINE_SLIDES.map(({ period, year }) => {
-              const lowerPeriod = period.toLowerCase();
-              const imageSrc =
-                `/media/page_assets/timeline/carousel/${year}_${lowerPeriod}.jpg`;
-              return (
-                <div
-                  className="TimelinePage--carousel--slide"
-                  key={`${period}${year}`}
-                >
-                  <img role="presentation" src={imageSrc} />
-                  <h2>
-                    { SEASONS.includes(period) ? (
-                      <FormattedMessage
-                        {...seasonsMessages.seasonalDate[lowerPeriod]}
-                        values={{ year }}
-                      />
-                    ) : (
-                      <FormattedDate
-                        value={new Date(`${period} ${year}`)}
-                        year="numeric"
-                        month="long"
-                      />
-                    ) }
-                  </h2>
-                  <p>
-                    <FormattedMessage
-                      {...timelineMessages[`${lowerPeriod}${year}`].description}
-                    />
-                  </p>
-                </div>
-              );
-            })}
-          </Carousel>
+          <ImageGallery {...imageGalleryOpts} />
         </div>
       </PageSection>
 

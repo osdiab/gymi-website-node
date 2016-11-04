@@ -48,7 +48,6 @@
     "moment": "^2.15.2",
     "node-fetch": "^1.5.3",
     "nodemailer": "^2.6.4",
-    "nuka-carousel": "^2.0.3",
     "pg-native": "^1.10.0",
     "pg-promise": "^5.3.5",
     "react": "^15.3.2",
