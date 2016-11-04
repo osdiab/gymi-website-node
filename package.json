@@ -63,8 +63,7 @@
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
-    "webpack-node-externals": "^1.5.4",
-    "whatwg-fetch": "^1.0.0"
+    "webpack-node-externals": "^1.5.4"
   },
   "devDependencies": {
     "babel-cli": "^6.0.0",

@@ -1,5 +1,4 @@
 // TODO: convert alerts into internationalized messages in UI
-import 'whatwg-fetch';
 import emailValidator from 'email-validator';
 import _ from 'lodash';
 import React from 'react';
