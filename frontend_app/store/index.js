@@ -4,18 +4,14 @@
 import { applyMiddleware, createStore, combineReducers, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
-import counter from './counter';
 import language from './language';
-import quote from './quote';
 
 const store = createStore(combineReducers({
-  counter,
   language,
-  quote,
 }), compose(
   applyMiddleware(thunkMiddleware),
   // add dev tools as middleware; if not present, add identity fn as middleware
-  (window.devToolsExtension ? window.devToolsExtension() : (_) => _)
+  (window.devToolsExtension ? window.devToolsExtension() : _ => _)
 ));
 
 // createStore initializes each reducer, and hence populates the initial state. To see initial
