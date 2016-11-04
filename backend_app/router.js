@@ -3,6 +3,8 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import path from 'path';
+import requestLanguage from 'express-request-language';
+import cookieParser from 'cookie-parser';
 
 import { ApplicationError } from './errors';
 import users from './routes/users';
@@ -12,7 +14,7 @@ import sessions from './routes/sessions';
 import submissions from './routes/submissions';
 import submissionQuestions from './routes/submissionQuestions';
 import emails from './routes/emails';
-import { renderFullPage, handleRender } from './serverRendering';
+import { handleRender } from './serverRendering';
 
 export default function createRouter() {
   const router = express.Router(); // eslint-disable-line new-cap
@@ -20,6 +22,14 @@ export default function createRouter() {
   // static assets; this includes the compiled frontend app!
   router.use(express.static(path.join(__dirname, '..', 'public')));
 
+  router.use(cookieParser());
+  router.use(requestLanguage({
+    languages: ['en', 'zh'],
+    cookie: {
+      name: 'language',
+      options: { maxAge: 10 * 365 * 24 * 60 * 60 * 1000 }, // 10 yrs from now
+    },
+  }));
   router.use(bodyParser.json()); // parse json bodies
 
   /**

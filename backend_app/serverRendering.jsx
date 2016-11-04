@@ -6,6 +6,7 @@ import { match, RouterContext } from 'react-router';
 import { IntlProvider } from 'react-intl';
 
 import reducers from '../frontend_app/reducers';
+import { findSupportedLanguage } from '../frontend_app/reducers/language';
 import Routes from '../frontend_app/components/Routes';
 import { translations } from '../frontend_app/messages';
 
@@ -30,7 +31,10 @@ function renderFullPage(html, preloadedState) {
 }
 
 export function handleRender(req, res) {
-  const store = createStore(reducers);
+  const supportedLanguage = findSupportedLanguage(req.language);
+  const store = supportedLanguage ?
+    createStore(reducers, { language: { currentLanguage: supportedLanguage } }) :
+    createStore(reducers);
 
   match({ routes: Routes, location: req.url }, (err, redirect, props) => {
     if (err) {
@@ -38,11 +42,13 @@ export function handleRender(req, res) {
       return;
     }
 
+    const lang = supportedLanguage ? supportedLanguage.localeCode : 'en';
     // Render the component to a string
     const html = renderToString(
       <ReduxProvider store={store}>
         <IntlProvider
-          messages={translations.en}
+          locale={lang}
+          messages={translations[lang]}
           defaultLocale="en"
         >
           <RouterContext {...props} />

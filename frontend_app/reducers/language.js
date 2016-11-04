@@ -2,13 +2,12 @@
 // Note: reducers MUST not have side effects, so don't update the state; return a new one.
 // The default value is this store's initial values.
 
-let browserLocale = require('browser-locale');
+import jsCookie from 'js-cookie';
+import browserLocale from 'browser-locale';
 
-if (!(typeof window !== 'undefined' && window.document)) {
-  browserLocale = () => 'en';
-}
+const isBrowser = typeof window !== 'undefined' && window.document;
 
-export function getValidLanguages() {
+export function getSupportedLanguages() {
   return [
     {
       localeCode: 'en',
@@ -22,40 +21,44 @@ export function getValidLanguages() {
 }
 
 export function getDefaultLanguage() {
-  return getValidLanguages()[0];
+  return getSupportedLanguages()[0];
 }
 
-export function findSupportedLanguage(localeCode, validLanguages) {
-  return validLanguages.find(entry => localeCode.startsWith(entry.localeCode));
+export function findSupportedLanguage(localeCode) {
+  return getSupportedLanguages().find(entry => localeCode.startsWith(entry.localeCode));
 }
 
 function fetchStoredLanguage() {
-  if (!(typeof window !== 'undefined' && window.document)) return undefined;
-  const storedLanguage = localStorage.getItem('state.language.currentLanguage');
+  const storedLanguage = jsCookie.get('language');
   if (!storedLanguage) {
     return undefined;
   }
-  return JSON.parse(storedLanguage);
+
+  const lang = findSupportedLanguage(storedLanguage);
+  if (!lang) {
+    jsCookie.remove(lang);
+    return getDefaultLanguage();
+  }
+  return lang;
 }
 
 function persistCurrentLanguage(lang) {
-  if (!(typeof window !== 'undefined' && window.document)) return undefined;
-  return localStorage.setItem('state.language.currentLanguage',
-                              JSON.stringify(lang));
+  jsCookie.set('language', lang.localeCode, { expires: new Date('Jan 2038') });
 }
 
-export default function language(state = {
-  currentLanguage: (fetchStoredLanguage()
-                    || findSupportedLanguage(browserLocale(), getValidLanguages())
-                    || getDefaultLanguage()
-  ),
-  validLanguages: getValidLanguages(),
-  defaultLanguage: getDefaultLanguage(),
-}, action) {
+export default function language(state = {}, action) {
+  const initialState = {
+    currentLanguage: (fetchStoredLanguage()
+                      || (isBrowser && findSupportedLanguage(browserLocale()))
+                      || getDefaultLanguage()
+    ),
+    validLanguages: getSupportedLanguages(),
+    defaultLanguage: getDefaultLanguage(),
+  };
   switch (action.type) {
     case 'SET_CURRENT_LANGUAGE': {
       // verify language
-      const lang = findSupportedLanguage(action.localeCode, state.validLanguages);
+      const lang = findSupportedLanguage(action.localeCode);
       if (!lang) {
         throw new Error(`Cannot set unsupported language: ${action.localeCode}`);
       }
@@ -65,6 +68,6 @@ export default function language(state = {
       return Object.assign({}, state, { currentLanguage: lang });
     }
     default:
-      return state;
+      return Object.assign({}, initialState, state);
   }
 }
