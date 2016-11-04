@@ -1,0 +1,622 @@
+.LanguageSelector {
+  padding: 0 5px;
+}
+.LanguageSelector--languages {
+  border-top: 1px solid black;
+  list-style-type: none;
+  padding: 20px 0;
+  text-align: center;
+}
+.LanguageSelector--languages--entry {
+  padding: 0 1px;
+  display: inline-block;
+}
+.LanguageSelector--languages--entry:hover {
+  color: #E16860;
+}
+.LanguageSelector--languages--entry button {
+  text-transform: uppercase;
+  font-size: inherit;
+  font-weight: bold;
+  border: none;
+  background: none;
+}
+.LanguageSelector--languages--entry button:hover:not([disabled]) {
+  color: inherit;
+  cursor: pointer;
+}
+/* Style definition for sidebar menu. */
+.SiteNavigation {
+  font-family: 'Ubuntu', "FangSong", "\4EFF\5B8B", STFangSong, "\534E\6587\4EFF\5B8B", serif;
+  z-index: 100;
+  position: fixed;
+  width: 69px;
+  min-height: 100%;
+  height: 100%;
+  margin: 0px;
+  background-color: #F7F4F2;
+  box-shadow: 1px 0px 1px 1px #e6dfe6;
+}
+.SiteNavigation ul {
+  list-style-type: none;
+}
+.SiteNavigation a {
+  text-decoration: none;
+}
+.SiteNavigation--logo {
+  padding: 0 5px;
+}
+.SiteNavigation--logo img {
+  padding: 20px 0;
+  border-bottom: 1px solid black;
+  width: 100%;
+}
+.SiteNavigation--items--item {
+  white-space: nowrap;
+  height: 69px;
+  margin: 10px 0;
+}
+.SiteNavigation--items--item:hover,
+.SiteNavigation--items--item:focus {
+  background-color: #E16860;
+}
+.SiteNavigation--items--item:hover .SiteNavigation--items--item--text,
+.SiteNavigation--items--item:focus .SiteNavigation--items--item--text {
+  display: inline-block;
+}
+.SiteNavigation--items--item--icon {
+  width: 100%;
+  padding: 10px;
+}
+.SiteNavigation--items--item--text {
+  display: none;
+  background-color: #F7F4F2;
+  color: black;
+  vertical-align: top;
+  padding: 0 50px;
+  height: 69px;
+  line-height: 69px;
+}
+.SiteLayout {
+  font-family: 'Noto Serif', "FangSong", "\4EFF\5B8B", STFangSong, "\534E\6587\4EFF\5B8B", serif;
+  position: relative;
+  min-height: 100%;
+  min-width: 960px;
+}
+.SiteLayout h1,
+.SiteLayout h2,
+.SiteLayout h3,
+.SiteLayout h4,
+.SiteLayout h5,
+.SiteLayout h6 {
+  font-family: 'Ubuntu', "FangSong", "\4EFF\5B8B", STFangSong, "\534E\6587\4EFF\5B8B", serif;
+  font-weight: 500;
+}
+.SiteLayout h1 {
+  font-size: 3em;
+}
+.SiteLayout h2 {
+  font-size: 2em;
+}
+.SiteLayout h1,
+.SiteLayout h2,
+.SiteLayout h3 {
+  color: #E16860;
+}
+.SiteLayout p {
+  font-weight: 400;
+}
+.SiteLayout--wrapper {
+  padding-left: 69px;
+}
+.Button {
+  font-size: 1em;
+  font-family: 'Ubuntu', "FangSong", "\4EFF\5B8B", STFangSong, "\534E\6587\4EFF\5B8B", serif;
+  background: none;
+  border: 1px black solid;
+  cursor: pointer;
+  display: inline-block;
+  padding: 10px 30px;
+  text-decoration: none;
+  color: inherit;
+  text-transform: uppercase;
+}
+.Button:hover,
+.Button:focus {
+  border: 1px solid transparent;
+  background-color: #E16860;
+}
+.Button[disabled] {
+  cursor: not-allowed;
+  background-color: #AAAAAA;
+  border-color: #EEEEEE;
+}
+.ChevronPage .PageSection {
+  text-align: center;
+  background-color: white;
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+.ChevronPage:not(.ChevronPage--unsupported) .PageSection {
+  -webkit-clip-path: polygon(50% 125px, 100% 0, 100% 100%, 0 100%, 0 0);
+          clip-path: polygon(50% 125px, 100% 0, 100% 100%, 0 100%, 0 0);
+  margin-bottom: -125px;
+  padding-top: 125px;
+  padding-bottom: 125px;
+}
+.ChevronPage:not(.ChevronPage--unsupported) .PageSection:first-of-type {
+  -webkit-clip-path: none;
+          clip-path: none;
+}
+.ChevronPage:not(.ChevronPage--unsupported) .PageSection:last-of-type {
+  margin-bottom: 0;
+}
+.PageSection {
+  position: relative;
+  width: 100%;
+  background-position: center;
+}
+.PageSection--whiteText {
+  color: white;
+}
+.PageSection--whiteText h1,
+.PageSection--whiteText h2,
+.PageSection--whiteText h3,
+.PageSection--whiteText h4,
+.PageSection--whiteText h5,
+.PageSection--whiteText h6,
+.PageSection--whiteText p {
+  color: white;
+}
+.PageSection--backgroundTint {
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.PageSection--content {
+  z-index: 1;
+  position: relative;
+}
+.PageSection--backgroundTint--lightBlue {
+  background-color: #4B74B1;
+  opacity: .85;
+}
+.PageSection--backgroundTint--lightGreen {
+  background-color: #59A392;
+  opacity: .85;
+}
+.PageSection--backgroundTint--orange {
+  background-color: #E16860;
+  opacity: .6;
+}
+.PageSection--backgroundTint--white {
+  background-color: white;
+  opacity: .75;
+}
+.PageSection--videoBackground {
+  z-index: -2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+.HomePage {
+  position: relative;
+  z-index: 0;
+}
+.HomePage p,
+.HomePage h1,
+.HomePage h2,
+.HomePage h3,
+.HomePage h4,
+.HomePage h5,
+.HomePage h6 {
+  padding-bottom: 60px;
+}
+.HomePage--section {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+}
+.HomePage--section .PageSection--content {
+  width: 100%;
+}
+.HomePage--section--content {
+  margin: 0 auto;
+  max-width: 600px;
+  padding-top: 100px;
+}
+.HomePage--details--content {
+  display: -ms-flexbox;
+  display: flex;
+}
+.HomePage--details--column {
+  padding-top: 175px;
+  padding-bottom: 125px;
+  -ms-flex: 1;
+      flex: 1;
+}
+.HomePage--details--column section {
+  padding: 0 100px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.HomePage--details--column:last-of-type {
+  background-color: #EEEEEE;
+}
+.HomePage--details--latestNews p {
+  text-align: left;
+  padding-bottom: 20px;
+}
+.HomePage--details--leftImage {
+  display: block;
+  width: 100%;
+  margin-top: -15px;
+  -webkit-clip-path: polygon(0 0, 100% 20%, 100% 100%, 0 80%);
+          clip-path: polygon(0 0, 100% 20%, 100% 100%, 0 80%);
+  margin-bottom: 40px;
+  min-height: 450px;
+  background-image: url("/media/page_assets/home/happy_kid_cropped.jpg");
+  background-size: cover;
+  background-position: center;
+}
+.HomePage--joinUs--buttons {
+  display: -ms-flexbox;
+  display: flex;
+}
+.HomePage--joinUs--buttons .Button {
+  -ms-flex: 1;
+      flex: 1;
+  margin: 0 25px;
+}
+.LeadershipTeamSection--profile {
+  display: inline-block;
+  position: relative;
+  width: 300px;
+  padding: 15px 30px;
+}
+.LeadershipTeamSection--profile img {
+  width: 100%;
+}
+.LeadershipTeamSection--profile:hover .LeadershipTeamSection--details,
+.LeadershipTeamSection--profile:focus .LeadershipTeamSection--details {
+  visibility: visible;
+}
+.LeadershipTeamSection--profile .LeadershipTeamSection--details h4,
+.LeadershipTeamSection--profile .LeadershipTeamSection--details h5,
+.LeadershipTeamSection--profile .LeadershipTeamSection--details p {
+  padding: 10px 20px;
+  margin: 0;
+}
+.LeadershipTeamSection--details {
+  position: absolute;
+  width: 100%;
+  top: 100%;
+  left: 50%;
+  -ms-transform: translate(-50%, 0);
+      transform: translate(-50%, 0);
+  z-index: 1;
+  visibility: hidden;
+  overflow: hidden;
+  background: white;
+  border: 1px solid #AAAAAA;
+  border-radius: 5px;
+  text-align: left;
+  box-shadow: 0px 6px 20px 0px #AAAAAA;
+}
+.LeadershipTeamSection--details h4 {
+  background-color: #F7F4F2;
+  border-bottom: 1px solid #EEEEEE;
+}
+.LeadershipTeamSection--details h5 {
+  font-size: 1em;
+}
+.AboutUsPage {
+  position: relative;
+  z-index: 0;
+}
+.AboutUsPage p,
+.AboutUsPage h1,
+.AboutUsPage h2,
+.AboutUsPage h3,
+.AboutUsPage h4,
+.AboutUsPage h5,
+.AboutUsPage h6 {
+  padding-bottom: 60px;
+}
+.AboutUsPage--section {
+  text-align: center;
+  background-color: white;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+.AboutUsPage--section {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+}
+.AboutUsPage--section--content {
+  margin: 0 auto;
+  max-width: 600px;
+  padding-top: 50px;
+}
+.AboutUsPage--splash {
+  min-height: 600px;
+}
+.AboutUsPage--details--content {
+  display: -ms-flexbox;
+  display: flex;
+}
+.AboutUsPage--goals {
+  background-image: url('/media/page_assets/about_us/students_cards_tinted.jpg');
+  color: white;
+}
+.AboutUsPage--goals h2 {
+  color: white;
+}
+.AboutUsPage--details--column {
+  padding-top: 175px;
+  padding-bottom: 125px;
+  -ms-flex: 1;
+      flex: 1;
+}
+.AboutUsPage--details--column section {
+  padding: 0 100px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.AboutUsPage--details--column:last-of-type {
+  background-color: #EEEEEE;
+}
+.AboutUsPage--members section {
+  padding-top: 50px;
+}
+.AboutUsPage--members .AboutUsPage--section--content {
+  max-width: 960px;
+}
+.AboutUsPage--progress--button {
+  margin: 0 20px 20px 20px;
+}
+.AboutUsPage--orgProfile {
+  display: -ms-flexbox;
+  display: flex;
+}
+.AboutUsPage--orgProfile--column {
+  -ms-flex: 1;
+      flex: 1;
+}
+.TimelinePage--splash .slider-decorator-2 {
+  display: none;
+}
+.TimelinePage--moreToCome .TimelinePage--section--content,
+.TimelinePage--timelineLink .TimelinePage--section--content {
+  margin: 0 auto;
+  max-width: 600px;
+  padding-top: 100px;
+}
+.TimelinePage--timelineLink a {
+  text-decoration: none;
+}
+.TimelinePage--timelineLink a:visited {
+  color: white;
+}
+.TimelinePage--timelineLink--button {
+  border-color: white;
+}
+.TimelinePage--carousel--slide img {
+  max-height: 400px;
+  padding: 50px 0;
+}
+.TimelinePage--carousel--slide h2,
+.TimelinePage--carousel--slide p {
+  max-width: 600px;
+  margin: 0 auto;
+}
+.TimelinePage--gallery {
+  max-width: 500px;
+  margin: 0 auto;
+}
+.TimelinePage--gallery--description {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}
+.JoinUsPage--QuestionSection {
+  display: -ms-flexbox;
+  display: flex;
+  text-align: left;
+  padding: 50px;
+  max-width: 1260px;
+  margin: 0 auto;
+}
+.JoinUsPage--QuestionSection ul {
+  list-style-type: none;
+}
+.JoinUsPage--QuestionSection > div {
+  -ms-flex: 1;
+      flex: 1;
+  padding: 20px;
+  min-height: 250px;
+}
+.JoinUsPage--QuestionSection button:not(.Button) {
+  border: none;
+  background: none;
+}
+.JoinUsPage--QuestionSection button:not(.Button):hover {
+  cursor: pointer;
+}
+.JoinUsPage--QuestionSection button:not(.Button).JoinUsPage--QuestionSection--titleButton.JoinUsPage--QuestionSection--salmon:hover h2,
+.JoinUsPage--QuestionSection button:not(.Button).JoinUsPage--QuestionSection--titleButton.JoinUsPage--QuestionSection--salmon:focus h2 {
+  color: #F1837c;
+}
+.JoinUsPage--QuestionSection button:not(.Button).JoinUsPage--QuestionSection--titleButton.JoinUsPage--QuestionSection--purple h2 {
+  color: #7F3F98;
+}
+.JoinUsPage--QuestionSection button:not(.Button).JoinUsPage--QuestionSection--titleButton.JoinUsPage--QuestionSection--purple:hover h2,
+.JoinUsPage--QuestionSection button:not(.Button).JoinUsPage--QuestionSection--titleButton.JoinUsPage--QuestionSection--purple:focus h2 {
+  color: #A960C5;
+}
+.JoinUsPage--QuestionSection button:not(.Button).JoinUsPage--QuestionSection--titleButton.JoinUsPage--QuestionSection--green h2 {
+  color: #59A392;
+}
+.JoinUsPage--QuestionSection button:not(.Button).JoinUsPage--QuestionSection--titleButton.JoinUsPage--QuestionSection--green:hover h2,
+.JoinUsPage--QuestionSection button:not(.Button).JoinUsPage--QuestionSection--titleButton.JoinUsPage--QuestionSection--green:focus h2 {
+  color: #72C1AF;
+}
+.JoinUsPage--QuestionSection button:not(.Button).JoinUsPage--QuestionSection--titleButton.JoinUsPage--QuestionSection--blue h2 {
+  color: #21409A;
+}
+.JoinUsPage--QuestionSection button:not(.Button).JoinUsPage--QuestionSection--titleButton.JoinUsPage--QuestionSection--blue:hover h2,
+.JoinUsPage--QuestionSection button:not(.Button).JoinUsPage--QuestionSection--titleButton.JoinUsPage--QuestionSection--blue:focus h2 {
+  color: #4869CA;
+}
+.JoinUsPage--QuestionSection button:not(.Button).JoinUsPage--QuestionSection--titleButton.JoinUsPage--QuestionSection--yellow h2 {
+  color: #FBCC34;
+}
+.JoinUsPage--QuestionSection button:not(.Button).JoinUsPage--QuestionSection--titleButton.JoinUsPage--QuestionSection--yellow:hover h2,
+.JoinUsPage--QuestionSection button:not(.Button).JoinUsPage--QuestionSection--titleButton.JoinUsPage--QuestionSection--yellow:focus h2 {
+  color: #E6BF41;
+}
+.JoinUsPage--QuestionSection button:not(.Button):not(.JoinUsPage--QuestionSection--titleButton) {
+  font-weight: bold;
+  font-size: 1em;
+  font-face: inherit;
+  text-align: left;
+  padding: 10px;
+  color: #3A69AD;
+}
+.JoinUsPage--QuestionSection button:not(.Button):not(.JoinUsPage--QuestionSection--titleButton):hover,
+.JoinUsPage--QuestionSection button:not(.Button):not(.JoinUsPage--QuestionSection--titleButton):focus {
+  color: #E16860;
+}
+.JoinUsPage--QuestionSection h2 {
+  font-size: 6em;
+  text-transform: uppercase;
+  text-align: left;
+}
+.JoinUsPage--QuestionSection--Button--container {
+  text-align: right;
+}
+.JoinUsPage--QuestionSection--Button-btn {
+  font-size: 1em;
+}
+.JoinUsPage--splash {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+  min-height: 600px;
+  padding: 0 100px;
+}
+.JoinUsPage--section--content {
+  max-width: 960px;
+}
+.ContactUsPage--splash {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+  min-height: 500px;
+}
+.ContactUsPage--details {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.ContactUsPage--details--content {
+  display: -ms-flexbox;
+  display: flex;
+}
+.ContactUsPage--details--map,
+.ContactUsPage--details--contact {
+  -ms-flex: 1;
+      flex: 1;
+}
+.ContactUsPage--details--map {
+  background-image: url('/media/page_assets/contact/columbia_map.png');
+  background-size: cover;
+  background-position: center;
+}
+.ContactUsPage--details--contact {
+  padding-top: 200px;
+  padding-bottom: 125px;
+}
+.ContactUsPage--section--content {
+  padding-top: 50px;
+}
+.ContactUsPage--details--contact--emails--prompt {
+  padding-right: 10px;
+}
+.ContactUsPage--contactForm--row {
+  padding: 10px 0;
+}
+.ContactUsPage--contactForm label {
+  padding: 0 10px;
+}
+.ContactUsPage--contactForm input[type=text] {
+  border: 0;
+  border-bottom: 1px solid #AAAAAA;
+  padding: 5px;
+}
+.ContactUsPage--contactForm input[type=text]:focus {
+  border-bottom: 1px solid #E16860;
+}
+.ContactUsPage--contactForm label[for=ContactUsPage--contactForm--message] {
+  display: block;
+  padding: 10px;
+  font-weight: bold;
+  font-family: 'Ubuntu', "FangSong", "\4EFF\5B8B", STFangSong, "\534E\6587\4EFF\5B8B", serif;
+}
+.ContactUsPage--contactForm legend {
+  font-weight: bold;
+  font-family: 'Ubuntu', "FangSong", "\4EFF\5B8B", STFangSong, "\534E\6587\4EFF\5B8B", serif;
+}
+.ContactUsPage--contactForm fieldset {
+  border: none;
+}
+.SessionShowcase--gallery {
+  max-width: 600px;
+  margin: 0 auto;
+}
+.SessionShowcase--imageStories figure {
+  display: -ms-flexbox;
+  display: flex;
+  padding-bottom: 50px;
+}
+.SessionShowcase--imageStories figcaption {
+  -ms-flex: 1;
+      flex: 1;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  justify-columns: center;
+  padding: 20px;
+}
+.SessionShowcase--imageStories--media {
+  -ms-flex: 1;
+      flex: 1;
+  width: 50%;
+  padding: 20px;
+}
+.SessionShowcase--imageStories--media img {
+  width: 100%;
+}
+.SessionShowcase--section--content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 50px;
+}

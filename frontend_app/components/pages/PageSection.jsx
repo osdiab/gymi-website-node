@@ -57,7 +57,7 @@ export default function PageSection({
   );
 }
 
-PageSection.BACKGROUND_TINTS = [
+export const BACKGROUND_TINTS = [
   'lightBlue', 'orange', 'lightGreen', 'white',
 ];
 PageSection.propTypes = {
@@ -73,7 +73,7 @@ PageSection.propTypes = {
         imageUrl: PropTypes.string,
       }),
     ]),
-    tint: PropTypes.oneOf(PageSection.BACKGROUND_TINTS),
+    tint: PropTypes.oneOf(BACKGROUND_TINTS),
   }),
   whiteText: PropTypes.bool,
   style: PropTypes.object, // eslint-disable-line react/forbid-prop-types

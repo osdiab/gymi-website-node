@@ -12,6 +12,7 @@ import sessions from './routes/sessions';
 import submissions from './routes/submissions';
 import submissionQuestions from './routes/submissionQuestions';
 import emails from './routes/emails';
+import { renderFullPage, handleRender } from './serverRendering';
 
 export default function createRouter() {
   const router = express.Router(); // eslint-disable-line new-cap
@@ -117,13 +118,12 @@ export default function createRouter() {
     res.sendStatus(500); // uncaught exception
   });
 
+
   /**
    * Frontend app catch-all hook
    */
   // all other pages route to the frontend application.
-  router.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
-  });
+  router.get('/*', handleRender);
 
   return router;
 }

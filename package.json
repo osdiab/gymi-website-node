@@ -78,6 +78,8 @@
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "ignore-loader": "^0.1.1",
     "nodemon": "^1.11.0",
     "react-addons-test-utils": "^15.3.2",
     "webpack-dev-middleware": "^1.6.1",

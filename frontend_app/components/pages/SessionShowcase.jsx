@@ -2,7 +2,6 @@ import _ from 'lodash';
 import React, { PropTypes } from 'react';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import ImageGallery from 'react-image-gallery';
-import 'react-image-gallery/styles/css/image-gallery.css';
 
 import PageSection from './PageSection';
 import ChevronPage from './ChevronPage';

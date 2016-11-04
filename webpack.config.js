@@ -5,6 +5,7 @@ const path = require('path');
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = [
   {
@@ -30,12 +31,10 @@ module.exports = [
           loader: 'url',
         },
         {
-          test: /\.css$/,
-          loaders: ['style', 'css'],
-        },
-        {
-          test: /\.less$/,
-          loader: 'style!css!postcss!less',
+          test: /\.(css|less)$/i,
+          loader: ExtractTextPlugin.extract(
+            'style-loader', 'css-loader!postcss-loader!less-loader'
+          ),
         },
         {
           test: /\.jsx?$/,
@@ -44,15 +43,13 @@ module.exports = [
           babelrc: false,
           query: {
             presets: ['es2015', 'react'],
-            plugins: [
-              'transform-object-assign',
-            ],
           },
         },
       ],
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
+      new ExtractTextPlugin('styles.css'),
     ],
     postcss: [autoprefixer({ browsers: ['> 5% in CN', '> 5% in US', 'last 2 versions', 'ie >= 9'] })],
   },
@@ -84,12 +81,10 @@ module.exports = [
           loader: 'url',
         },
         {
-          test: /\.css$/,
-          loaders: ['style', 'css'],
-        },
-        {
-          test: /\.less$/,
-          loader: 'style!css!postcss!less',
+          test: /\.(css|less)$/i,
+          loader: ExtractTextPlugin.extract(
+            'style-loader', 'css-loader!postcss-loader!less-loader'
+          ),
         },
         {
           test: /\.jsx?$/,
@@ -98,14 +93,12 @@ module.exports = [
           babelrc: false,
           query: {
             presets: ['node6', 'react'],
-            plugins: [
-              'transform-object-assign',
-            ],
           },
         },
       ],
     },
     plugins: [
+      new ExtractTextPlugin('styles.css'),
     ],
     postcss: [autoprefixer({ browsers: ['> 5% in CN', '> 5% in US', 'last 2 versions', 'ie >= 9'] })],
   },

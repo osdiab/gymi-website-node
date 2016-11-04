@@ -51,10 +51,8 @@ export default function Button({
   );
 }
 
-Button.SIZES = ['small', 'medium', 'large', 'xlarge'];
-
-Button.TYPES = ['secondary', 'primary', 'destructive'];
-
+export const SIZES = ['small', 'medium', 'large', 'xlarge'];
+export const TYPES = ['secondary', 'primary', 'destructive'];
 Button.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
@@ -66,8 +64,8 @@ Button.propTypes = {
     }),
     PropTypes.oneOf(['submit', 'reset', 'button', 'menu']),
   ]),
-  type: PropTypes.oneOf(Button.TYPES),
-  size: PropTypes.oneOf(Button.SIZES),
+  type: PropTypes.oneOf(TYPES),
+  size: PropTypes.oneOf(SIZES),
   disabled: PropTypes.bool,
   style: PropTypes.objectOf(PropTypes.string),
 };
