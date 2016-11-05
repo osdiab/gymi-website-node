@@ -15,10 +15,10 @@ export function validateUsername(username) {
     };
   }
 
-  if (/^[0-9]*/.test(username)) {
+  if (/^[0-9]*$/.test(username)) {
     return {
       valid: false,
-      message: 'errors.sessions.numericUsername',
+      message: 'errors.sessions.usernameNumeric',
     };
   }
 
