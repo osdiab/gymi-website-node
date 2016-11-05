@@ -13,7 +13,7 @@ export function loginSuccess(token, remember) {
   return { type: 'LOGIN_SUCCESS', token, remember };
 }
 export function loginFailure(errMessage) {
-  return { type: 'LOGIN_SUCCESS', errMessage };
+  return { type: 'LOGIN_FAILURE', errMessage };
 }
 export function toggleLogInModal(show) {
   return { type: 'TOGGLE_LOGIN_MODAL', show };
@@ -23,16 +23,20 @@ export const logOut = { type: 'LOGOUT' };
 // Asynchronous actions depend on redux-thunk to function correctly.  Asynchronous actions are
 // functions that can dispatch synchronous actions as they please. Hence, this function receives
 // `dispatch` as a parameter.
-export function logIn(dispatch) {
-  return (username, password, remember) => {
+export function logIn(username, password, remember) {
+  return (dispatch) => {
     dispatch(loginRequest);
     fetch('/api/sessions', {
       method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({ username, password }),
-    }).then(response => [response, response.json()]
+    }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
-      if (response.statusCode === 200) {
-        dispatch(loginSuccess(responseData.token, remember));
+      if (response.status === 200) {
+        dispatch(loginSuccess(responseData.data.token, remember));
         return;
       }
       let errMessage;

@@ -34,12 +34,6 @@ function clearStoredToken() {
 }
 
 export default function session(state = {}, action) {
-  const initialState = {
-    token: fetchStoredToken(),
-    loginError: null,
-    showingLogInModal: false,
-  };
-
   switch (action.type) {
     case 'TOGGLE_LOGIN_MODAL':
       return Object.assign({}, state, { showingLogInModal: action.show });
@@ -53,8 +47,14 @@ export default function session(state = {}, action) {
     case 'LOGOUT':
       clearStoredToken();
       return Object.assign({}, state, { token: null });
-    default:
+    default: {
+      const initialState = {};
+      const storedToken = fetchStoredToken();
+      if (storedToken) {
+        initialState.token = storedToken;
+      }
       return Object.assign({}, initialState, state);
+    }
   }
 }
 
