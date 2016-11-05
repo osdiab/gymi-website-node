@@ -5,15 +5,16 @@ import db from './';
 import { ApplicationError } from '../errors';
 
 const PUBLIC_USER_FIELDS = ['id', 'username', 'role', 'name'];
+
 // flexible find function—can search for id or username.
 // Returns one entry, or null.
 const find = (identifier, getPasswordHash = false) => new Promise((resolve, reject) => {
   const columns = getPasswordHash ? PUBLIC_USER_FIELDS.concat('password_hash') :
     PUBLIC_USER_FIELDS;
-  const clause = isNaN(identifier) ? 'username = $<identifier>' : 'id = $<identifier>';
+  const clause = isNaN(identifier) ? 'normalized_username = $<id>' : 'id = $<id>';
   const query = `SELECT $<columns:name> FROM users WHERE ${clause}`;
 
-  return db.oneOrNone(query, { columns, identifier }).then(resolve).catch(reject);
+  return db.oneOrNone(query, { columns, id: identifier.toLowerCase() }).then(resolve).catch(reject);
 });
 
 export default {
@@ -28,8 +29,8 @@ export default {
       }
       return;
     }).then(() => db.one(
-      'INSERT INTO users (username, password_hash, name, role) VALUES ($1, $2, $3, $4) RETURNING id',
-      [username, passwordHash, name, role],
+      'INSERT INTO users (username, normalized_username, password_hash, name, role) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+      [username, username.toLowerCase(), passwordHash, name, role],
     )).then(({ id }) => resolve(id))
     .catch(reject);
   }),
@@ -62,10 +63,11 @@ export default {
     .value();
 
     const completeClauses = whereClauses.map(entry => entry.clause).join(' ');
-    const query = `SELECT users.id, users.username FROM users ${completeClauses}`;
+    const query = `SELECT $<columns:name> FROM users ${completeClauses}`;
     const queryArgs = _.chain(whereClauses).mapKeys('key').mapValues('value').value();
 
-    return db.manyOrNone(query, queryArgs).then(resolve).catch(reject);
+    return db.manyOrNone(query, Object.assign({ columns: PUBLIC_USER_FIELDS }, queryArgs))
+      .then(resolve).catch(reject);
   }),
   setPassword: (id, newPasswordHash) => new Promise((resolve, reject) => {
     db.one(
