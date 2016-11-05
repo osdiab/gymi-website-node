@@ -15,6 +15,9 @@ export function loginSuccess(token, remember) {
 export function loginFailure(errMessage) {
   return { type: 'LOGIN_SUCCESS', errMessage };
 }
+export function toggleLogInModal(show) {
+  return { type: 'TOGGLE_LOGIN_MODAL', show };
+}
 export const logOut = { type: 'LOGOUT' };
 
 // Asynchronous actions depend on redux-thunk to function correctly.  Asynchronous actions are
