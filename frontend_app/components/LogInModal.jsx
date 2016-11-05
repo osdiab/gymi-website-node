@@ -100,7 +100,7 @@ export class LogInModalView extends React.Component {
             <label htmlFor="LogInModal--form--remember">
               <FormattedMessage {...messages.sessions.rememberMe} />
             </label>
-            <Button action={this.handleLogin} disabled={!this.formIsValid}>
+            <Button action={this.handleLogIn} disabled={!this.formIsValid}>
               <FormattedMessage {...messages.sessions.logIn} />
             </Button>
           </div>
