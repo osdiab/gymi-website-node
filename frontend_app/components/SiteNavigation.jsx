@@ -58,11 +58,11 @@ export function SiteNavigationView(
       </div>
       <ul className="SiteNavigation--items">{links}</ul>
       <LanguageSelector />
+      { !loggedIn && <Button type="primary" action={showLogInModal}>Log In</Button> }
+      { showingLogInModal && <LogInModal closeModal={hideLogInModal} /> }
     </nav>
   );
 }
-      // { !loggedIn && <Button action={showLogInModal}>Log In</Button> }
-      // { showingLogInModal && <LogInModal closeModal={hideLogInModal} /> }
 
 SiteNavigationView.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
