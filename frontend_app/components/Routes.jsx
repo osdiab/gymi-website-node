@@ -8,7 +8,7 @@ import TimelinePage from './pages/TimelinePage';
 import JoinUsPage from './pages/JoinUsPage';
 import ContactUsPage from './pages/ContactUsPage';
 import NotFoundPage from './pages/NotFoundPage';
-import { Summer2013Page, Summer2014Page, Summer2015Page } from './pages/sessions';
+import { Summer2013Page, Summer2014Page, Summer2015Page } from './pages/periods';
 
 export default (
   <Route path="/" component={SiteLayout}>
