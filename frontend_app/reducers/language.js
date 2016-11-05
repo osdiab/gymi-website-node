@@ -7,7 +7,7 @@ import browserLocale from 'browser-locale';
 
 const isBrowser = typeof window !== 'undefined' && window.document;
 
-const LANGUAGE_KEY = 'language.currentLanguage';
+export const LANGUAGE_KEY = 'language.currentLanguage';
 
 export function getSupportedLanguages() {
   return [
@@ -42,7 +42,8 @@ function fetchStoredLanguage() {
 
   const lang = findSupportedLanguage(storedLanguage);
   if (!lang) {
-    jsCookie.remove(lang);
+    jsCookie.remove(LANGUAGE_KEY);
+    localStorage.remove(LANGUAGE_KEY);
     return getDefaultLanguage();
   }
 

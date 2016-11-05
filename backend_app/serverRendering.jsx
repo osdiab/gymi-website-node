@@ -4,11 +4,30 @@ import { createStore } from 'redux';
 import { Provider as ReduxProvider } from 'react-redux';
 import { match, RouterContext } from 'react-router';
 import { IntlProvider } from 'react-intl';
+import areIntlLocalesSupported from 'intl-locales-supported';
+import IntlPolyfill from 'intl';
 
 import reducers from '../frontend_app/reducers';
-import { findSupportedLanguage } from '../frontend_app/reducers/language';
+import { findSupportedLanguage, getSupportedLanguages } from '../frontend_app/reducers/language';
 import Routes from '../frontend_app/components/Routes';
 import { translations } from '../frontend_app/messages';
+
+// taken from http://formatjs.io/guides/runtime-environments/#server
+
+const supportedLocales = getSupportedLanguages().map(l => l.localeCode);
+
+if (global.Intl) {
+  // Determine if the built-in `Intl` has the locale data we need.
+  if (!areIntlLocalesSupported(supportedLocales)) {
+    // `Intl` exists, but it doesn't have the data we need, so load the
+    // polyfill and replace the constructors with need with the polyfill's.
+    Intl.NumberFormat = IntlPolyfill.NumberFormat;
+    Intl.DateTimeFormat = IntlPolyfill.DateTimeFormat;
+  }
+} else {
+  // No `Intl`, so use and load the polyfill.
+  global.Intl = IntlPolyfill;
+}
 
 const googleAnalyticsCode = `
 <script>
