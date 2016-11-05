@@ -39,13 +39,13 @@ export function logIn(dispatch) {
       switch (response.statusCode) {
         case 400:
           // unexpected: form should catch this on frontend
-          errMessage = 'errors.missingCredentials';
+          errMessage = 'errors.sessions.missingCredentials';
           break;
         case 401:
-          errMessage = 'errors.badCredentials';
+          errMessage = 'errors.sessions.badCredentials';
           break;
         default:
-          errMessage = 'errors.unexpected';
+          errMessage = 'errors.sessions.unexpected';
       }
       dispatch(loginFailure(errMessage));
     }).catch(() => {

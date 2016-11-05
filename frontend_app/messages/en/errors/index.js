@@ -1,16 +1,10 @@
 /* eslint-disable max-len */
+import sessions from './sessions';
 
 export default [
-  {
-    id: 'errors.missingCredentials',
-    defaultMessage: 'Looks like you forgot to fill in your username or password; please fill them out and try again!',
-  },
-  {
-    id: 'errors.badCredentials',
-    defaultMessage: 'Looks like your username or password might be wrong; please check and try again!',
-  },
+  ...sessions,
   {
     id: 'errors.unexpected',
-    defaultMessage: 'Something unexpected happened; please try again!',
+    defaultMessage: 'Sorry, something went wrong! Please try again.',
   },
 ];
