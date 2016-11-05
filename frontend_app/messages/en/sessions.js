@@ -10,7 +10,7 @@ export default [
     defaultMessage: 'Password',
   },
   {
-    id: 'sessions.remember',
+    id: 'sessions.rememberMe',
     defaultMessage: 'Remember Me',
   },
   {
