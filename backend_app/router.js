@@ -107,15 +107,11 @@ export default function createRouter() {
   );
 
   router.all('/api/*', () => {
-    throw new ApplicationError(404);
+    throw new ApplicationError('Not Found', 404);
   });
 
   router.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
     if (err instanceof ApplicationError) {
-      if (err.noMessage) {
-        res.sendStatus(err.statusCode);
-        return;
-      }
       res.status(err.statusCode).send({
         message: err.message,
         data: err.data || {},
@@ -124,7 +120,7 @@ export default function createRouter() {
     }
 
     // log the error for debugging
-    console.log(err); // eslint-disable-line no-console
+    console.error(err); // eslint-disable-line no-console
     res.sendStatus(500); // uncaught exception
   });
 

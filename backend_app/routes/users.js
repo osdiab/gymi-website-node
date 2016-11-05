@@ -50,7 +50,7 @@ export default {
     // Only admins can create non-admin accounts
     if (role !== 'student') {
       if (!res.locals.authData || res.locals.authData.role !== 'admin') {
-        throw new ApplicationError(401);
+        throw new ApplicationError('Unauthorized', 401);
       }
     }
 

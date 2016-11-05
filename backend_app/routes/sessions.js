@@ -27,18 +27,21 @@ export default {
     usersDb.find(userIdentifier, true).then((user) => {
       // user does not exist
       if (!user) {
-        throw new ApplicationError(401);
+        throw new ApplicationError('Invalid credentials', 401);
       }
 
       return Promise.all([user, comparePassword(req.body.password, user.password_hash)]);
     }).then(([user, passwordMatches]) => {
       // password is wrong
       if (!passwordMatches) {
-        throw new ApplicationError(401);
+        throw new ApplicationError('Invalid credentials', 401);
       }
-      res.send(jwt.sign({
-        id: user.id, role: user.role,
-      }, TOKEN_SECRET, { expiresIn: '7 days' }));
+      res.send({
+        message: 'success',
+        data: {
+          token: jwt.sign({ id: user.id, role: user.role }, TOKEN_SECRET, { expiresIn: '7 days' }),
+        },
+      });
     }).catch(next);
   },
 
@@ -100,7 +103,7 @@ export default {
     const tokenUserId = res.locals.authData.id;
 
     if (userId !== tokenUserId) {
-      throw new ApplicationError(401);
+      throw new ApplicationError('Forbidden', 403);
     }
 
     const passwordValidation = validatePassword(req.body.password);
@@ -115,11 +118,11 @@ export default {
 
   assertRole: assertedRoles => (req, res, next) => {
     if (!res.locals.authData) {
-      throw new ApplicationError(401);
+      throw new ApplicationError('Unauthorized', 401);
     }
     const rolesToCheck = _.isArray(assertedRoles) ? assertedRoles : [assertedRoles];
     if (!rolesToCheck.includes(res.locals.authData.role)) {
-      throw new ApplicationError(403);
+      throw new ApplicationError('Forbidden', 403);
     }
     next();
   },
