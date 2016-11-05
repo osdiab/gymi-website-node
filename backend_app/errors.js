@@ -9,7 +9,7 @@ import _ from 'lodash';
 export class ApplicationError extends Error {
   constructor(message, statusCode, data) {
     super(message);
-    if (_.omitBy([message, statusCode], _.isEmpty) !== 2) {
+    if (_.compact([message, statusCode]).length !== 2) {
       throw new Error('message and statusCode must be provided');
     }
 

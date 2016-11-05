@@ -15,6 +15,7 @@ import submissions from './routes/submissions';
 import submissionQuestions from './routes/submissionQuestions';
 import emails from './routes/emails';
 import { handleRender } from './serverRendering';
+import { LANGUAGE_KEY } from '../frontend_app/reducers/language';
 
 export default function createRouter() {
   const router = express.Router(); // eslint-disable-line new-cap
@@ -26,7 +27,7 @@ export default function createRouter() {
   router.use(requestLanguage({
     languages: ['en', 'zh'],
     cookie: {
-      name: 'language',
+      name: LANGUAGE_KEY,
       options: { maxAge: 10 * 365 * 24 * 60 * 60 * 1000 }, // 10 yrs from now
     },
   }));
