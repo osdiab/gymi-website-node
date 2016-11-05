@@ -53,14 +53,14 @@ const imageGalleryOpts = {
         { item.description &&
           <div className="TimelinePage--gallery--description image-gallery-description">
             <h2>
-              { SEASONS.includes(period) ? (
+              { SEASONS.includes(period.toLowerCase()) ? (
                 <FormattedMessage
                   {...seasonsMessages.seasonalDate[period.toLowerCase()]}
                   values={{ year }}
                 />
               ) : (
                 <FormattedDate
-                  value={new Date(`${period} ${year}`)}
+                  value={new Date(`${period} 15, ${year}`)}
                   year="numeric"
                   month="long"
                 />
