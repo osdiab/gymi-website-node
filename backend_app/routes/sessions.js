@@ -3,7 +3,8 @@ import _ from 'lodash';
 
 import { ApplicationError } from '../errors';
 import usersDb from '../db/users';
-import { hashPassword, comparePassword, validatePassword } from './passwords';
+import { hashPassword, comparePassword } from './crypto';
+import { validatePassword } from '../../common/passwords';
 
 const TOKEN_SECRET = 'super secret'; // TODO: make this an env variable
 

@@ -2,7 +2,8 @@ import _ from 'lodash';
 
 import usersDb, { VALID_LIST_FILTERS } from '../db/users';
 import { ApplicationError } from '../errors';
-import { hashPassword, validatePassword } from './passwords';
+import { hashPassword } from './crypto';
+import { validatePassword } from '../../common/passwords';
 
 const VALID_ROLES = [
   'student',
@@ -28,7 +29,7 @@ export default {
     const requiredFields = ['username', 'password', 'name', 'role'];
     const values = _.pick(req.body, requiredFields);
     const { username, password, name, role } = values;
-    if (_.omitBy(values, _.isEmpty).length > 0) {
+    if (_.size(_.omitBy(values, _.isEmpty)) < requiredFields.length) {
       throw new ApplicationError('Missing required fields', 400, {
         requiredFields,
       });
