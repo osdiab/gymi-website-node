@@ -37,9 +37,12 @@ export default function session(state = {}, action) {
   const initialState = {
     token: fetchStoredToken(),
     loginError: null,
+    showingLogInModal: false,
   };
 
   switch (action.type) {
+    case 'TOGGLE_LOGIN_MODAL':
+      return Object.assign({}, state, { showingLogInModal: action.show });
     case 'LOGIN_REQUEST':
       return Object.assign({}, state, { loggingIn: true, loginError: null });
     case 'LOGIN_SUCCESS':
