@@ -7,6 +7,8 @@ import browserLocale from 'browser-locale';
 
 const isBrowser = typeof window !== 'undefined' && window.document;
 
+const LANGUAGE_KEY = 'language.currentLanguage';
+
 export function getSupportedLanguages() {
   return [
     {
@@ -29,9 +31,13 @@ export function findSupportedLanguage(localeCode) {
 }
 
 function fetchStoredLanguage() {
-  const storedLanguage = jsCookie.get('language');
+  if (!isBrowser) {
+    return null;
+  }
+
+  const storedLanguage = jsCookie.get(LANGUAGE_KEY) || localStorage.getItem(LANGUAGE_KEY);
   if (!storedLanguage) {
-    return undefined;
+    return null;
   }
 
   const lang = findSupportedLanguage(storedLanguage);
@@ -39,11 +45,13 @@ function fetchStoredLanguage() {
     jsCookie.remove(lang);
     return getDefaultLanguage();
   }
+
   return lang;
 }
 
 function persistCurrentLanguage(lang) {
-  jsCookie.set('language', lang.localeCode, { expires: new Date('Jan 2038') });
+  jsCookie.set(LANGUAGE_KEY, lang.localeCode, { expires: new Date('Jan 2038') });
+  localStorage.setItem(LANGUAGE_KEY, lang.localeCode);
 }
 
 export default function language(state = {}, action) {
