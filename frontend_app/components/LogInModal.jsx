@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import _ from 'lodash';
 
 import { validatePassword } from '../../common/passwords';
 import { validateUsername } from '../../common/usernames';
@@ -8,6 +9,7 @@ import Modal from './Modal';
 import Button from './Button';
 import { logIn } from '../actions';
 
+import './LogInModal.less';
 import messages from '../messages';
 
 export class LogInModalView extends React.Component {
@@ -26,12 +28,13 @@ export class LogInModalView extends React.Component {
   parseLoginEntries() {
     const username = this.loginForm.elements.username.value;
     const password = this.loginForm.elements.password.value;
-    const remember = this.loginForm.elements.remember.value;
+    const remember = this.loginForm.elements.remember.checked;
     return { username, password, remember };
   }
 
   validateForm() {
     const { username, password } = this.parseLoginEntries();
+
     if (username.length === 0) {
       return 'errors.sessions.usernameMissing';
     }
@@ -74,36 +77,44 @@ export class LogInModalView extends React.Component {
         title="Log in"
         closeModal={this.props.closeModal}
       >
+        { this.state.validationError &&
+          <p className="LoginModal--errors">
+            <FormattedMessage {..._.get(messages, this.state.validationError)} />
+          </p>
+        }
         <form ref={(el) => { this.loginForm = el; }} className="LogInModal--form">
-          <div className="LogInModal--form--inputContainer">
-            <div>
+          <ul className="LoginModal--form--entries">
+            <li>
               <label htmlFor="LogInModal--form--username">
                 <FormattedMessage {...messages.sessions.username} />
               </label>
-              <label htmlFor="LogInModal--form--password">
-                <FormattedMessage {...messages.sessions.password} />
-              </label>
-            </div>
-            <div>
               <input
                 type="text" name="username" id="LogInModal--form--username"
                 onChange={this.handleChange}
               />
+            </li>
+
+            <li>
+              <label htmlFor="LogInModal--form--password">
+                <FormattedMessage {...messages.sessions.password} />
+              </label>
               <input
                 type="text" name="password" id="LogInModal--form--password"
                 onChange={this.handleChange}
               />
-            </div>
-          </div>
-          <div className="LogInModal--form--submitContainer">
-            <input type="checkbox" name="remember" id="LogInModal--form--remember" />
-            <label htmlFor="LogInModal--form--remember">
-              <FormattedMessage {...messages.sessions.rememberMe} />
-            </label>
-            <Button action={this.handleLogIn} disabled={!this.formIsValid}>
-              <FormattedMessage {...messages.sessions.logIn} />
-            </Button>
-          </div>
+            </li>
+            <li className="LogInModal--form--rememberItem">
+              <input type="checkbox" name="remember" id="LogInModal--form--remember" />
+              <label htmlFor="LogInModal--form--remember">
+                <FormattedMessage {...messages.sessions.rememberMe} />
+              </label>
+            </li>
+            <li className="LogInModal--form--submitItem">
+              <Button type="primary" action={this.handleLogIn} disabled={!this.state.formIsValid}>
+                <FormattedMessage {...messages.sessions.logIn} />
+              </Button>
+            </li>
+          </ul>
         </form>
       </Modal>
     );
@@ -119,8 +130,9 @@ LogInModalView.propTypes = {
 // Injects state and action dispatchers into the Component, thus decoupling the
 // presentation from state management.
 function mapDispatchToProps(dispatch) {
-  return { logIn: (username, password, remember) =>
-    dispatch(logIn(username, password, remember)) };
+  return {
+    logIn: (username, password, remember) => dispatch(logIn(username, password, remember)),
+  };
 }
 
 const LogInModal = connect(
