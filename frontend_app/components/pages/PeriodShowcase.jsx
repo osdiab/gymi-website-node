@@ -8,22 +8,22 @@ import PageSection from './PageSection';
 import ChevronPage from './ChevronPage';
 import messages from '../../messages';
 
-require('./SessionShowcase.less');
+require('./PeriodShowcase.less');
 
-export default function SessionShowcase({
+export default function PeriodShowcase({
   messagesId, season, year, imageDetails, imageGallery, backgroundImageUrl, backgroundTint,
 }) {
   return (
-    <ChevronPage className={`SessionShowcase--${messagesId}`}>
+    <ChevronPage className={`PeriodShowcase--${messagesId}`}>
       <PageSection
-        className="SessionShowcase--section SessionShowcase--splash"
+        className="PeriodShowcase--section PeriodShowcase--splash"
         background={{
           media: { imageUrl: backgroundImageUrl },
           tint: backgroundTint,
         }}
         whiteText
       >
-        <div className="SessionShowcase--section--content">
+        <div className="PeriodShowcase--section--content">
           <h1>
             <FormattedMessage
               {...messages.seasons.seasonalDate[season]}
@@ -34,25 +34,25 @@ export default function SessionShowcase({
       </PageSection>
 
       <PageSection>
-        <section className="SessionShowcase--section--content">
+        <section className="PeriodShowcase--section--content">
           <FormattedHTMLMessage
-            {...messages.sessions[messagesId].description}
+            {...messages.periods[messagesId].description}
           />
         </section>
-        <section className="SessionShowcase--imageStories SessionShowcase--section--content">
+        <section className="PeriodShowcase--imageStories PeriodShowcase--section--content">
           {imageDetails.map(({ imageId, media }) => {
             const key = `${messagesId}--${imageId}`;
             const label = `${key}--caption`;
             return (
               <figure key={key}>
-                <div className="SessionShowcase--imageStories--media">
+                <div className="PeriodShowcase--imageStories--media">
                   { _.isString(media) ?
                     <img src={media} aria-describedby={label} alt="" /> : media
                   }
                 </div>
                 <figcaption id={label}>
                   <FormattedMessage
-                    {...messages.sessions[messagesId].sections[imageId]}
+                    {...messages.periods[messagesId].sections[imageId]}
                   />
                 </figcaption>
               </figure>
@@ -61,9 +61,9 @@ export default function SessionShowcase({
         </section>
         <section>
           <h2>
-            <FormattedMessage {...messages.sessions.morePhotos} />
+            <FormattedMessage {...messages.periods.morePhotos} />
           </h2>
-          <div className="SessionShowcase--gallery">
+          <div className="PeriodShowcase--gallery">
             <ImageGallery
               items={imageGallery}
               showFullscreenButton={false}
@@ -75,7 +75,7 @@ export default function SessionShowcase({
   );
 }
 
-SessionShowcase.propTypes = {
+PeriodShowcase.propTypes = {
   messagesId: PropTypes.string.isRequired,
   season: PropTypes.string.isRequired,
   year: PropTypes.number.isRequired,

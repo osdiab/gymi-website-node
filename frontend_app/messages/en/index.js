@@ -6,7 +6,9 @@ import ContactUsPage from './ContactUsPage';
 import SiteNavigation from './SiteNavigation';
 import LeadershipTeamSection from './LeadershipTeamSection';
 import seasons from './seasons';
-import sessions, { summer2013, summer2014, summer2015 } from './sessions';
+import sessions from './sessions';
+import periods from './periods';
+import errors from './errors';
 
 export default [
   ...HomePage,
@@ -18,7 +20,6 @@ export default [
   ...LeadershipTeamSection,
   ...seasons,
   ...sessions,
-  ...summer2013,
-  ...summer2014,
-  ...summer2015,
+  ...periods,
+  ...errors,
 ];

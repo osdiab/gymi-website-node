@@ -4,13 +4,10 @@ import summer2015 from './summer2015';
 
 export default [
   {
-    id: 'sessions.morePhotos',
+    id: 'periods.morePhotos',
     defaultMessage: 'More Photos',
   },
+  ...summer2013,
+  ...summer2014,
+  ...summer2015,
 ];
-
-export {
-  summer2013,
-  summer2014,
-  summer2015,
-};

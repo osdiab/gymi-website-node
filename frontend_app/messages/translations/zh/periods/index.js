@@ -4,7 +4,7 @@ import summer2015 from './summer2015';
 
 export default [
   {
-    id: 'sessions.morePhotos',
+    id: 'periods.morePhotos',
     defaultMessage: '更多照片',
   },
 ];

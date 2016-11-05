@@ -29,7 +29,7 @@ const SEASONS = [
   'summer', 'winter', 'fall', 'spring',
 ];
 
-const SESSIONS = [
+const PERIODS = [
   { period: 'summer', year: 2013 },
   { period: 'summer', year: 2014 },
   { period: 'summer', year: 2015 },
@@ -96,8 +96,9 @@ export default function TimelinePage() {
         </div>
       </PageSection>
 
-      { SESSIONS.map(({ period, year }) => (
+      { PERIODS.map(({ period, year }) => (
         <PageSection
+          key={`PageSection--${period}--${year}`}
           className="TimelinePage--section TimelinePage--timelineLink"
           background={{
             media: {

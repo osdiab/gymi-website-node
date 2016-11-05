@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
 
-import SessionShowcase from './SessionShowcase';
+import PeriodShowcase from './PeriodShowcase';
 
 export function Summer2013Page() {
-  return (<SessionShowcase
+  return (<PeriodShowcase
     messagesId="summer2013"
     season="summer"
     year={2013}
@@ -47,7 +47,7 @@ export function Summer2013Page() {
 }
 
 export function Summer2014Page() {
-  return (<SessionShowcase
+  return (<PeriodShowcase
     messagesId="summer2014"
     season="summer"
     year={2014}
@@ -90,7 +90,7 @@ export function Summer2014Page() {
 }
 
 export function Summer2015Page() {
-  return (<SessionShowcase
+  return (<PeriodShowcase
     messagesId="summer2015"
     season="summer"
     year={2015}
