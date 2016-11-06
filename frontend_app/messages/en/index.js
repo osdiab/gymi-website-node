@@ -9,6 +9,7 @@ import seasons from './seasons';
 import sessions from './sessions';
 import periods from './periods';
 import errors from './errors';
+import dreamProject from './dreamProject';
 
 export default [
   ...HomePage,
@@ -22,4 +23,5 @@ export default [
   ...sessions,
   ...periods,
   ...errors,
+  ...dreamProject,
 ];

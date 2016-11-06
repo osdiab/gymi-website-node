@@ -9,6 +9,10 @@ import JoinUsPage from './pages/JoinUsPage';
 import ContactUsPage from './pages/ContactUsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import { Summer2013Page, Summer2014Page, Summer2015Page } from './pages/periods';
+import DreamProjectLayout from './pages/dreamProject/DreamProjectLayout';
+import DreamProjectHomePage from './pages/dreamProject/DreamProjectHomePage';
+import DreamProjectStudentsPage from './pages/dreamProject/DreamProjectStudentsPage';
+import DreamProjectProfilePage from './pages/dreamProject/DreamProjectProfilePage';
 
 export default (
   <Route path="/" component={SiteLayout}>
@@ -20,6 +24,11 @@ export default (
     <Route path="timeline/summer2015" component={Summer2015Page} />
     <Route path="joinUs" component={JoinUsPage} />
     <Route path="contactUs" component={ContactUsPage} />
+    <Route path="/dreamProject" component={DreamProjectLayout}>
+      <IndexRoute component={DreamProjectHomePage} />
+      <Route path="/dreamProject/students" component={DreamProjectStudentsPage} />
+      <Route path="/dreamProject/profile" component={DreamProjectProfilePage} />
+    </Route>
     <Route path="*" component={NotFoundPage} />
   </Route>
 );
