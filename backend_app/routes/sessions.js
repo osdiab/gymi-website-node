@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import _ from 'lodash';
 
 import { ApplicationError } from '../errors';
-import usersDb from '../db/users';
+import usersDb, { PUBLIC_USER_FIELDS } from '../db/users';
 import { hashPassword, comparePassword } from './crypto';
 import { validatePassword } from '../../common/passwords';
 
@@ -41,6 +41,7 @@ export default {
         message: 'success',
         data: {
           token: jwt.sign({ id: user.id, role: user.role }, TOKEN_SECRET, { expiresIn: '7 days' }),
+          user: _.pick(user, PUBLIC_USER_FIELDS),
         },
       });
     }).catch(next);

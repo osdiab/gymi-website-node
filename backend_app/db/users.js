@@ -4,7 +4,7 @@ import _ from 'lodash';
 import db from './';
 import { ApplicationError } from '../errors';
 
-const PUBLIC_USER_FIELDS = ['id', 'username', 'role', 'name'];
+export const PUBLIC_USER_FIELDS = ['id', 'username', 'role', 'name'];
 
 // flexible find function—can search for id or username.
 // Returns one entry, or null.
