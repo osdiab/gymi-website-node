@@ -9,7 +9,7 @@ import IntlPolyfill from 'intl';
 
 import reducers from '../frontend_app/reducers';
 import { findSupportedLanguage, getSupportedLanguages } from '../frontend_app/reducers/language';
-import Routes from '../frontend_app/components/Routes';
+import routes from '../frontend_app/components/routes';
 import { translations } from '../frontend_app/messages';
 
 // taken from http://formatjs.io/guides/runtime-environments/#server
@@ -68,7 +68,7 @@ export function handleRender(req, res) {
     createStore(reducers, { language: { currentLanguage: supportedLanguage } }) :
     createStore(reducers);
 
-  match({ routes: Routes, location: req.url }, (err, redirect, props) => {
+  match({ routes, location: req.url }, (err, redirect, props) => {
     if (err) {
       res.status(500).send(err);
       return;

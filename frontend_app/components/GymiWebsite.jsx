@@ -6,7 +6,7 @@ import { Router, browserHistory, applyRouterMiddleware } from 'react-router';
 import { useScroll } from 'react-router-scroll';
 
 import { translations } from '../messages';
-import Routes from './Routes';
+import routes from './routes';
 
 export function GymiWebsiteView({ currentLanguage, defaultLanguage }) {
   // NOTE: need key on IntlProvider to trigger page rerender
@@ -21,7 +21,7 @@ export function GymiWebsiteView({ currentLanguage, defaultLanguage }) {
       <Router
         history={browserHistory}
         render={applyRouterMiddleware(useScroll())}
-        routes={Routes}
+        routes={routes}
       />
     </IntlProvider>
   );
