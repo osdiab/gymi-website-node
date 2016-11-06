@@ -229,7 +229,7 @@ export function createSubmissionSuccess() {
   return { type: 'CREATE_SUBMISSION_SUCCESS' };
 }
 
-export function createSubmission(userId, token) {
+export function createSubmission(userId, token, answers) {
   return (dispatch) => {
     dispatch(createSubmissionRequest());
     return fetch(`/api/users/${userId}/submissions`, {
@@ -239,9 +239,14 @@ export function createSubmission(userId, token) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify({
+        answers,
+      }),
     }).then((response) => {
-      if (response.status === 200) {
+      if (response.status === 201) {
         dispatch(createSubmissionSuccess());
+        dispatch(loadOwnSubmissions(userId, token));
+        dispatch(loadOtherSubmissions(userId, token));
         return;
       }
 

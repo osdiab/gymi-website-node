@@ -7,7 +7,7 @@ export default function submissions(state = {}, action) {
       });
     case 'OTHER_SUBMISSIONS_SUCCESS': {
       return Object.assign({}, state, {
-        otherSubmissions: action.otherSubmissions,
+        otherSubmissions: action.submissions,
         requestingOtherSubmissions: false,
         otherSubmissionsError: null,
       });
@@ -51,7 +51,10 @@ export default function submissions(state = {}, action) {
         createdSubmission: true,
       });
     default: {
-      return Object.assign({}, state);
+      return Object.assign({
+        creatingSubmission: false,
+        createdSubmission: false,
+      }, state);
     }
   }
 }
