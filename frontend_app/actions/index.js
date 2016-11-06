@@ -1,3 +1,5 @@
+import { browserHistory } from 'react-router';
+
 // Actions define what events can cause application state to change. How the application state
 // actually changes is defined by each reducer in the Redux store (see the store/ directory).
 
@@ -9,8 +11,8 @@ export function setCurrentLanguage(localeCode) {
 }
 
 export const loginRequest = { type: 'LOGIN_REQUEST' };
-export function loginSuccess(token, remember) {
-  return { type: 'LOGIN_SUCCESS', token, remember };
+export function loginSuccess(token, user, remember) {
+  return { type: 'LOGIN_SUCCESS', token, user, remember };
 }
 export function loginFailure(errMessage) {
   return { type: 'LOGIN_FAILURE', errMessage };
@@ -18,7 +20,10 @@ export function loginFailure(errMessage) {
 export function toggleLogInModal(show) {
   return { type: 'TOGGLE_LOGIN_MODAL', show };
 }
-export const logOut = { type: 'LOGOUT' };
+export function logOut() {
+  browserHistory.push('/');
+  return { type: 'LOGOUT' };
+}
 
 // Asynchronous actions depend on redux-thunk to function correctly.  Asynchronous actions are
 // functions that can dispatch synchronous actions as they please. Hence, this function receives
@@ -36,8 +41,9 @@ export function logIn(username, password, remember) {
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
       if (response.status === 200) {
-        dispatch(loginSuccess(responseData.data.token, remember));
+        dispatch(loginSuccess(responseData.data.token, responseData.data.user, remember));
         dispatch(toggleLogInModal(false));
+        browserHistory.push('/dreamProject');
         return;
       }
       let errMessage;

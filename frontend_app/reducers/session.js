@@ -1,4 +1,4 @@
-import { browserHistory } from 'react-router';
+// TODO: resilient to errors from local/sessionStorage
 
 // Expresses how state related to the user's session changes as actions arrive.
 // Note: reducers MUST not have side effects, so don't update the state; return a new one.
@@ -7,32 +7,43 @@ import { browserHistory } from 'react-router';
 const isBrowser = typeof window !== 'undefined' && window.document;
 
 const TOKEN_KEY = 'session.token';
-
-function fetchStoredToken() {
-  if (!isBrowser) {
-    return null;
-  }
-  return window.localStorage.getItem(TOKEN_KEY) || window.sessionStorage.getItem(TOKEN_KEY);
-}
-
-function persistToken(token, remember) {
-  if (!isBrowser) {
-    return;
-  }
-
-  if (remember) {
-    window.localStorage.setItem(TOKEN_KEY, token);
-  } else {
-    window.sessionStorage.setItem(TOKEN_KEY, token);
-  }
-}
+const USER_KEY = 'session.user';
 
 function clearStoredToken() {
   if (!isBrowser) {
     return;
   }
-  window.sessionStorage.removeItem(TOKEN_KEY);
   window.localStorage.removeItem(TOKEN_KEY);
+  window.localStorage.removeItem(USER_KEY);
+  window.sessionStorage.removeItem(TOKEN_KEY);
+  window.sessionStorage.removeItem(USER_KEY);
+}
+
+function fetchStoredLogin() {
+  if (!isBrowser) {
+    return null;
+  }
+  const data = {
+    token: window.localStorage.getItem(TOKEN_KEY) || window.sessionStorage.getItem(TOKEN_KEY),
+    user: window.localStorage.getItem(USER_KEY) || window.sessionStorage.getItem(USER_KEY),
+  };
+
+  // don't return if missing data
+  if (!data.token || !data.user) {
+    clearStoredToken();
+    return null;
+  }
+  return { token: data.token, user: JSON.parse(data.user) };
+}
+
+function persistLogin(token, user, remember) {
+  if (!isBrowser) {
+    return;
+  }
+
+  const storage = remember ? window.localStorage : window.sessionStorage;
+  storage.setItem(TOKEN_KEY, token);
+  storage.setItem(USER_KEY, JSON.stringify(user));
 }
 
 export default function session(state = {}, action) {
@@ -42,22 +53,21 @@ export default function session(state = {}, action) {
     case 'LOGIN_REQUEST':
       return Object.assign({}, state, { loggingIn: true, loginError: null });
     case 'LOGIN_SUCCESS':
-      persistToken(action.token, action.remember);
-      browserHistory.push('/dreamProject');
-      return Object.assign({}, state, { token: action.token });
+      persistLogin(action.token, action.user, action.remember);
+      return Object.assign({}, state, { token: action.token, user: action.user });
     case 'LOGIN_FAILURE':
       return Object.assign({}, state, { loggingIn: false, loginError: action.errMessage });
     case 'LOGOUT':
       clearStoredToken();
-      browserHistory.push('/');
       return Object.assign({}, state, { token: null });
     default: {
       const initialState = {
         showingLogInModal: false,
       };
-      const storedToken = fetchStoredToken();
-      if (storedToken) {
-        initialState.token = storedToken;
+      const loginData = fetchStoredLogin();
+      if (loginData) {
+        initialState.token = loginData.token;
+        initialState.user = loginData.user;
       }
       return Object.assign({}, initialState, state);
     }
