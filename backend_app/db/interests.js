@@ -27,7 +27,7 @@ const add = (userId, topicId) => new Promise((resolve, reject) =>
   db.oneOrNone(
     `INSERT INTO "userInterests" ("topicId", "userId")
     VALUES ($<topicId>, $<userId>)
-    ON CONFLICT DO NOTHING`,
+    ON CONFLICT DO NOTHING RETURNING "topicId"`,
     { userId, topicId },
   ).then(resolve).catch(reject)
 );
@@ -41,7 +41,10 @@ const remove = (userId, topicId) => new Promise((resolve, reject) =>
 
 const updatePrimary = (userId, topicId) => new Promise((resolve, reject) =>
   db.one(
-    'UPDATE "primaryUserInterests" SET "topicId" = $<topicId> WHERE "userId" = $<userId>',
+    `INSERT INTO "primaryUserInterests" ("userId", "topicId")
+    VALUES ($<userId>, $<topicId>)
+    ON CONFLICT ("userId") DO UPDATE SET "topicId" = $<topicId>
+    RETURNING "topicId"`,
     { userId, topicId }
   ).then(resolve).catch(reject)
 );

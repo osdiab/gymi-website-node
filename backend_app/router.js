@@ -76,15 +76,15 @@ export default function createRouter() {
    * interests endpoints
    */
   router.get('/api/users/:userId/interests', sessions.verify, interests.list);
-  router.post('/api/users/:id/interests', sessions.verify, interests.add);
-  router.delete('/api/users/:id/interests', sessions.verify, interests.remove);
+  router.post('/api/users/:userId/interests', sessions.verify, interests.add);
+  router.delete('/api/users/:userId/interests', sessions.verify, interests.remove);
 
   /*
    * submissions endpoints
    */
   router.get('/api/users/:userId/submissions', sessions.verify, submissions.list);
   router.get('/api/submissions', sessions.verify, submissions.list);
-  router.post('/api/submissions', sessions.verify, submissions.create);
+  router.post('/api/users/:userId/submissions', sessions.verify, submissions.create);
 
   /*
    * topics endpoints
