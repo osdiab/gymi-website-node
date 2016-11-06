@@ -3,36 +3,59 @@ import pgPromise from 'pg-promise';
 
 import db from './';
 
-const list = (filters, limit = 10) => new Promise((resolve, reject) => {
+const list = (filters, limit = 100) => new Promise((resolve, reject) => {
   const columns = [
-    'submissions.id', 'timestamp', 'user_id', 'body AS answer_body', 'question_id',
-    'title AS question', 'archive AS question_archived',
+    'submissions.id', 'timestamp', 'user_id', 'body AS answer', 'question_id',
+    'title AS question', 'archived AS question_archived',
   ];
-  const supportedFilters = ['after', 'user_id'];
-  if (_.difference(filters.keys(), supportedFilters).length !== 0) {
+  const supportedFilters = ['after', 'userId'];
+  if (_.difference(_.keys(filters), supportedFilters).length !== 0) {
     throw new Error('Unsupported filters provided');
   }
-  let clause = '';
+  const clauses = [];
   const additionalArgs = {};
   if (filters.after) {
-    clause += ' AND timestamp > $<after>';
+    clauses.push('timestamp > $<after>');
     additionalArgs.after = filters.after;
   }
 
   if (filters.userId) {
-    clause += ' AND user_id = $<userId>';
+    clauses.push('user_id = $<userId>');
     additionalArgs.userId = filters.userId;
   }
+  const clause = clauses.length > 0 ? `AND ${clauses.join(' AND ')}` : '';
 
+  // need the where clause to limit on number of submissions
   const query = `
-    SELECT $<columns:raw>
+    SELECT ${columns.join(', ')}
     FROM submissions
-    WHERE submission.id IN (
-      SELECT id FROM submissions ORDER BY timestamp DESC LIMIT $<limit>
-    ) ${clause}`;
+    INNER JOIN submission_answers ON submissions.id = submission_id
+    INNER JOIN submission_questions ON submission_questions.id = question_id
+    WHERE submissions.id IN (
+      SELECT id
+      FROM submissions AS s2
+      ORDER BY timestamp DESC
+      LIMIT $<limit>)
+    ${clause} ORDER BY timestamp DESC`;
 
   db.manyOrNone(
     query, Object.assign({}, { columns, limit }, additionalArgs)
+  ).then(submissions =>
+    // combine multiple rows of answers into an array of answers per submission
+    _.values(_.reduce(submissions, (memo, submission) => {
+      const answerFields = ['answer', 'question_id', 'question', 'question_archived'];
+      const answerValues = _.pick(submission, answerFields);
+
+      if (memo[submission.id]) {
+        const newAnswers = memo[submission.id].answers.concat(answerValues);
+        const newSubmission = Object.assign({}, memo[submission.id], { answers: newAnswers });
+        return Object.assign({}, memo, { [submission.id]: newSubmission });
+      }
+
+      const newEntry = Object.assign(
+        _.omit(submission, answerFields), { answers: [answerValues] });
+      return Object.assign({}, memo, { [submission.id]: newEntry });
+    }, {}))
   ).then(resolve).catch(reject);
 });
 

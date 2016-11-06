@@ -13,33 +13,52 @@ export default {
     );
 
     if (filters.after) {
-      filters.after = moment(filters.after);
-      if (!filters.after.isValid()) {
-        throw new ApplicationError('After is not a valid date');
+      const afterMoment = moment(filters.after);
+      if (!afterMoment.isValid()) {
+        throw new ApplicationError('After is not a valid date', 400);
       }
+      filters.after = afterMoment.toDate();
     }
 
     if (filters.userId) {
       if (isNaN(filters.userId)) {
-        throw new ApplicationError('userId is not an integer');
+        throw new ApplicationError('userId is not an integer', 400);
       }
       filters.userId = parseInt(filters.userId, 10);
     }
 
-    const { getPrimaryInterests } = req.params;
+    let promise;
+    if (req.query.limit) {
+      if (isNaN(req.query.limit)) {
+        throw new ApplicationError('limit must be an integer', 400);
+      }
+      const limit = parseInt(req.query.limit, 10);
+      if (limit < 1) {
+        throw new ApplicationError('limit must be more than 0', 400);
+      }
+      if (limit > 1000) {
+        throw new ApplicationError('limit must be less than 1000', 400);
+      }
+      promise = submissionsDb.list(filters, limit);
+    } else {
+      promise = submissionsDb.list(filters);
+    }
 
-    submissionsDb.list(filters).then((submissions) => {
+    const { getPrimaryInterests } = req.query;
+
+    promise.then(submissions => new Promise((resolve, reject) => {
       if (getPrimaryInterests) {
         interestsDb.getPrimaryForUsers(_.uniqBy(submissions, 'user_id')).then((primaryInterests) => {
           const interestMapping = _.fromPairs(primaryInterests.map(i => [i.user_id, i.topic_id]));
-          res.send(submissions.map(s => Object.assign(
+          resolve(submissions.map(s => Object.assign(
             {}, s, { primaryInterest: interestMapping[s.user_id] }
           )));
-        }).catch(next);
+        }).catch(reject);
       } else {
-        res.send(submissions);
+        resolve(submissions);
       }
-    }).catch(next);
+    })).then(data => res.send({ data }))
+    .catch(next);
   },
 
   create: (req, res, next) => {
