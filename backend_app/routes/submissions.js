@@ -68,6 +68,15 @@ export default {
       throw new ApplicationError('Missing required fields', 400, { requiredFields });
     }
 
+    if (isNaN(values.userId)) {
+      throw new ApplicationError('userId must be an integer', 400);
+    }
+    values.userId = parseInt(values.userId, 10);
+
+    if (res.locals.authData.id !== values.userId) {
+      throw new ApplicationError('You may only add submissions for your own account', 403);
+    }
+
     values.answers.map((a) => {
       if (!a.questionId) {
         throw new ApplicationError('Answer missing questionId', 400, {
