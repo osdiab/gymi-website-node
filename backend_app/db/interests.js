@@ -1,14 +1,21 @@
 import db from './';
 
 const list = userId => new Promise((resolve, reject) => {
-  const columns = ['title'];
-  const query = `SELECT $<columns:name> FROM user_interests WHERE user_id = ${userId}`;
-  db.manyOrNone(query, { columns }).then(resolve).catch(reject);
+  const columns = ['title', 'id'];
+  const queries = ['user_interests', 'primary_user_interests'].map(table => `
+    SELECT $<columns:name>
+    FROM ${table}
+    INNER JOIN topics ON topic_id = topics.id
+    WHERE user_id = $<userId>`);
+
+  const args = { columns, userId };
+  db.task(t => Promise.all([t.manyOrNone(queries[0], args), t.oneOrNone(queries[1], args)])
+  ).then(([interests, primaryInterest]) => resolve({ interests, primaryInterest })).catch(reject);
 });
 
 const getPrimaryForUsers = userIds => new Promise((resolve, reject) =>
   db.manyOrNone(
-    `SELECT user_id, topic_id
+    `SELECT user_id, topic_id, title, archived AS topic_archived
     FROM primary_user_interests
     INNER_JOIN topics ON topic_id = topic.id
     WHERE user_id IN $<userIds:csv>`,
