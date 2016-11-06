@@ -47,7 +47,7 @@ DreamProjectProfilePageView.propTypes = {
       error: PropTypes.string,
     }),
     PropTypes.oneOf(['not loaded']),
-  ]),
+  ]).isRequired,
   submissions: PropTypes.oneOfType([
     PropTypes.arrayOf(submissionType),
     PropTypes.shape({
@@ -55,19 +55,19 @@ DreamProjectProfilePageView.propTypes = {
       error: PropTypes.string,
     }),
     PropTypes.oneOf(['not loaded']),
-  ]),
+  ]).isRequired,
   loadInterests: PropTypes.func.isRequired,
   loadSubmissions: PropTypes.func.isRequired,
-  token: PropTypes.string.isRequired, // eslint-disable-line react/no-unused-prop-types
+  token: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
   const { ownInterests, requestingOwnInterests, ownInterestsError } = state.interests;
   const interests =
     ownInterests || requestingOwnInterests || ownInterestsError ? (
-      state.interests.ownInterests || {
-        loading: state.interests.requestingOwnInterests,
-        error: state.interests.ownInterestsError,
+      ownInterests || {
+        loading: requestingOwnInterests,
+        error: ownInterestsError,
       }
     ) : 'not loaded';
 
@@ -75,9 +75,9 @@ function mapStateToProps(state) {
   const submissions =
     ownSubmissions || requestingOwnSubmissions || ownSubmissionsError ?
       (
-        state.submissions.ownSubmissions || {
-          loading: state.submissions.requestingOwnSubmissions,
-          error: state.submissions.ownSubmissionsError,
+        ownSubmissions || {
+          loading: requestingOwnSubmissions,
+          error: ownSubmissionsError,
         }
       ) : 'not loaded';
 
