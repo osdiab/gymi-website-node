@@ -1,0 +1,49 @@
+@import '../../colors.less';
+@import '../../fonts.less';
+
+.DreamProjectHomePage--newSubmission {
+  width: 100%;
+  border-radius: 3px;
+  border: 2px solid @moody-blue;
+  padding: 10px;
+  margin-bottom: 20px;
+
+  ul {
+    list-style-type: none;
+    font-family: @ubuntu;
+  }
+
+  label {
+    display: block;
+    padding: 5px;
+    color: @moody-blue;
+    font-weight: bold;
+  }
+
+  li {
+    padding: 10px 0;
+    padding-right: 20px;
+    &:last-of-type {
+      text-align: right;
+    }
+  }
+
+  input[type=text] {
+    border: 1px @medium-light-grey solid;
+    width: 100%;
+    border-radius: 2px;
+    padding: 10px;
+    &::placeholder {
+      font-family: @ubuntu;
+      font-size: 1.3em;
+    }
+  }
+}
+
+.DreamProjectHomePage--newSubmission--date {
+  color: @moody-blue;
+  border-bottom: 1px solid @medium-light-grey;
+  font-size: .8em;
+  padding-bottom: 5px;
+  margin-right: 20px;
+}

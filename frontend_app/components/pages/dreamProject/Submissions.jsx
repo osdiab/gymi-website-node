@@ -20,7 +20,7 @@ export default function Submissions({ submissions, displayMetadata }) {
               { displayMetadata === 'date' &&
                 <div className="Submissions--metadata">
                   <h4><FormattedDate month="long" value={s.timestamp} /></h4>
-                  <time>
+                  <time className="Submissions--metadata--subtext">
                     <FormattedDate
                       month="numeric" day="numeric" year="numeric"
                       value={s.timestamp}
@@ -31,7 +31,9 @@ export default function Submissions({ submissions, displayMetadata }) {
               { displayMetadata === 'user' &&
                 <div className="Submissions--metadata">
                   <h4>{s.user.name}</h4>
-                  <span>{s.user.primaryInterest.title}</span>
+                  <span className="Submissions--metadata--subtext">
+                    {s.user.primaryInterest.title}
+                  </span>
                 </div>
               }
               <div className="Submissions--answers">

@@ -21,9 +21,11 @@
 .Button--secondary {
   background: none;
 
-  &:hover, &:focus {
-    border: 1px solid transparent;
-    background-color: @logo-salmon;
+  &:not([disabled]) {
+    &:hover, &:focus {
+      border: 1px solid transparent;
+      background-color: @logo-salmon;
+    }
   }
 }
 
@@ -31,9 +33,11 @@
   background: @logo-salmon;
   border-color: @logo-salmon;
 
-  &:hover, &:focus {
-    background: @light-salmon;
-    border-color: @light-salmon;
+  &:not([disabled]) {
+    &:hover, &:focus {
+      background: @light-salmon;
+      border-color: @light-salmon;
+    }
   }
 }
 
@@ -42,9 +46,11 @@
   border-color: @light-blue;
   color: white;
 
-  &:hover, &:focus {
-    border-color: @pale-blue;
-    background-color: @pale-blue;
+  &:not([disabled]) {
+    &:hover, &:focus {
+      border-color: @pale-blue;
+      background-color: @pale-blue;
+    }
   }
 }
 

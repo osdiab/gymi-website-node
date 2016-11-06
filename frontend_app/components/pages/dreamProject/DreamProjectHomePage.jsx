@@ -70,18 +70,25 @@ export class DreamProjectHomePageView extends React.Component {
   render() {
     const {
       submissions, submissionQuestions, intl, createdSubmission, creatingSubmission,
+      createSubmissionError,
     } = this.props;
     return (
       <div className="DreamProjectHomePage">
         {this.state.validationError && <p className="DreamProjectHomePage--newSubmission--errors">
           <FormattedMessage {..._.get(messages, this.state.validationError)} />
         </p>}
+        {createSubmissionError && <p className="DreamProjectHomePage--newSubmission--errors">
+          <FormattedMessage {..._.get(messages, createSubmissionError)} />
+        </p>}
         { submissionQuestions !== 'not loaded' && (
           submissionQuestions.loading ?
             <LoadingSpinner />
           :
-            <form onSubmit={this.handleSubmit} ref={(f) => { this.submissionForm = f; }}>
-              <p>
+            <form
+              className="DreamProjectHomePage--newSubmission"
+              onSubmit={this.handleSubmit} ref={(f) => { this.submissionForm = f; }}
+            >
+              <p className="DreamProjectHomePage--newSubmission--date">
                 <FormattedMessage
                   {...newSubmissionMessages.submissionForDate}
                   values={{
@@ -105,18 +112,20 @@ export class DreamProjectHomePageView extends React.Component {
                     />
                   </li>
                 ))}
-              </ul>
-              <Button
-                disabled={createdSubmission || !this.state.formIsValid} action="submit"
-              >
-                { creatingSubmission ? <LoadingSpinner /> : (
-                  createdSubmission ?
-                    <FormattedMessage {...newSubmissionMessages.submitted} />
-                  :
-                    <FormattedMessage {...newSubmissionMessages.submit} />
-                )}
+                <li>
+                  <Button
+                    disabled={createdSubmission || !this.state.formIsValid} action="submit"
+                  >
+                    { creatingSubmission ? <LoadingSpinner /> : (
+                      createdSubmission ?
+                        <FormattedMessage {...newSubmissionMessages.submitted} />
+                      :
+                        <FormattedMessage {...newSubmissionMessages.submit} />
+                    )}
 
-              </Button>
+                  </Button>
+                </li>
+              </ul>
             </form>
           )
         }
@@ -137,6 +146,7 @@ DreamProjectHomePageView.propTypes = {
   createSubmission: PropTypes.func.isRequired,
   createdSubmission: PropTypes.bool.isRequired,
   creatingSubmission: PropTypes.bool.isRequired,
+  createSubmissionError: PropTypes.bool.isRequired,
   submissions: PropTypes.oneOfType([
     PropTypes.arrayOf(submissionType),
     PropTypes.shape({
@@ -167,7 +177,7 @@ DreamProjectHomePageView.propTypes = {
 function mapStateToProps(state) {
   const {
     otherSubmissions, requestingOtherSubmissions, otherSubmissionsError, createdSubmission,
-    creatingSubmission,
+    creatingSubmission, createSubmissionError,
   } = state.submissions;
   const submissions =
     otherSubmissions || requestingOtherSubmissions || otherSubmissionsError ?
@@ -194,6 +204,7 @@ function mapStateToProps(state) {
     submissionQuestions,
     createdSubmission,
     creatingSubmission,
+    createSubmissionError,
     user,
     token,
   };
