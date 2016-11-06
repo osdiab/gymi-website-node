@@ -11,11 +11,6 @@ const VALID_ROLES = [
   'admin',
 ];
 
-const NOT_YET_IMPLEMENTED = (req, res) => {
-  res.status(501);
-  res.send('Not yet implemented!');
-};
-
 export default {
   list: (req, res) => {
     const filters = req.body.filters ? _.pick(req.body.filters, VALID_LIST_FILTERS) : {};
@@ -23,8 +18,18 @@ export default {
       res.send({ data: users });
     });
   },
-  find: NOT_YET_IMPLEMENTED,
-  setInterests: NOT_YET_IMPLEMENTED,
+  find: (req, res, next) => {
+    const requiredFields = ['identifier'];
+    const values = _.pick(req.params, requiredFields);
+    if (_.size(_.omitBy(values, _.isEmpty)) < requiredFields.length) {
+      throw new ApplicationError('Missing required fields', 400, {
+        requiredFields,
+      });
+    }
+    usersDb.find(values.identifier).then((user) => {
+      res.send({ data: user });
+    }).catch(err => next(err));
+  },
   create: (req, res, next) => {
     const requiredFields = ['username', 'password', 'name', 'role'];
     const values = _.pick(req.body, requiredFields);
@@ -50,7 +55,7 @@ export default {
 
     // Only admins can create non-admin accounts
     if (role !== 'student') {
-      if (!res.locals.authData || res.locals.authData.role !== 'admin') {
+      if (!res.locals.authData.role !== 'admin') {
         throw new ApplicationError('Unauthorized', 401);
       }
     }
