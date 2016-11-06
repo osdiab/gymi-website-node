@@ -1,3 +1,5 @@
+import { browserHistory } from 'react-router';
+
 // Expresses how state related to the user's session changes as actions arrive.
 // Note: reducers MUST not have side effects, so don't update the state; return a new one.
 // The default value is this store's initial values.
@@ -41,14 +43,18 @@ export default function session(state = {}, action) {
       return Object.assign({}, state, { loggingIn: true, loginError: null });
     case 'LOGIN_SUCCESS':
       persistToken(action.token, action.remember);
+      browserHistory.push('/dreamProject');
       return Object.assign({}, state, { token: action.token });
     case 'LOGIN_FAILURE':
       return Object.assign({}, state, { loggingIn: false, loginError: action.errMessage });
     case 'LOGOUT':
       clearStoredToken();
+      browserHistory.push('/');
       return Object.assign({}, state, { token: null });
     default: {
-      const initialState = {};
+      const initialState = {
+        showingLogInModal: false,
+      };
       const storedToken = fetchStoredToken();
       if (storedToken) {
         initialState.token = storedToken;
