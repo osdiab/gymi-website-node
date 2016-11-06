@@ -3,6 +3,8 @@ import pgPromise from 'pg-promise';
 
 import db from './';
 
+const pgpHelpers = pgPromise().helpers;
+
 const list = (filters, limit = 100) => new Promise((resolve, reject) => {
   const columns = [
     'submissions.id', 'timestamp', '"userId"', 'body AS answer', '"questionId"',
@@ -73,9 +75,9 @@ const create = (userId, answers) => new Promise((resolve, reject) => {
     'INSERT INTO submissions (timestamp, "userId") VALUES ($<timestamp>, $<userId>) RETURNING id';
   db.tx(tx =>
     tx.one(submissionsQuery, { timestamp, userId }).then(({ id }) => {
-      const answersCols = new pgPromise.helpers.ColumnSet(['submissionId', 'questionId', 'body'],
+      const answersCols = new pgpHelpers.ColumnSet(['submissionId', 'questionId', 'body'],
                                                           { table: 'submissionAnswers' });
-      const answersQuery = pgPromise.helpers.insert(
+      const answersQuery = pgpHelpers.insert(
         answers.map(a => Object.assign({}, a, { submissionId: id })), answersCols
       );
       return tx.none(answersQuery).then(() => id);

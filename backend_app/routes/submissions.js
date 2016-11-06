@@ -68,17 +68,24 @@ export default {
       throw new ApplicationError('Missing required fields', 400, { requiredFields });
     }
 
-    values.answers.forEach((a) => {
-      if (_.isEmpty(a.questionId)) {
+    values.answers.map((a) => {
+      if (!a.questionId) {
         throw new ApplicationError('Answer missing questionId', 400, {
           answer: a,
         });
       }
+
+      if (isNaN(a.questionId)) {
+        throw new ApplicationError('questionId is not an integer', 400);
+      }
+
       if (_.isEmpty(a.body)) {
         throw new ApplicationError('Answer missing body', 400, {
           answer: a,
         });
       }
+
+      return Object.assign({}, a, { questionId: parseInt(a.questionId, 10) });
     });
 
     submissionsDb.create(values.userId, values.answers).then((id) => {
