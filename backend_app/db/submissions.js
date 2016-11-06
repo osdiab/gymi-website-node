@@ -65,10 +65,13 @@ const list = (filters, limit = 100) => new Promise((resolve, reject) => {
         _.omit(submission, answerFields.concat(interestFields, userFields)),
         {
           answers: [answerValues],
-          user: { id: submission.userId, name: submission.userFullName },
-          primaryInterest: {
-            id: submission.primaryInterestId,
-            title: submission.primaryInterestTitle,
+          user: {
+            id: submission.userId,
+            name: submission.userFullName,
+            primaryInterest: {
+              id: submission.primaryInterestId,
+              title: submission.primaryInterestTitle,
+            },
           },
         }
       );
