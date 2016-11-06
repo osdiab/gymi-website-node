@@ -2,7 +2,6 @@ import _ from 'lodash';
 import moment from 'moment';
 
 import { ApplicationError } from '../errors';
-import interestsDb from '../db/interests';
 import submissionsDb from '../db/submissions';
 
 export default {
@@ -44,21 +43,7 @@ export default {
       promise = submissionsDb.list(filters);
     }
 
-    const { getPrimaryInterests } = req.query;
-
-    promise.then(submissions => new Promise((resolve, reject) => {
-      if (getPrimaryInterests) {
-        interestsDb.getPrimaryForUsers(_.uniqBy(submissions, 'userId')).then((primaryInterests) => {
-          const interestMapping = _.fromPairs(primaryInterests.map(i => [i.userId, i.topicId]));
-          resolve(submissions.map(s => Object.assign(
-            {}, s, { primaryInterest: interestMapping[s.userId] }
-          )));
-        }).catch(reject);
-      } else {
-        resolve(submissions);
-      }
-    })).then(data => res.send({ data }))
-    .catch(next);
+    promise.then(data => res.send({ data })).catch(next);
   },
 
   create: (req, res, next) => {

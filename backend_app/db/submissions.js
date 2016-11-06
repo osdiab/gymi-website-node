@@ -7,8 +7,10 @@ const pgpHelpers = pgPromise().helpers;
 
 const list = (filters, limit = 100) => new Promise((resolve, reject) => {
   const columns = [
-    'submissions.id', 'timestamp', '"userId"', 'body AS answer', '"questionId"',
-    'title AS question', 'archived AS "questionArchived"',
+    'submissions.id', 'timestamp', 'submissions."userId"', 'body AS answer', '"questionId"',
+    '"submissionQuestions".title AS question', '"submissionQuestions".archived AS "questionArchived"',
+    '"topicId" AS "primaryInterestId"', 'users.name AS "userFullName"',
+    'topics.title AS "primaryInterestTitle"',
   ];
   const supportedFilters = ['after', 'userId'];
   if (_.difference(_.keys(filters), supportedFilters).length !== 0) {
@@ -22,7 +24,7 @@ const list = (filters, limit = 100) => new Promise((resolve, reject) => {
   }
 
   if (filters.userId) {
-    clauses.push('"userId" = $<userId>');
+    clauses.push('submissions."userId" = $<userId>');
     additionalArgs.userId = filters.userId;
   }
   const clause = clauses.length > 0 ? `AND ${clauses.join(' AND ')}` : '';
@@ -33,6 +35,9 @@ const list = (filters, limit = 100) => new Promise((resolve, reject) => {
     FROM submissions
     INNER JOIN "submissionAnswers" ON submissions.id = "submissionId"
     INNER JOIN "submissionQuestions" ON "submissionQuestions".id = "questionId"
+    INNER JOIN users ON submissions."userId" = users.id
+    INNER JOIN "primaryUserInterests" ON submissions."userId" = "primaryUserInterests"."userId"
+    INNER JOIN topics ON "primaryUserInterests"."topicId" = topics.id
     WHERE submissions.id IN (
       SELECT id
       FROM submissions
@@ -46,6 +51,8 @@ const list = (filters, limit = 100) => new Promise((resolve, reject) => {
     // combine multiple rows of answers into an array of answers per submission
     _.values(_.reduce(submissions, (memo, submission) => {
       const answerFields = ['answer', 'questionId', 'question', 'questionArchived'];
+      const interestFields = ['primaryInterestId', 'primaryInterestTitle'];
+      const userFields = ['userFullName', 'userId'];
       const answerValues = _.pick(submission, answerFields);
 
       if (memo[submission.id]) {
@@ -55,7 +62,16 @@ const list = (filters, limit = 100) => new Promise((resolve, reject) => {
       }
 
       const newEntry = Object.assign(
-        _.omit(submission, answerFields), { answers: [answerValues] });
+        _.omit(submission, answerFields.concat(interestFields, userFields)),
+        {
+          answers: [answerValues],
+          user: { id: submission.userId, name: submission.userFullName },
+          primaryInterest: {
+            id: submission.primaryInterestId,
+            title: submission.primaryInterestTitle,
+          },
+        }
+      );
       return Object.assign({}, memo, { [submission.id]: newEntry });
     }, {}))
   ).then(resolve).catch(reject);
