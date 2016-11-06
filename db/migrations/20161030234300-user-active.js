@@ -15,12 +15,12 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db, callback) {
-  db.createTable('active_users', {
-    user_id: {
+  db.createTable('activeUsers', {
+    userId: {
       type: 'int', notNull: true,
       foreignKey: {
 
-        name: 'active_users_user_id_fk',
+        name: 'activeUsers_userId_fk',
         table: 'users',
         rules: {
           onDelete: 'CASCADE',
@@ -29,11 +29,11 @@ exports.up = function(db, callback) {
         mapping: 'id'
       },
     },
-    period_id: {
+    periodId: {
       type: 'int', notNull: true,
       foreignKey: {
 
-        name: 'active_users_period_id_fk',
+        name: 'activeUsers_periodId_fk',
         table: 'periods',
         rules: {
           onDelete: 'CASCADE',
@@ -46,7 +46,7 @@ exports.up = function(db, callback) {
 };
 
 exports.down = function(db, callback) {
-  db.dropTable('active_users', callback);
+  db.dropTable('activeUsers', callback);
 };
 
 exports._meta = {

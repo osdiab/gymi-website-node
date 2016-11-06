@@ -48,10 +48,10 @@ export default {
 
     promise.then(submissions => new Promise((resolve, reject) => {
       if (getPrimaryInterests) {
-        interestsDb.getPrimaryForUsers(_.uniqBy(submissions, 'user_id')).then((primaryInterests) => {
-          const interestMapping = _.fromPairs(primaryInterests.map(i => [i.user_id, i.topic_id]));
+        interestsDb.getPrimaryForUsers(_.uniqBy(submissions, 'userId')).then((primaryInterests) => {
+          const interestMapping = _.fromPairs(primaryInterests.map(i => [i.userId, i.topicId]));
           resolve(submissions.map(s => Object.assign(
-            {}, s, { primaryInterest: interestMapping[s.user_id] }
+            {}, s, { primaryInterest: interestMapping[s.userId] }
           )));
         }).catch(reject);
       } else {

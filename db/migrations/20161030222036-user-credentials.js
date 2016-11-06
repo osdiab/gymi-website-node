@@ -18,8 +18,8 @@ exports.up = function(db, callback) {
   db.createTable('users', {
     id: { type: 'int', primaryKey: true, autoIncrement: true, notNull: true },
     username: { type: 'string', unique: true, notNull: true },
-    normalized_username: { type: 'string', unique: true, notNull: true },
-    password_hash: { type: 'char', length: '60', notNull: true },
+    normalizedUsername: { type: 'string', unique: true, notNull: true },
+    passwordHash: { type: 'char', length: '60', notNull: true },
     name: { type: 'string', notNull: true },
     role: { type: 'string', notNull: true },
   }, callback);

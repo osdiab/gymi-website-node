@@ -18,11 +18,11 @@ exports.up = function(db, callback) {
   db.createTable('submissions', {
     id: { type: 'int', primaryKey: true, autoIncrement: true, notNull: true },
     timestamp: { type: 'timestamp', notNull: true },
-    user_id: {
+    userId: {
       type: 'int', notNull: true,
       foreignKey: {
 
-        name: 'submissions_user_id_fk',
+        name: 'submissions_userId_fk',
         table: 'users',
         rules: {
           onDelete: 'CASCADE',

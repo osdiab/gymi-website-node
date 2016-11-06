@@ -5,8 +5,8 @@ import db from './';
 
 const list = (filters, limit = 100) => new Promise((resolve, reject) => {
   const columns = [
-    'submissions.id', 'timestamp', 'user_id', 'body AS answer', 'question_id',
-    'title AS question', 'archived AS question_archived',
+    'submissions.id', 'timestamp', '"userId"', 'body AS answer', '"questionId"',
+    'title AS question', 'archived AS "questionArchived"',
   ];
   const supportedFilters = ['after', 'userId'];
   if (_.difference(_.keys(filters), supportedFilters).length !== 0) {
@@ -20,7 +20,7 @@ const list = (filters, limit = 100) => new Promise((resolve, reject) => {
   }
 
   if (filters.userId) {
-    clauses.push('user_id = $<userId>');
+    clauses.push('"userId" = $<userId>');
     additionalArgs.userId = filters.userId;
   }
   const clause = clauses.length > 0 ? `AND ${clauses.join(' AND ')}` : '';
@@ -29,11 +29,11 @@ const list = (filters, limit = 100) => new Promise((resolve, reject) => {
   const query = `
     SELECT ${columns.join(', ')}
     FROM submissions
-    INNER JOIN submission_answers ON submissions.id = submission_id
-    INNER JOIN submission_questions ON submission_questions.id = question_id
+    INNER JOIN "submissionAnswers" ON submissions.id = "submissionId"
+    INNER JOIN "submissionQuestions" ON "submissionQuestions".id = "questionId"
     WHERE submissions.id IN (
       SELECT id
-      FROM submissions AS s2
+      FROM submissions
       ORDER BY timestamp DESC
       LIMIT $<limit>)
     ${clause} ORDER BY timestamp DESC`;
@@ -43,7 +43,7 @@ const list = (filters, limit = 100) => new Promise((resolve, reject) => {
   ).then(submissions =>
     // combine multiple rows of answers into an array of answers per submission
     _.values(_.reduce(submissions, (memo, submission) => {
-      const answerFields = ['answer', 'question_id', 'question', 'question_archived'];
+      const answerFields = ['answer', 'questionId', 'question', 'questionArchived'];
       const answerValues = _.pick(submission, answerFields);
 
       if (memo[submission.id]) {
@@ -61,7 +61,7 @@ const list = (filters, limit = 100) => new Promise((resolve, reject) => {
 
 const create = (userId, answers) => new Promise((resolve, reject) => {
   answers.forEach((a) => {
-    if (!a.question_id) {
+    if (!a.questionId) {
       throw new Error('Missing question ID');
     }
     if (!a.body) {
@@ -70,13 +70,13 @@ const create = (userId, answers) => new Promise((resolve, reject) => {
   });
   const timestamp = new Date();
   const submissionsQuery =
-    'INSERT INTO submissions (timestamp, user_id) VALUES ($<timestamp>, $<user_id>) RETURNING id';
+    'INSERT INTO submissions (timestamp, "userId") VALUES ($<timestamp>, $<userId>) RETURNING id';
   db.tx(tx =>
-    tx.one(submissionsQuery, { timestamp, user_id: userId }).then(({ id }) => {
-      const answersCols = new pgPromise.helpers.ColumnSet(['submission_id', 'question_id', 'body'],
-                                                          { table: 'submission_answers' });
+    tx.one(submissionsQuery, { timestamp, userId }).then(({ id }) => {
+      const answersCols = new pgPromise.helpers.ColumnSet(['submissionId', 'questionId', 'body'],
+                                                          { table: 'submissionAnswers' });
       const answersQuery = pgPromise.helpers.insert(
-        answers.map(a => Object.assign({}, a, { submission_id: id })), answersCols
+        answers.map(a => Object.assign({}, a, { submissionId: id })), answersCols
       );
       return tx.none(answersQuery).then(() => id);
     })

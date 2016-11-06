@@ -31,7 +31,7 @@ export default {
         throw new ApplicationError('Invalid credentials', 401);
       }
 
-      return Promise.all([user, comparePassword(req.body.password, user.password_hash)]);
+      return Promise.all([user, comparePassword(req.body.password, user.passwordHash)]);
     }).then(([user, passwordMatches]) => {
       // password is wrong
       if (!passwordMatches) {

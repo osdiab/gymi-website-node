@@ -15,13 +15,13 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db, callback) {
-  db.createTable('submission_answers', {
+  db.createTable('submissionAnswers', {
     body: { type: 'string', notNull: true },
-    submission_id: {
+    submissionId: {
       type: 'int', notNull: true,
       foreignKey: {
 
-        name: 'submission_answers_submission_id_fk',
+        name: 'submissionAnswers_submissionId_fk',
         table: 'submissions',
         rules: {
           onDelete: 'CASCADE',
@@ -30,12 +30,12 @@ exports.up = function(db, callback) {
         mapping: 'id'
       },
     },
-    question_id: {
+    questionId: {
       type: 'int', notNull: true,
       foreignKey: {
 
-        name: 'submission_answers_question_id_fk',
-        table: 'submission_questions',
+        name: 'submissionAnswers_questionId_fk',
+        table: 'submissionQuestions',
         rules: {
           onDelete: 'CASCADE',
           onUpdate: 'RESTRICT'
@@ -47,7 +47,7 @@ exports.up = function(db, callback) {
 };
 
 exports.down = function(db, callback) {
-  db.dropTable('submission_answers', callback);
+  db.dropTable('submissionAnswers', callback);
 };
 
 exports._meta = {

@@ -9,9 +9,9 @@ export const PUBLIC_USER_FIELDS = ['id', 'username', 'role', 'name'];
 // flexible find function—can search for id or username.
 // Returns one entry, or null.
 const find = (identifier, getPasswordHash = false) => new Promise((resolve, reject) => {
-  const columns = getPasswordHash ? PUBLIC_USER_FIELDS.concat('password_hash') :
+  const columns = getPasswordHash ? PUBLIC_USER_FIELDS.concat('passwordHash') :
     PUBLIC_USER_FIELDS;
-  const clause = isNaN(identifier) ? 'normalized_username = $<id>' : 'id = $<id>';
+  const clause = isNaN(identifier) ? '"normalizedUsername" = $<id>' : 'id = $<id>';
   const query = `SELECT $<columns:name> FROM users WHERE ${clause}`;
 
   return db.oneOrNone(query, { columns, id: identifier.toLowerCase() }).then(resolve).catch(reject);
@@ -29,7 +29,7 @@ export default {
       }
       return;
     }).then(() => db.one(
-      'INSERT INTO users (username, normalized_username, password_hash, name, role) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+      'INSERT INTO users (username, "normalizedUsername", "passwordHash", name, role) VALUES ($1, $2, $3, $4, $5) RETURNING id',
       [username, username.toLowerCase(), passwordHash, name, role],
     )).then(({ id }) => resolve(id))
     .catch(reject);
@@ -45,15 +45,15 @@ export default {
         case 'primaryInterest':
           return {
             key: 'primaryInterests',
-            clause: 'INNER JOIN primary_user_topics ON users.id = primary_user_topics.user_id AND ' +
-              'primary_user_topics.topic_id IN $<primaryInterests:csv>',
+            clause: 'INNER JOIN "primaryUserTopics" ON users.id = "primaryUserTopics"."userId" AND ' +
+              '"primaryUserTopics"."topicId" IN $<primaryInterests:csv>',
             value,
           };
         case 'period':
           return {
             key: 'periods',
-            clause: 'INNER JOIN active_users ON users.id = active_users.user_id AND ' +
-              'active_users.period_id IN $<periods:csv>',
+            clause: 'INNER JOIN "activeUsers" ON users.id = "activeUsers"."userId" AND ' +
+              '"activeUsers"."periodId" IN $<periods:csv>',
             value,
           };
         default:
@@ -71,7 +71,7 @@ export default {
   }),
   setPassword: (id, newPasswordHash) => new Promise((resolve, reject) => {
     db.one(
-      'UPDATE users SET password_hash = $1 WHERE id = $2',
+      'UPDATE users SET "passwordHash" = $1 WHERE id = $2',
       [newPasswordHash, id]
     ).then(resolve).catch(reject);
   }),

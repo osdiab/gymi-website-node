@@ -15,7 +15,7 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db, callback) {
-  db.createTable('submission_questions', {
+  db.createTable('submissionQuestions', {
     id: { type: 'int', primaryKey: true, autoIncrement: true, notNull: true },
     title: { type: 'string', unique: true, notNull: true },
     archived: { type: 'boolean', defaultValue: false },
@@ -23,7 +23,7 @@ exports.up = function(db, callback) {
 };
 
 exports.down = function(db, callback) {
-  db.dropTable('submission_questions', callback);
+  db.dropTable('submissionQuestions', callback);
 };
 
 exports._meta = {

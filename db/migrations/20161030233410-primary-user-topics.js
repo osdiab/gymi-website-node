@@ -15,12 +15,12 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db, callback) {
-  db.createTable('primary_user_interests', {
-    user_id: {
+  db.createTable('primaryUserInterests', {
+    userId: {
       type: 'int', notNull: true, unique: true,
       foreignKey: {
 
-        name: 'primary_user_interests_user_id_fk',
+        name: 'primaryUserInterests_userId_fk',
         table: 'users',
         rules: {
           onDelete: 'CASCADE',
@@ -29,11 +29,11 @@ exports.up = function(db, callback) {
         mapping: 'id'
       },
     },
-    topic_id: {
+    topicId: {
       type: 'int', notNull: true,
       foreignKey: {
 
-        name: 'primary_user_interests_topic_id_fk',
+        name: 'primaryUserInterests_topicId_fk',
         table: 'topics',
         rules: {
           onDelete: 'CASCADE',
@@ -46,7 +46,7 @@ exports.up = function(db, callback) {
 };
 
 exports.down = function(db, callback) {
-  db.dropTable('primary_user_interests', callback);
+  db.dropTable('primaryUserInterests', callback);
 };
 
 exports._meta = {
