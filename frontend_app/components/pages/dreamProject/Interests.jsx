@@ -28,7 +28,7 @@ export default class Interests extends React.Component {
             <FormattedMessage {...interestsMessages.changeTags} />
           </Button>
         </div>
-        { loading || loadError ? <div className="Interests--notPresent">
+        { loading || loadError ? <div className="Interests--no-data">
           { loadError ? <p className="Interests--error">
             <FormattedMessage {...messages.errors.unexpected} />
           </p> : <LoadingSpinner />

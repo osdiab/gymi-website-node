@@ -1,54 +1,23 @@
 @import './colors.less';
 
-// from https://projects.lukehaas.me/css-loaders/
 .LoadingSpinner {
-  font-size: 10px;
-  margin: 50px auto;
-  text-indent: -9999em;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: @medium-grey;
+  height: 40px;
+  width: 40px;
+  margin: 0 auto;
   position: relative;
-  animation: load3 1.4s infinite linear;
-}
-.LoadingSpinner:before {
-  width: 50%;
-  height: 50%;
-  background: @medium-grey;
-  border-radius: 100% 0 0 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  content: '';
-}
-.LoadingSpinner:after {
-  background: white;
-  width: 75%;
-  height: 75%;
-  border-radius: 50%;
-  content: '';
-  margin: auto;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-@-webkit-keyframes load3 {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-@keyframes load3 {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  animation: rotation .6s infinite linear;
+  border-left: 6px solid rgba(225, 104, 96, .15);
+  border-right: 6px solid rgba(225, 104, 96, .15);
+  border-bottom: 6px solid rgba(225, 104, 96, .15);
+  border-top: 6px solid rgba(225, 104, 96, .8);
+  border-radius: 100%;
 }
 
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
