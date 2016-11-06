@@ -57,10 +57,6 @@ export default {
       throw new ApplicationError('userId must be an integer', 400);
     }
 
-    if (isNaN(values.topicId)) {
-      throw new ApplicationError('topicId must be an integer', 400);
-    }
-
     if (res.locals.authData.id !== parseInt(values.userId, 10)) {
       throw new ApplicationError('You may only add submissions for your own account', 403);
     }
