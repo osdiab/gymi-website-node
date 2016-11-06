@@ -5,10 +5,16 @@ import _ from 'lodash';
 
 import LoadingSpinner from '../../LoadingSpinner';
 import Submissions, { submissionType } from './Submissions';
-import { createSubmission as createSubmissionAction } from '../../../actions';
+import {
+  loadOtherSubmissions as loadSubmissionsAction,
+  loadSubmissionQuestions as loadSubmissionQuestionsAction,
+  createSubmission as createSubmissionAction,
+} from '../../../actions';
 import messages from '../../../messages';
 import Button from '../../Button';
 import './DreamProjectHomePage.less';
+
+const newSubmissionMessages = messages.dreamProject.newSubmission;
 
 function generateFormId(id) {
   return `DreamProjectHomePage--newSubmission--${id}`;
@@ -36,7 +42,7 @@ export class DreamProjectHomePageView extends React.Component {
       if (input.value.length < 1) {
         this.setState({
           formIsValid: false,
-          validationError: 'messages.errors.newSubmission.missingAnswer',
+          validationError: 'errors.newSubmission.missingAnswer',
         });
         return false;
       }
@@ -48,14 +54,15 @@ export class DreamProjectHomePageView extends React.Component {
     return true;
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault();
     if (!this.validateForm()) {
       return;
     }
     const { user, createSubmission, token, submissionQuestions } = this.props;
     const answers = submissionQuestions.map(q => ({
       questionId: q.id,
-      answer: this[generateFormId(q.id)].value,
+      body: this[generateFormId(q.id)].value,
     }));
     createSubmission(user.id, token, answers);
   }
@@ -73,10 +80,10 @@ export class DreamProjectHomePageView extends React.Component {
           submissionQuestions.loading ?
             <LoadingSpinner />
           :
-            <form onSubmit={this.handleSubmit} refs={(f) => { this.submissionForm = f; }}>
+            <form onSubmit={this.handleSubmit} ref={(f) => { this.submissionForm = f; }}>
               <p>
                 <FormattedMessage
-                  {...messages.newSubmission.submissionForDate}
+                  {...newSubmissionMessages.submissionForDate}
                   values={{
                     date: <FormattedDate month="long" day="numeric" year="numeric" value={new Date()} />,
                   }}
@@ -86,12 +93,12 @@ export class DreamProjectHomePageView extends React.Component {
                 {submissionQuestions.map(q => (
                   <li key={q.id}>
                     <label htmlFor={generateFormId(q.id)}>
-                      ${q.title}
+                      {q.title}
                     </label>
                     <input
                       type="text"
                       id={generateFormId(q.id)}
-                      placeholder={intl.formatMessage(messages.newSubmission.inputPlaceholder)}
+                      placeholder={intl.formatMessage(newSubmissionMessages.inputPlaceholder)}
                       maxLength={200}
                       onChange={this.validateForm}
                       ref={(i) => { this[generateFormId(q.id)] = i; }}
@@ -100,13 +107,13 @@ export class DreamProjectHomePageView extends React.Component {
                 ))}
               </ul>
               <Button
-                disabled={createdSubmission || !this.state.formIsValid} onClick={this.handleSubmit}
+                disabled={createdSubmission || !this.state.formIsValid} action="submit"
               >
                 { creatingSubmission ? <LoadingSpinner /> : (
                   createdSubmission ?
-                    <FormattedMessage {...messages.newSubmission.submitted} />
+                    <FormattedMessage {...newSubmissionMessages.submitted} />
                   :
-                    <FormattedMessage {...messages.newSubmission.submit} />
+                    <FormattedMessage {...newSubmissionMessages.submit} />
                 )}
 
               </Button>
@@ -180,11 +187,15 @@ function mapStateToProps(state) {
           error: questionsError,
         }
       ) : 'not loaded';
+
+  const { user, token } = state.session;
   return {
     submissions,
     submissionQuestions,
     createdSubmission,
     creatingSubmission,
+    user,
+    token,
   };
 }
 
@@ -192,8 +203,9 @@ function mapDispatchToProps(dispatch) {
   return {
     createSubmission: (userId, token, answers) =>
       dispatch(createSubmissionAction(userId, token, answers)),
-    loadSubmissions: PropTypes.func.isRequired,
-    loadSubmissionQuestions: PropTypes.func.isRequired,
+    loadSubmissions: (userId, token) => dispatch(loadSubmissionsAction(userId, token)),
+    loadSubmissionQuestions: (userId, token) =>
+      dispatch(loadSubmissionQuestionsAction(userId, token)),
   };
 }
 
