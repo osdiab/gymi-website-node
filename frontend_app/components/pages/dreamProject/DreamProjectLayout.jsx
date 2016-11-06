@@ -52,6 +52,8 @@ export class DreamProjectLayoutView extends React.Component {
       },
     ];
 
+    const strippedUrl = location.pathname.replace(/\/$/, ''); // remove trailing slash if present
+
     return (
       <div className="DreamProjectLayout">
         <header>
@@ -63,7 +65,7 @@ export class DreamProjectLayoutView extends React.Component {
               { PAGES.map(({ id, action }) => (
                 <Button
                   key={id}
-                  className={action.href && location.pathname.startsWith(action.href) ?
+                  className={action.href && strippedUrl === action.href ?
                       'DreamProjectLayout--nav--active' : ''}
                   action={action}
                 >
