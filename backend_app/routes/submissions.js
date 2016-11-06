@@ -8,7 +8,9 @@ import submissionsDb from '../db/submissions';
 export default {
   list: (req, res, next) => {
     const validFilters = ['userId', 'after'];
-    const filters = _.omitBy(_.pick(req.params, validFilters), _.isEmpty);
+    const filters = _.omitBy(
+      _.pick(Object.assign({}, req.query, req.params), validFilters), _.isEmpty
+    );
 
     if (filters.after) {
       filters.after = moment(filters.after);
