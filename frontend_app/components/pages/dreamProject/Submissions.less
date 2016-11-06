@@ -1,0 +1,62 @@
+@import '../../colors.less';
+
+.Submissions--submissions {
+  list-style-type: none;
+  padding-left: 20px;
+  li {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+}
+
+.Submissions--gutter {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-right: 4px solid @medium-grey;
+  padding-left: 20px;
+  height: 100%;
+}
+
+.Submissions--gutter--circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: 2px;
+  margin-top: -6px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  border: 2px solid @medium-grey;
+}
+
+.Submissions--metadata {
+  text-align: center;
+  margin-left: 40px;
+  padding: 20px;
+  height: 100%;
+  width: 150px;
+  h4 {
+    text-transform: none;
+    color: @moody-blue;
+  }
+  time {
+    color: @dark-grey;
+    font-size: .8em;
+  }
+}
+
+.Submissions--answers {
+  flex: 1;
+  padding: 0 20px;
+  border-left: 3px solid @light-grey;
+  margin: 20px 0;
+}
+
+.Submissions--question {
+  color: @dark-grey;
+  padding-bottom: 10px;
+}

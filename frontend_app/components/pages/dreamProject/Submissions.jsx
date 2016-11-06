@@ -4,22 +4,28 @@ import _ from 'lodash';
 
 import messages from '../../../messages';
 import LoadingSpinner from '../../LoadingSpinner';
+import './Submissions.less';
 
 export default function Submissions({ submissions, displayMetadata }) {
   return (
     <div className="Submissions">
-      <h3>Submissions</h3>
+      <h3 className="sectionHeader">Submissions</h3>
       { _.isArray(submissions) ? (
-        <ul>
+        <ul className="Submissions--submissions">
           { submissions.map(s => (
             <li key={s.id}>
+              <div className="Submissions--gutter">
+                <div className="Submissions--gutter--circle" />
+              </div>
               { displayMetadata === 'date' &&
                 <div className="Submissions--metadata">
                   <h4><FormattedDate month="long" value={s.timestamp} /></h4>
-                  <FormattedDate
-                    month="numeric" day="numeric" year="numeric"
-                    value={s.timestamp}
-                  />
+                  <time>
+                    <FormattedDate
+                      month="numeric" day="numeric" year="numeric"
+                      value={s.timestamp}
+                    />
+                  </time>
                 </div>
               }
               { displayMetadata === 'user' &&
@@ -31,7 +37,7 @@ export default function Submissions({ submissions, displayMetadata }) {
               <div className="Submissions--answers">
                 {s.answers.map(a =>
                   <div className="Submissions--answer" key={a.questionId}>
-                    <p>{a.question}</p>
+                    <p className="Submissions--question">{a.question}</p>
                     <p>{a.answer}</p>
                   </div>
                 )}

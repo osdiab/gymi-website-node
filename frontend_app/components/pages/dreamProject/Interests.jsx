@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import Button from '../../Button';
 import messages from '../../../messages';
 import LoadingSpinner from '../../LoadingSpinner';
+import './Interests.less';
 
 const interestsMessages = messages.dreamProject.profile.interests;
 
@@ -21,7 +22,7 @@ export default class Interests extends React.Component {
 
     return (
       <div className="Interests">
-        <div className="Interests--title">
+        <div className="Interests--title sectionHeader">
           <h3><FormattedMessage {...interestsMessages.title} /></h3>
           <Button action={() => this.setState({ changingTags: true })}>
             <FormattedMessage {...interestsMessages.changeTags} />
@@ -35,7 +36,7 @@ export default class Interests extends React.Component {
         </div> : <div className="Interests--interests">
           <p>
             <span className="Interests--interests--category">
-              <FormattedMessage {...interestsMessages.primary} />
+              <FormattedMessage {...interestsMessages.primary} />:
             </span>
             <span>
               {this.props.interests.primaryInterest.title}
@@ -43,7 +44,7 @@ export default class Interests extends React.Component {
           </p>
           <p>
             <span className="Interests--interests--category">
-              <FormattedMessage {...interestsMessages.other} />
+              <FormattedMessage {...interestsMessages.other} />:
             </span>
             <span>
               {this.props.interests.otherInterests.map(i => i.title).join(', ')}
