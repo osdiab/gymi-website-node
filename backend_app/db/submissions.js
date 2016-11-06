@@ -41,15 +41,14 @@ const list = (filters, limit = 100) => new Promise((resolve, reject) => {
     WHERE submissions.id IN (
       SELECT id
       FROM submissions
-      ORDER BY timestamp DESC
       LIMIT $<limit>)
-    ${clause} ORDER BY timestamp DESC`;
+    ${clause}`;
 
   db.manyOrNone(
     query, Object.assign({}, { columns, limit }, additionalArgs)
   ).then(submissions =>
     // combine multiple rows of answers into an array of answers per submission
-    _.values(_.reduce(submissions, (memo, submission) => {
+    _.reverse(_.sortBy(_.values(submissions.reduce((memo, submission) => {
       const answerFields = ['answer', 'questionId', 'question', 'questionArchived'];
       const interestFields = ['primaryInterestId', 'primaryInterestTitle'];
       const userFields = ['userFullName', 'userId'];
@@ -76,7 +75,7 @@ const list = (filters, limit = 100) => new Promise((resolve, reject) => {
         }
       );
       return Object.assign({}, memo, { [submission.id]: newEntry });
-    }, {}))
+    }, {})), 'timestamp'))
   ).then(resolve).catch(reject);
 });
 

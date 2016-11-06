@@ -48,7 +48,7 @@ export default {
 
   create: (req, res, next) => {
     const requiredFields = ['userId', 'answers'];
-    const values = _.pick(req.body, requiredFields);
+    const values = _.pick(Object.assign({}, req.params, req.body), requiredFields);
     if (_.compact(_.values(values)).length !== requiredFields.length) {
       throw new ApplicationError('Missing required fields', 400, { requiredFields });
     }
