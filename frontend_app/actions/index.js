@@ -37,10 +37,11 @@ export function logIn(username, password, remember) {
     ).then(([response, responseData]) => {
       if (response.status === 200) {
         dispatch(loginSuccess(responseData.data.token, remember));
+        dispatch(toggleLogInModal(false));
         return;
       }
       let errMessage;
-      switch (response.statusCode) {
+      switch (response.status) {
         case 400:
           // unexpected: form should catch this on frontend
           errMessage = 'errors.sessions.missingCredentials';
