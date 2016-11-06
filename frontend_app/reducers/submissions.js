@@ -1,26 +1,32 @@
-import _ from 'lodash';
-
 export default function submissions(state = {}, action) {
   switch (action.type) {
     case 'OTHER_SUBMISSIONS_REQUEST':
-      return Object.assign({}, state, { requestingOtherSubmissions: true });
+      return Object.assign({}, state, {
+        requestingOtherSubmissions: true,
+        otherSubmissionsError: null,
+      });
     case 'OTHER_SUBMISSIONS_SUCCESS': {
       return Object.assign({}, state, {
-        otherSubmissions: _.unionBy(state.otherSubmissions, submissions, 'id'),
+        otherSubmissions: action.otherSubmissions,
         requestingOtherSubmissions: false,
+        otherSubmissionsError: null,
       });
     }
     case 'OTHER_SUBMISSIONS_FAILURE':
       return Object.assign({}, state, {
         requestingOtherSubmissions: false,
-        ownSubmissionsError: action.err,
+        otherSubmissionsError: action.err,
       });
     case 'OWN_SUBMISSIONS_REQUEST':
-      return Object.assign({}, state, { requestingOwnSubmissions: true });
+      return Object.assign({}, state, {
+        requestingOwnSubmissions: true,
+        ownSubmissionsError: null,
+      });
     case 'OWN_SUBMISSIONS_SUCCESS': {
       return Object.assign({}, state, {
         ownSubmissions: action.submissions,
         requestingOwnSubmissions: false,
+        ownSubmissionsError: null,
       });
     }
     case 'OWN_SUBMISSIONS_FAILURE':
@@ -28,11 +34,24 @@ export default function submissions(state = {}, action) {
         requestingOwnSubmissions: false,
         ownSubmissionsError: action.err,
       });
+    case 'CREATE_SUBMISSION_REQUEST':
+      return Object.assign({}, state, {
+        creatingSubmission: true,
+        createSubmissionError: null,
+      });
+    case 'CREATE_SUBMISSION_FAILURE':
+      return Object.assign({}, state, {
+        creatingSubmission: false,
+        createSubmissionError: action.err,
+      });
+    case 'CREATE_SUBMISSION_SUCCESS':
+      return Object.assign({}, state, {
+        creatingSubmission: false,
+        createSubmissionError: null,
+        createdSubmission: true,
+      });
     default: {
-      const initialState = {
-        otherSubmissions: [],
-      };
-      return Object.assign({}, initialState, state);
+      return Object.assign({}, state);
     }
   }
 }

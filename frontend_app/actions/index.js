@@ -1,4 +1,5 @@
 import { browserHistory } from 'react-router';
+import moment from 'moment';
 
 // Actions define what events can cause application state to change. How the application state
 // actually changes is defined by each reducer in the Redux store (see the store/ directory).
@@ -61,6 +62,57 @@ export function logIn(username, password, remember) {
       dispatch(loginFailure(errMessage));
     }).catch(() => {
       dispatch(loginFailure('errors.unexpected'));
+    });
+  };
+}
+
+export function loadOtherSubmissionsRequest() {
+  return { type: 'OTHER_SUBMISSIONS_REQUEST' };
+}
+
+export function loadOtherSubmissionsFailure(err) {
+  return { type: 'OTHER_SUBMISSIONS_FAILURE', err };
+}
+
+export function loadOtherSubmissionsSuccess(submissions) {
+  return { type: 'OTHER_SUBMISSIONS_SUCCESS', submissions };
+}
+
+export function loadOtherSubmissions(userId, token) {
+  return (dispatch) => {
+    dispatch(loadOtherSubmissionsRequest());
+    const after = moment().subtract(1, 'month').toISOString();
+    return fetch(`/api/submissions?after=${encodeURIComponent(after)}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(response => Promise.all([response, response.json()])
+    ).then(([response, responseData]) => {
+      if (response.status === 200) {
+        dispatch(loadOtherSubmissionsSuccess(
+          responseData.data.map(s => Object.assign({}, s, { timestamp: new Date(s.timestamp) }))
+        ));
+        return;
+      }
+      let errMessage;
+      switch (response.status) {
+        case 400:
+          // unexpected: userId somehow wasn't a string
+          errMessage = 'errors.unexpected';
+          break;
+        case 401:
+          // probably token expired
+          dispatch(logOut());
+          browserHistory.push('/');
+          dispatch(toggleLogInModal(true));
+          errMessage = 'errors.unexpected';
+          break;
+        default:
+          errMessage = 'errors.unexpected';
+      }
+      dispatch(loadOtherSubmissionsFailure(errMessage));
+    }).catch(() => {
+      dispatch(loadOtherSubmissionsFailure('errors.unexpected'));
     });
   };
 }
@@ -161,6 +213,150 @@ export function loadOwnInterests(userId, token) {
       dispatch(loadOwnInterestsFailure(errMessage));
     }).catch(() => {
       dispatch(loadOwnInterestsFailure('errors.unexpected'));
+    });
+  };
+}
+
+export function createSubmissionRequest() {
+  return { type: 'CREATE_SUBMISSION_REQUEST' };
+}
+
+export function createSubmissionFailure(err) {
+  return { type: 'CREATE_SUBMISSION_FAILURE', err };
+}
+
+export function createSubmissionSuccess() {
+  return { type: 'CREATE_SUBMISSION_SUCCESS' };
+}
+
+export function createSubmission(userId, token) {
+  return (dispatch) => {
+    dispatch(createSubmissionRequest());
+    return fetch(`/api/users/${userId}/submissions`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((response) => {
+      if (response.status === 200) {
+        dispatch(createSubmissionSuccess());
+        return;
+      }
+
+      let errMessage;
+      switch (response.status) {
+        case 400:
+          errMessage = 'errors.unexpected';
+          break;
+        case 401:
+          // probably token expired
+          dispatch(logOut());
+          browserHistory.push('/');
+          dispatch(toggleLogInModal(true));
+          errMessage = 'errors.unexpected';
+          break;
+        default:
+          errMessage = 'errors.unexpected';
+      }
+      dispatch(createSubmissionFailure(errMessage));
+    }).catch(() => {
+      dispatch(createSubmissionFailure('errors.unexpected'));
+    });
+  };
+}
+
+export function loadSubmissionQuestionsRequest() {
+  return { type: 'SUBMISSION_QUESTIONS_REQUEST' };
+}
+
+export function loadSubmissionQuestionsFailure(err) {
+  return { type: 'SUBMISSION_QUESTIONS_FAILURE', err };
+}
+
+export function loadSubmissionQuestionsSuccess(questions) {
+  return { type: 'SUBMISSION_QUESTIONS_SUCCESS', questions };
+}
+
+export function loadSubmissionQuestions(userId, token) {
+  return (dispatch) => {
+    dispatch(loadSubmissionQuestionsRequest());
+    return fetch('/api/submissionQuestions', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(response => Promise.all([response, response.json()])
+    ).then(([response, responseData]) => {
+      if (response.status === 200) {
+        dispatch(loadSubmissionQuestionsSuccess(responseData.data));
+        return;
+      }
+      let errMessage;
+      switch (response.status) {
+        case 400:
+          errMessage = 'errors.unexpected';
+          break;
+        case 401:
+          // probably token expired
+          dispatch(logOut());
+          browserHistory.push('/');
+          dispatch(toggleLogInModal(true));
+          errMessage = 'errors.unexpected';
+          break;
+        default:
+          errMessage = 'errors.unexpected';
+      }
+      dispatch(loadSubmissionQuestionsFailure(errMessage));
+    }).catch(() => {
+      dispatch(loadSubmissionQuestionsFailure('errors.unexpected'));
+    });
+  };
+}
+
+export function loadTopicsRequest() {
+  return { type: 'LOAD_TOPICS_REQUEST' };
+}
+
+export function loadTopicsFailure(err) {
+  return { type: 'LOAD_TOPICS_FAILURE', err };
+}
+
+export function loadTopicsSuccess(questions) {
+  return { type: 'LOAD_TOPICS_SUCCESS', questions };
+}
+
+export function loadTopics(userId, token) {
+  return (dispatch) => {
+    dispatch(loadTopicsRequest());
+    return fetch('/api/topics', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(response => Promise.all([response, response.json()])
+    ).then(([response, responseData]) => {
+      if (response.status === 200) {
+        dispatch(loadTopicsSuccess(responseData.data));
+        return;
+      }
+      let errMessage;
+      switch (response.status) {
+        case 400:
+          errMessage = 'errors.unexpected';
+          break;
+        case 401:
+          // probably token expired
+          dispatch(logOut());
+          browserHistory.push('/');
+          dispatch(toggleLogInModal(true));
+          errMessage = 'errors.unexpected';
+          break;
+        default:
+          errMessage = 'errors.unexpected';
+      }
+      dispatch(loadTopicsFailure(errMessage));
+    }).catch(() => {
+      dispatch(loadTopicsFailure('errors.unexpected'));
     });
   };
 }

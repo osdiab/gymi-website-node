@@ -5,10 +5,14 @@ import language from './language';
 import session from './session';
 import interests from './interests';
 import submissions from './submissions';
+import submissionQuestions from './submissionQuestions';
+import topics from './topics';
 
 export default combineReducers({
   language,
   session,
   interests,
   submissions,
+  submissionQuestions,
+  topics,
 });
