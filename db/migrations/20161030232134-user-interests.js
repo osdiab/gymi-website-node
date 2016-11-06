@@ -48,7 +48,7 @@ exports.up = function(db, callback) {
       return;
     }
 
-    db.addIndex('userInterests', 'userInterests_uniq', ['userId', 'topicId'], callback);
+    db.addIndex('userInterests', 'userInterests_uniq', ['userId', 'topicId'], true, callback);
   });
 };
 
