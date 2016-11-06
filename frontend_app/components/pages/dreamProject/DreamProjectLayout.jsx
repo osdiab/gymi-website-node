@@ -30,23 +30,25 @@ export function DreamProjectLayoutView({ children, location, logOut }) {
 
   return (
     <div className="DreamProjectLayout">
-      <h1>
-        <FormattedMessage {...messages.dreamProject.layout.title} />
-      </h1>
-      <nav>
-        <ul>
-          { PAGES.map(({ id, action }) => (
-            <Button
-              key={id}
-              className={action.href && location.pathname.startsWith(action.href) ?
-                  'DreamProjectLayout--nav--active' : ''}
-              action={action}
-            >
-              <FormattedMessage {...messages.dreamProject.navigation[id]} />
-            </Button>
-          ))}
-        </ul>
-      </nav>
+      <header>
+        <h1>
+          <FormattedMessage {...messages.dreamProject.layout.title} />
+        </h1>
+        <nav>
+          <ul>
+            { PAGES.map(({ id, action }) => (
+              <Button
+                key={id}
+                className={action.href && location.pathname.startsWith(action.href) ?
+                    'DreamProjectLayout--nav--active' : ''}
+                action={action}
+              >
+                <FormattedMessage {...messages.dreamProject.navigation[id]} />
+              </Button>
+            ))}
+          </ul>
+        </nav>
+      </header>
       <main>{children}</main>
     </div>
   );
@@ -62,7 +64,7 @@ DreamProjectLayoutView.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    logOut: () => dispatch(logOutAction()),
+    logOut: () => dispatch(logOutAction),
   };
 }
 

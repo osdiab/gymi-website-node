@@ -1,0 +1,34 @@
+@import '../../colors.less';
+
+.DreamProjectLayout {
+  padding: 20px;
+  header {
+    display: flex;
+    h1, nav {
+      flex: 1;
+      padding-bottom: 0;
+    }
+    nav {
+      text-align: right;
+      vertical-align: bottom;
+      margin-top: auto;
+      ul {
+        list-style-type: none;
+      }
+      .Button {
+        border: 0;
+        padding: 5px;
+        text-transform: none;
+        margin: 0 10px;
+        font-weight: bold;
+
+        &.DreamProjectLayout--nav--active, &:focus, &:hover {
+          background: none;
+          color: @logo-salmon;
+          border-bottom: 2px solid @logo-salmon;
+        }
+      }
+    }
+    padding-bottom: 40px;
+  }
+}
