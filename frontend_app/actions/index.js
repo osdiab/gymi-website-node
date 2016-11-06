@@ -64,3 +64,103 @@ export function logIn(username, password, remember) {
     });
   };
 }
+
+export function loadOwnSubmissionsRequest() {
+  return { type: 'OWN_SUBMISSIONS_REQUEST' };
+}
+
+export function loadOwnSubmissionsFailure(err) {
+  return { type: 'OWN_SUBMISSIONS_FAILURE', err };
+}
+
+export function loadOwnSubmissionsSuccess(submissions) {
+  return { type: 'OWN_SUBMISSIONS_SUCCESS', submissions };
+}
+
+export function loadOwnSubmissions(userId, token) {
+  return (dispatch) => {
+    dispatch(loadOwnSubmissionsRequest());
+    return fetch(`/api/users/${userId}/submissions`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(response => Promise.all([response, response.json()])
+    ).then(([response, responseData]) => {
+      if (response.status === 200) {
+        dispatch(loadOwnSubmissionsSuccess(
+          responseData.data.map(s => Object.assign({}, s, { timestamp: new Date(s.timestamp) }))
+        ));
+        return;
+      }
+      let errMessage;
+      switch (response.status) {
+        case 400:
+          // unexpected: userId somehow wasn't a string
+          errMessage = 'errors.unexpected';
+          break;
+        case 401:
+          // probably token expired
+          dispatch(logOut());
+          browserHistory.push('/');
+          dispatch(toggleLogInModal(true));
+          errMessage = 'errors.unexpected';
+          break;
+        default:
+          errMessage = 'errors.unexpected';
+      }
+      dispatch(loadOwnSubmissionsFailure(errMessage));
+    }).catch(() => {
+      dispatch(loadOwnSubmissionsFailure('errors.unexpected'));
+    });
+  };
+}
+
+export function loadOwnInterestsRequest() {
+  return { type: 'OWN_INTERESTS_REQUEST' };
+}
+
+export function loadOwnInterestsFailure(err) {
+  return { type: 'OWN_INTERESTS_FAILURE', err };
+}
+
+export function loadOwnInterestsSuccess(otherInterests, primaryInterest) {
+  return { type: 'OWN_INTERESTS_SUCCESS', otherInterests, primaryInterest };
+}
+
+export function loadOwnInterests(userId, token) {
+  return (dispatch) => {
+    dispatch(loadOwnInterestsRequest());
+    return fetch(`/api/users/${userId}/interests`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(response => Promise.all([response, response.json()])
+    ).then(([response, responseData]) => {
+      if (response.status === 200) {
+        dispatch(loadOwnInterestsSuccess(
+          responseData.data.interests, responseData.data.primaryInterest)
+        );
+        return;
+      }
+      let errMessage;
+      switch (response.status) {
+        case 400:
+          // unexpected: userId somehow wasn't a string
+          errMessage = 'errors.unexpected';
+          break;
+        case 401:
+          // probably token expired
+          dispatch(logOut());
+          browserHistory.push('/');
+          dispatch(toggleLogInModal(true));
+          errMessage = 'errors.unexpected';
+          break;
+        default:
+          errMessage = 'errors.unexpected';
+      }
+      dispatch(loadOwnInterestsFailure(errMessage));
+    }).catch(() => {
+      dispatch(loadOwnInterestsFailure('errors.unexpected'));
+    });
+  };
+}

@@ -19,7 +19,7 @@ export default function submissions(state = {}, action) {
       return Object.assign({}, state, { requestingOwnSubmissions: true });
     case 'OWN_SUBMISSIONS_SUCCESS': {
       return Object.assign({}, state, {
-        ownSubmissions: submissions,
+        ownSubmissions: action.submissions,
         requestingOwnSubmissions: false,
       });
     }
