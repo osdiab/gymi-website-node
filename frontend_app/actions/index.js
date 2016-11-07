@@ -41,7 +41,7 @@ export function logIn(username, password, remember) {
       body: JSON.stringify({ username, password }),
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
-      if (response.status === 200) {
+      if (response.status >= 200 && response.status <= 299) {
         dispatch(loginSuccess(responseData.data.token, responseData.data.user, remember));
         dispatch(toggleLogInModal(false));
         browserHistory.push('/dreamProject');
@@ -88,7 +88,7 @@ export function loadOtherSubmissions(userId, token) {
       },
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
-      if (response.status === 200) {
+      if (response.status >= 200 && response.status <= 299) {
         dispatch(loadOtherSubmissionsSuccess(
           responseData.data.map(s => Object.assign({}, s, { timestamp: new Date(s.timestamp) }))
         ));
@@ -138,7 +138,7 @@ export function loadOwnSubmissions(userId, token) {
       },
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
-      if (response.status === 200) {
+      if (response.status >= 200 && response.status <= 299) {
         dispatch(loadOwnSubmissionsSuccess(
           responseData.data.map(s => Object.assign({}, s, { timestamp: new Date(s.timestamp) }))
         ));
@@ -188,7 +188,7 @@ export function loadOwnInterests(userId, token) {
       },
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
-      if (response.status === 200) {
+      if (response.status >= 200 && response.status <= 299) {
         dispatch(loadOwnInterestsSuccess(
           responseData.data.interests, responseData.data.primaryInterest)
         );
@@ -293,7 +293,7 @@ export function loadSubmissionQuestions(userId, token) {
       },
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
-      if (response.status === 200) {
+      if (response.status >= 200 && response.status <= 299) {
         dispatch(loadSubmissionQuestionsSuccess(responseData.data));
         return;
       }
@@ -327,8 +327,8 @@ export function loadTopicsFailure(err) {
   return { type: 'LOAD_TOPICS_FAILURE', err };
 }
 
-export function loadTopicsSuccess(questions) {
-  return { type: 'LOAD_TOPICS_SUCCESS', questions };
+export function loadTopicsSuccess(topics) {
+  return { type: 'LOAD_TOPICS_SUCCESS', topics };
 }
 
 export function loadTopics(userId, token) {
@@ -340,7 +340,7 @@ export function loadTopics(userId, token) {
       },
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
-      if (response.status === 200) {
+      if (response.status >= 200 && response.status <= 299) {
         dispatch(loadTopicsSuccess(responseData.data));
         return;
       }
@@ -365,3 +365,114 @@ export function loadTopics(userId, token) {
     });
   };
 }
+
+export function addInterestRequest() {
+  return { type: 'ADD_INTEREST_REQUEST' };
+}
+
+export function addInterestFailure(err) {
+  return { type: 'ADD_INTEREST_FAILURE', err };
+}
+
+export function addInterestSuccess() {
+  return { type: 'ADD_INTEREST_SUCCESS' };
+}
+
+export function addInterest(userId, token, topicId, primary = false) {
+  return (dispatch) => {
+    dispatch(addInterestRequest());
+    return fetch(`/api/users/${userId}/interests`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        topicId,
+        primary,
+      }),
+    }).then((response) => {
+      if (response.status >= 200 && response.status <= 299) {
+        dispatch(addInterestSuccess());
+        dispatch(loadOwnInterests(userId, token));
+        return;
+      }
+
+      let errMessage;
+      switch (response.status) {
+        case 400:
+          errMessage = 'errors.unexpected';
+          break;
+        case 401:
+          // probably token expired
+          dispatch(logOut());
+          browserHistory.push('/');
+          dispatch(toggleLogInModal(true));
+          errMessage = 'errors.unexpected';
+          break;
+        default:
+          errMessage = 'errors.unexpected';
+      }
+      dispatch(addInterestFailure(errMessage));
+    }).catch(() => {
+      dispatch(addInterestFailure('errors.unexpected'));
+    });
+  };
+}
+
+export function removeInterestRequest() {
+  return { type: 'REMOVE_INTEREST_REQUEST' };
+}
+
+export function removeInterestFailure(err) {
+  return { type: 'REMOVE_INTEREST_FAILURE', err };
+}
+
+export function removeInterestSuccess() {
+  return { type: 'REMOVE_INTEREST_SUCCESS' };
+}
+
+export function removeInterest(userId, token, topicId, primary = false) {
+  return (dispatch) => {
+    dispatch(removeInterestRequest());
+    return fetch(`/api/users/${userId}/interests`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        topicId,
+        primary,
+      }),
+    }).then((response) => {
+      if (response.status >= 200 && response.status <= 299) {
+        dispatch(removeInterestSuccess());
+        dispatch(loadOwnInterests(userId, token));
+        return;
+      }
+
+      let errMessage;
+      switch (response.status) {
+        case 400:
+          errMessage = 'errors.unexpected';
+          break;
+        case 401:
+          // probably token expired
+          dispatch(logOut());
+          browserHistory.push('/');
+          dispatch(toggleLogInModal(true));
+          errMessage = 'errors.unexpected';
+          break;
+        default:
+          errMessage = 'errors.unexpected';
+      }
+      dispatch(removeInterestFailure(errMessage));
+    }).catch(() => {
+      dispatch(removeInterestFailure('errors.unexpected'));
+    });
+  };
+}
+
