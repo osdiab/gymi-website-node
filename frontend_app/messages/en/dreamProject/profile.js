@@ -4,8 +4,20 @@ export default [
     defaultMessage: 'Fields of Interests',
   },
   {
-    id: 'dreamProject.profile.interests.changeTags',
-    defaultMessage: 'Change Tags',
+    id: 'dreamProject.profile.interests.changeInterests',
+    defaultMessage: 'Change Your Interests',
+  },
+  {
+    id: 'dreamProject.profile.interests.choosePrimary',
+    defaultMessage: 'Choose your primary interest',
+  },
+  {
+    id: 'dreamProject.profile.interests.chooseInterests',
+    defaultMessage: 'Choose your other interests',
+  },
+  {
+    id: 'dreamProject.profile.interests.typeInterestHere',
+    defaultMessage: 'Type your new interest here',
   },
   {
     id: 'dreamProject.profile.interests.primary',
@@ -14,6 +26,10 @@ export default [
   {
     id: 'dreamProject.profile.interests.other',
     defaultMessage: 'Other',
+  },
+  {
+    id: 'dreamProject.profile.interests.cancel',
+    defaultMessage: 'Cancel',
   },
   {
     id: 'dreamProject.profile.submissions.title',
