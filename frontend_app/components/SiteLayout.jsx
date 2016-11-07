@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
+import 'react-select/dist/react-select.css';
 
 import SiteNavigation from './SiteNavigation';
 import Footer from './Footer';
 
-require('./SiteLayout.less');
+import './SiteLayout.less';
 
 export default function SiteLayout({ children }) {
   return (
