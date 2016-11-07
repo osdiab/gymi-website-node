@@ -99,7 +99,7 @@ export class LogInModalView extends React.Component {
                 <FormattedMessage {...messages.sessions.password} />
               </label>
               <input
-                type="text" name="password" id="LogInModal--form--password"
+                type="password" name="password" id="LogInModal--form--password"
                 onChange={this.handleChange}
               />
             </li>
