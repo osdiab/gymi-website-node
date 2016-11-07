@@ -7,6 +7,7 @@ import interests from './interests';
 import submissions from './submissions';
 import submissionQuestions from './submissionQuestions';
 import topics from './topics';
+import users from './users';
 
 export default combineReducers({
   language,
@@ -15,4 +16,5 @@ export default combineReducers({
   submissions,
   submissionQuestions,
   topics,
+  users,
 });

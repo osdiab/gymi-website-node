@@ -11,11 +11,11 @@ export function setCurrentLanguage(localeCode) {
   return { type: 'SET_CURRENT_LANGUAGE', localeCode };
 }
 
-export const loginRequest = { type: 'LOGIN_REQUEST' };
-export function loginSuccess(token, user, remember) {
+export const logInRequest = { type: 'LOGIN_REQUEST' };
+export function logInSuccess(token, user, remember) {
   return { type: 'LOGIN_SUCCESS', token, user, remember };
 }
-export function loginFailure(errMessage) {
+export function logInFailure(errMessage) {
   return { type: 'LOGIN_FAILURE', errMessage };
 }
 export function toggleLogInModal(show) {
@@ -31,7 +31,7 @@ export function logOut() {
 // `dispatch` as a parameter.
 export function logIn(username, password, remember) {
   return (dispatch) => {
-    dispatch(loginRequest);
+    dispatch(logInRequest);
     fetch('/api/sessions', {
       method: 'POST',
       headers: {
@@ -42,7 +42,7 @@ export function logIn(username, password, remember) {
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
       if (response.status >= 200 && response.status <= 299) {
-        dispatch(loginSuccess(responseData.data.token, responseData.data.user, remember));
+        dispatch(logInSuccess(responseData.data.token, responseData.data.user, remember));
         dispatch(toggleLogInModal(false));
         browserHistory.push('/dreamProject');
         return;
@@ -59,9 +59,9 @@ export function logIn(username, password, remember) {
         default:
           errMessage = 'errors.sessions.unexpected';
       }
-      dispatch(loginFailure(errMessage));
+      dispatch(logInFailure(errMessage));
     }).catch(() => {
-      dispatch(loginFailure('errors.unexpected'));
+      dispatch(logInFailure('errors.unexpected'));
     });
   };
 }
@@ -476,3 +476,113 @@ export function removeInterest(userId, token, topicId, primary = false) {
   };
 }
 
+export function changePasswordRequest() {
+  return { type: 'CHANGE_PASSWORD_REQUEST' };
+}
+
+export function changePasswordFailure(err) {
+  return { type: 'CHANGE_PASSWORD_FAILURE', err };
+}
+
+export function changePasswordSuccess() {
+  return { type: 'CHANGE_PASSWORD_SUCCESS' };
+}
+
+export function changePassword(userId, token, newPassword) {
+  return (dispatch) => {
+    dispatch(changePasswordRequest());
+    return fetch(`/api/users/${userId}/credentials`, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        newPassword,
+      }),
+    }).then((response) => {
+      if (response.status >= 200 && response.status <= 299) {
+        dispatch(changePasswordSuccess());
+        return;
+      }
+
+      let errMessage;
+      switch (response.status) {
+        case 400:
+          errMessage = 'errors.unexpected';
+          break;
+        case 401:
+          // probably token expired
+          dispatch(logOut());
+          browserHistory.push('/');
+          dispatch(toggleLogInModal(true));
+          errMessage = 'errors.unexpected';
+          break;
+        default:
+          errMessage = 'errors.unexpected';
+      }
+      dispatch(changePasswordFailure(errMessage));
+    }).catch(() => {
+      dispatch(changePasswordFailure('errors.unexpected'));
+    });
+  };
+}
+
+export function signUpUserRequest() {
+  return { type: 'SIGN_UP_USER_REQUEST' };
+}
+
+export function signUpUserFailure(err) {
+  return { type: 'SIGN_UP_USER_FAILURE', err };
+}
+
+export function signUpUserSuccess() {
+  return { type: 'SIGN_UP_USER_SUCCESS' };
+}
+
+export function signUpUser(username, name, password, role) {
+  return (dispatch) => {
+    dispatch(signUpUserRequest());
+    return fetch('/api/users/', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        name,
+        password,
+        role,
+      }),
+    }).then(response => Promise.all([response, response.json()])
+    ).then(([response, responseData]) => {
+      if (response.status >= 200 && response.status <= 299) {
+        const { user, token } = responseData.data;
+        dispatch(signUpUserSuccess());
+        dispatch(logInSuccess(user, token));
+        return;
+      }
+
+      let errMessage;
+      switch (response.status) {
+        case 400:
+          errMessage = 'errors.unexpected';
+          break;
+        case 401:
+          // probably token expired
+          dispatch(logOut());
+          browserHistory.push('/');
+          dispatch(toggleLogInModal(true));
+          errMessage = 'errors.unexpected';
+          break;
+        default:
+          errMessage = 'errors.unexpected';
+      }
+      dispatch(signUpUserFailure(errMessage));
+    }).catch(() => {
+      dispatch(signUpUserFailure('errors.unexpected'));
+    });
+  };
+}
