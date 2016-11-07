@@ -82,7 +82,16 @@ export class LogInModalView extends React.Component {
             <FormattedMessage {..._.get(messages, this.state.validationError)} />
           </p>
         }
-        <form ref={(el) => { this.loginForm = el; }} className="LogInModal--form">
+        { this.props.logInError &&
+          <p className="LoginModal--errors">
+            <FormattedMessage {..._.get(messages, this.props.logInError)} />
+          </p>
+        }
+        <form
+          ref={(el) => { this.loginForm = el; }}
+          onSubmit={this.handleLogIn}
+          className="LogInModal--form"
+        >
           <ul className="LoginModal--form--entries">
             <li>
               <label htmlFor="LogInModal--form--username">
@@ -110,7 +119,7 @@ export class LogInModalView extends React.Component {
               </label>
             </li>
             <li className="LogInModal--form--submitItem">
-              <Button type="primary" action={this.handleLogIn} disabled={!this.state.formIsValid}>
+              <Button type="primary" action="submit" disabled={!this.state.formIsValid}>
                 <FormattedMessage {...messages.sessions.logIn} />
               </Button>
             </li>
@@ -124,7 +133,14 @@ export class LogInModalView extends React.Component {
 LogInModalView.propTypes = {
   closeModal: PropTypes.func.isRequired,
   logIn: PropTypes.func.isRequired,
+  logInError: PropTypes.string,
 };
+
+function mapStateToProps(state) {
+  return {
+    logInError: state.session.logInError,
+  };
+}
 
 // Container
 // Injects state and action dispatchers into the Component, thus decoupling the
@@ -136,8 +152,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 const LogInModal = connect(
-  null,
-  mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps,
 )(LogInModalView);
 
 export default LogInModal;

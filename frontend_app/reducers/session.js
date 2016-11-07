@@ -51,12 +51,12 @@ export default function session(state = {}, action) {
     case 'TOGGLE_LOGIN_MODAL':
       return Object.assign({}, state, { showingLogInModal: action.show });
     case 'LOGIN_REQUEST':
-      return Object.assign({}, state, { loggingIn: true, loginError: null });
+      return Object.assign({}, state, { loggingIn: true, logInError: null });
     case 'LOGIN_SUCCESS':
       persistLogin(action.token, action.user, action.remember);
       return Object.assign({}, state, { token: action.token, user: action.user });
     case 'LOGIN_FAILURE':
-      return Object.assign({}, state, { loggingIn: false, loginError: action.errMessage });
+      return Object.assign({}, state, { loggingIn: false, logInError: action.errMessage });
     case 'LOGOUT':
       clearStoredToken();
       return Object.assign({}, state, { token: null });
