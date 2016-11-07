@@ -15,4 +15,8 @@ export default [
     id: 'SiteNavigation.contactUs',
     defaultMessage: 'Contact Us',
   },
+  {
+    id: 'SiteNavigation.dreamProject',
+    defaultMessage: 'Dream Project',
+  },
 ];

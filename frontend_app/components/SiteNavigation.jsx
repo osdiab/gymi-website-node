@@ -22,7 +22,7 @@ const NAV_LINKS = [
   {
     id: 'timeline',
     url: '/timeline',
-    imageUrl: '/media/icons/documents.svg',
+    imageUrl: '/media/icons/timeline.svg',
   },
   {
     id: 'joinUs',
@@ -39,7 +39,13 @@ const NAV_LINKS = [
 export function SiteNavigationView(
   { loggedIn, showingLogInModal, showLogInModal, hideLogInModal }
 ) {
-  const links = NAV_LINKS.map(({ id, url, imageUrl }) => (
+  const finalLinks = loggedIn ? NAV_LINKS.concat({
+    id: 'dreamProject',
+    url: '/dreamProject',
+    imageUrl: '/media/icons/documents.svg',
+  }) : NAV_LINKS;
+
+  const links = finalLinks.map(({ id, url, imageUrl }) => (
     <li className="SiteNavigation--items--item" key={url}>
       <Link to={url}>
         <img role="presentation" className="SiteNavigation--items--item--icon" src={imageUrl} />
