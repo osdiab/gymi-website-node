@@ -7,6 +7,9 @@ import { hashPassword, comparePassword } from './crypto';
 import { validatePassword } from '../../common/passwords';
 
 const TOKEN_SECRET = 'super secret'; // TODO: make this an env variable
+export function generateToken(id, role, cb) {
+  return jwt.sign({ id, role }, TOKEN_SECRET, { expiresIn: '7 days' }, cb);
+}
 
 export default {
   authenticate: (req, res, next) => {
@@ -37,12 +40,19 @@ export default {
       if (!passwordMatches) {
         throw new ApplicationError('Invalid credentials', 401);
       }
-      res.send({
-        message: 'success',
-        data: {
-          token: jwt.sign({ id: user.id, role: user.role }, TOKEN_SECRET, { expiresIn: '7 days' }),
-          user: _.pick(user, PUBLIC_USER_FIELDS),
-        },
+
+      generateToken(user.id, user.role, (err, token) => {
+        if (err) {
+          throw err;
+        }
+
+        res.send({
+          message: 'success',
+          data: {
+            token,
+            user: _.pick(user, PUBLIC_USER_FIELDS),
+          },
+        });
       });
     }).catch(next);
   },
@@ -85,10 +95,10 @@ export default {
   },
 
   setCredentials: (req, res) => {
-    const requiredFields = ['id', 'newPassword'];
-    if (!req.params.id) {
+    const requiredFields = ['userId', 'newPassword'];
+    if (!req.params.userId) {
       throw new ApplicationError('Missing required fields', 400, {
-        requiredFields, missing: ['id'],
+        requiredFields, missing: ['userId'],
       });
     }
 
@@ -98,10 +108,10 @@ export default {
       });
     }
 
-    if (isNaN(req.params.id)) {
-      throw new ApplicationError('Invalid user id', 400);
+    if (isNaN(req.params.userId)) {
+      throw new ApplicationError('Invalid userId', 400);
     }
-    const userId = parseInt(req.params.id, 10);
+    const userId = parseInt(req.params.userId, 10);
     const tokenUserId = res.locals.authData.id;
 
     if (userId !== tokenUserId) {

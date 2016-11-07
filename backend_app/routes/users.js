@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { generateToken } from './sessions';
 import usersDb, { VALID_LIST_FILTERS } from '../db/users';
 import { ApplicationError } from '../errors';
 import { hashPassword } from './crypto';
@@ -61,7 +62,12 @@ export default {
     }
 
     hashPassword(password).then(hash => usersDb.create(username, hash, name, role))
-    .then(id => res.send({ data: { id, username, name, role } }))
+      .then(id => Promise.all([id, new Promise((resolve, reject) =>
+        generateToken(id, role, (err, token) => (err ? reject(err) : resolve(token)))
+      )]))
+      .then(([id, token]) => res.send(
+        { data: { user: { id, username, name, role }, token } }
+      ))
     .catch(next);
   },
 };

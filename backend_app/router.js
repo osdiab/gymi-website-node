@@ -70,7 +70,7 @@ export default function createRouter() {
   router.get('/api/users/:id', sessions.verify, users.find);
   router.post('/api/users', sessions.populate, users.create);
   // sets a user's password
-  router.patch('/api/users/:id/credentials', sessions.verify, sessions.setCredentials);
+  router.patch('/api/users/:userId/credentials', sessions.verify, sessions.setCredentials);
 
   /*
    * interests endpoints
