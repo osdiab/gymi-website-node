@@ -8,14 +8,46 @@
 }
 
 .Interests--interests {
-  padding-top: 10px;
+  padding: 20px;
+}
+
+.Interests--editPrimary {
+  padding-bottom: 20px;
 }
 
 .Interests--interests--category {
   color: @dark-grey;
   padding-right: 10px;
+  padding-bottom: 20px;
 }
 
 .Interests--no-data {
   padding-top: 20px;
+}
+
+.Interests--editOtherInterests {
+  list-style-type: none;
+  li {
+    span {
+      padding-right: 5px;
+    }
+    display: flex;
+  }
+  padding-top: 20px;
+}
+
+.Interests--removeInterest {
+  padding: 0;
+  border: 0;
+  height: 16px;
+  width: 16px;
+  background: url(/media/icons/close.svg) !important;
+  background-size: 16px 16px !important;
+  opacity: .7;
+  margin: auto 0;
+
+  &:hover, &:focus {
+    opacity: .4;
+    cursor: pointer;
+  }
 }
