@@ -55,19 +55,27 @@ export default {
     }
 
     // Only admins can create non-admin accounts
-    if (role !== 'student') {
+    if (role === 'admin') {
       if (!res.locals.authData || res.locals.authData.role !== 'admin') {
         throw new ApplicationError('Unauthorized', 401);
       }
     }
 
     hashPassword(password).then(hash => usersDb.create(username, hash, name, role))
-      .then(id => Promise.all([id, new Promise((resolve, reject) =>
-        generateToken(id, role, (err, token) => (err ? reject(err) : resolve(token)))
-      )]))
-      .then(([id, token]) => res.send(
-        { data: { user: { id, username, name, role }, token } }
-      ))
+    .then((id) => {
+      const user = { id, username, name, role };
+
+      // if user is already logged in, they are making an account on someone else's behalf - don't
+      // send the token.
+      if (res.locals.authData) {
+        return { user };
+      }
+
+      return new Promise((resolve, reject) =>
+        generateToken(id, role, (err, token) => (err ? reject(err) : resolve({ user, token })))
+      );
+    })
+    .then(data => res.send({ data }))
     .catch(next);
   },
 };
