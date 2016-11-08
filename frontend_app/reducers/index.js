@@ -8,6 +8,7 @@ import submissions from './submissions';
 import submissionQuestions from './submissionQuestions';
 import topics from './topics';
 import users from './users';
+import modal from './modal';
 
 export default combineReducers({
   language,
@@ -17,4 +18,5 @@ export default combineReducers({
   submissionQuestions,
   topics,
   users,
+  modal,
 });

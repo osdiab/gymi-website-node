@@ -48,8 +48,6 @@ function persistLogin(token, user, remember) {
 
 export default function session(state = {}, action) {
   switch (action.type) {
-    case 'TOGGLE_LOGIN_MODAL':
-      return Object.assign({}, state, { showingLogInModal: action.show });
     case 'LOGIN_REQUEST':
       return Object.assign({}, state, { loggingIn: true, logInError: null });
     case 'LOGIN_SUCCESS':

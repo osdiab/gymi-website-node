@@ -18,8 +18,11 @@ export function logInSuccess(token, user, remember) {
 export function logInFailure(errMessage) {
   return { type: 'LOGIN_FAILURE', errMessage };
 }
-export function toggleLogInModal(show) {
-  return { type: 'TOGGLE_LOGIN_MODAL', show };
+export function showModal(modalId, props = {}) {
+  return { type: 'SHOW_MODAL', modalId, props };
+}
+export function hideModal() {
+  return { type: 'HIDE_MODAL' };
 }
 export function logOut() {
   browserHistory.push('/');
@@ -43,7 +46,7 @@ export function logIn(username, password, remember) {
     ).then(([response, responseData]) => {
       if (response.status >= 200 && response.status <= 299) {
         dispatch(logInSuccess(responseData.data.token, responseData.data.user, remember));
-        dispatch(toggleLogInModal(false));
+        dispatch(hideModal());
         browserHistory.push('/dreamProject');
         return;
       }
@@ -51,13 +54,13 @@ export function logIn(username, password, remember) {
       switch (response.status) {
         case 400:
           // unexpected: form should catch this on frontend
-          errMessage = 'errors.sessions.missingCredentials';
+          errMessage = 'errors.unexpected';
           break;
         case 401:
           errMessage = 'errors.sessions.badCredentials';
           break;
         default:
-          errMessage = 'errors.sessions.unexpected';
+          errMessage = 'errors.unexpected';
       }
       dispatch(logInFailure(errMessage));
     }).catch(() => {
@@ -104,7 +107,7 @@ export function loadOtherSubmissions(userId, token) {
           // probably token expired
           dispatch(logOut());
           browserHistory.push('/');
-          dispatch(toggleLogInModal(true));
+          dispatch(showModal('login'));
           errMessage = 'errors.unexpected';
           break;
         default:
@@ -154,7 +157,7 @@ export function loadOwnSubmissions(userId, token) {
           // probably token expired
           dispatch(logOut());
           browserHistory.push('/');
-          dispatch(toggleLogInModal(true));
+          dispatch(showModal('login'));
           errMessage = 'errors.unexpected';
           break;
         default:
@@ -204,7 +207,7 @@ export function loadOwnInterests(userId, token) {
           // probably token expired
           dispatch(logOut());
           browserHistory.push('/');
-          dispatch(toggleLogInModal(true));
+          dispatch(showModal('login'));
           errMessage = 'errors.unexpected';
           break;
         default:
@@ -259,7 +262,7 @@ export function createSubmission(userId, token, answers) {
           // probably token expired
           dispatch(logOut());
           browserHistory.push('/');
-          dispatch(toggleLogInModal(true));
+          dispatch(showModal('login'));
           errMessage = 'errors.unexpected';
           break;
         default:
@@ -306,7 +309,7 @@ export function loadSubmissionQuestions(userId, token) {
           // probably token expired
           dispatch(logOut());
           browserHistory.push('/');
-          dispatch(toggleLogInModal(true));
+          dispatch(showModal('login'));
           errMessage = 'errors.unexpected';
           break;
         default:
@@ -353,7 +356,7 @@ export function loadTopics(userId, token) {
           // probably token expired
           dispatch(logOut());
           browserHistory.push('/');
-          dispatch(toggleLogInModal(true));
+          dispatch(showModal('login'));
           errMessage = 'errors.unexpected';
           break;
         default:
@@ -408,7 +411,7 @@ export function addInterest(userId, token, topicId, primary = false) {
           // probably token expired
           dispatch(logOut());
           browserHistory.push('/');
-          dispatch(toggleLogInModal(true));
+          dispatch(showModal('login'));
           errMessage = 'errors.unexpected';
           break;
         default:
@@ -463,7 +466,7 @@ export function removeInterest(userId, token, topicId, primary = false) {
           // probably token expired
           dispatch(logOut());
           browserHistory.push('/');
-          dispatch(toggleLogInModal(true));
+          dispatch(showModal('login'));
           errMessage = 'errors.unexpected';
           break;
         default:
@@ -516,7 +519,7 @@ export function changePassword(userId, token, newPassword) {
           // probably token expired
           dispatch(logOut());
           browserHistory.push('/');
-          dispatch(toggleLogInModal(true));
+          dispatch(showModal('login'));
           errMessage = 'errors.unexpected';
           break;
         default:
@@ -541,15 +544,21 @@ export function signUpUserSuccess() {
   return { type: 'SIGN_UP_USER_SUCCESS' };
 }
 
-export function signUpUser(username, name, password, role) {
+export function signUpUser(username, name, password, role, loggedInToken = '') {
   return (dispatch) => {
     dispatch(signUpUserRequest());
+    const headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+
+    if (loggedInToken) {
+      headers.Authorization = `Bearer ${loggedInToken}`;
+    }
+
     return fetch('/api/users/', {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
+      headers,
       body: JSON.stringify({
         username,
         name,
@@ -561,7 +570,9 @@ export function signUpUser(username, name, password, role) {
       if (response.status >= 200 && response.status <= 299) {
         const { user, token } = responseData.data;
         dispatch(signUpUserSuccess());
-        dispatch(logInSuccess(user, token));
+        if (token) {
+          dispatch(logInSuccess(user, token));
+        }
         return;
       }
 
@@ -574,7 +585,7 @@ export function signUpUser(username, name, password, role) {
           // probably token expired
           dispatch(logOut());
           browserHistory.push('/');
-          dispatch(toggleLogInModal(true));
+          dispatch(showModal('login'));
           errMessage = 'errors.unexpected';
           break;
         default:

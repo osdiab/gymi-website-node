@@ -3,11 +3,10 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-import { toggleLogInModal } from '../actions';
+import { showModal, hideModal } from '../actions';
 import messages from '../messages';
 import LanguageSelector from '../components/LanguageSelector';
 import Button from './Button';
-import LogInModal from './LogInModal';
 
 require('./SiteNavigation.less');
 
@@ -37,7 +36,7 @@ const NAV_LINKS = [
 ];
 
 export function SiteNavigationView(
-  { loggedIn, showingLogInModal, showLogInModal, hideLogInModal }
+  { loggedIn, showLogInModal }
 ) {
   const finalLinks = loggedIn ? NAV_LINKS.concat({
     id: 'dreamProject',
@@ -57,24 +56,23 @@ export function SiteNavigationView(
   ));
   return (
     <nav className="SiteNavigation">
-      <div className="SiteNavigation--logo">
-        <Link to="/">
-          <img alt="Home" src="/media/icons/logo.svg" />
-        </Link>
+      <div className="SiteNavigation--wrapper">
+        <div className="SiteNavigation--logo">
+          <Link to="/">
+            <img alt="Home" src="/media/icons/logo.svg" />
+          </Link>
+        </div>
+        <ul className="SiteNavigation--items">{links}</ul>
+        <LanguageSelector />
+        { !loggedIn && <Button type="primary" action={showLogInModal}>Log In</Button> }
       </div>
-      <ul className="SiteNavigation--items">{links}</ul>
-      <LanguageSelector />
-      { !loggedIn && <Button type="primary" action={showLogInModal}>Log In</Button> }
-      { showingLogInModal && <LogInModal closeModal={hideLogInModal} /> }
     </nav>
   );
 }
 
 SiteNavigationView.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
-  showingLogInModal: PropTypes.bool.isRequired,
   showLogInModal: PropTypes.func.isRequired,
-  hideLogInModal: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -85,8 +83,9 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    showLogInModal: () => dispatch(toggleLogInModal(true)),
-    hideLogInModal: () => dispatch(toggleLogInModal(false)),
+    showLogInModal: () => dispatch(showModal('login', {
+      closeModal: () => dispatch(hideModal()),
+    })),
   };
 }
 
