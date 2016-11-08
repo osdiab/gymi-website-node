@@ -2,11 +2,18 @@
 
 .Modal {
   position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .Modal--background {
-  position: fixed;
+  position: absolute;
   height: 100%;
   width: 100%;
   top: 0;
@@ -16,19 +23,14 @@
 }
 
 .Modal--window {
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%);
-  position: fixed;
   border-radius: 3px;
-  font-family: "Proxima Nova";
   box-shadow: 0 10px 10px rgba(0,0,0,.2);
   border: 1px solid @light-grey;
   background: #FAFCFC;
 }
 
 .Modal--header {
+  position: relative;
   background: #E3E6EB;
   height: 60px;
   padding: 15px 30px;
@@ -46,7 +48,6 @@
 }
 
 .Modal--close {
-  display: block;
   position: absolute;
   cursor: pointer;
   height: 16px;
@@ -55,7 +56,8 @@
   background-size: 16px 16px !important;
   background-repeat: no-repeat !important;
   right: 32px;
-  top: 24px;
+  top: 50%;
+  transform: translateY(-50%);
   outline: none;
   border: none;
   padding: 0;
