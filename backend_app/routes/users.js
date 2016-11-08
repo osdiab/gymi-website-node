@@ -43,10 +43,10 @@ export default {
       return;
     }
 
-    const passwordValidation = validatePassword(req.body.password);
-    if (!passwordValidation.valid) {
+    const passwordValidationError = validatePassword(req.body.password);
+    if (passwordValidationError) {
       next(new ApplicationError('Invalid password', 400, {
-        message: passwordValidation.message,
+        message: passwordValidationError,
       }));
       return;
     }

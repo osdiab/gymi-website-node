@@ -130,9 +130,9 @@ export default {
       return;
     }
 
-    const passwordValidation = validatePassword(req.body.password);
-    if (!passwordValidation.valid) {
-      next(new ApplicationError(passwordValidation.message, 400));
+    const passwordValidationError = validatePassword(req.body.password);
+    if (passwordValidationError) {
+      next(new ApplicationError(passwordValidationError, 400));
       return;
     }
 

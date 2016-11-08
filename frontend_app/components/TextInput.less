@@ -1,0 +1,57 @@
+@import './colors.less';
+
+.TextInput {
+  display: flex;
+  background: white;
+  border: 1px solid @medium-grey;
+  height: 50px;
+  width: 100%;
+  overflow: hidden;
+
+  label {
+    font-size: 10px;
+  }
+  input {
+    display: block;
+    padding-right: 10px;
+    border: none;
+    width: 100%;
+    outline: none;
+    font-size: 1.3em;
+  }
+}
+
+.TextInput--content {
+  padding: 0 5px;
+  width: 100%;
+  max-width: calc(100% - 5px);
+}
+
+.TextInput--colorBar {
+  flex: 0, 0, 10px;
+  width: 10px;
+  height: 100%;
+  background: white;
+  margin-right: 10px;
+}
+
+.TextInput--colorBar--focused {
+  background: @light-blue;
+}
+
+.TextInput--colorBar--error {
+  background: @red;
+}
+
+.TextInput--info {
+  display: flex;
+  justify-content: space-between;
+  max-width: 100%;
+}
+
+.TextInput--error {
+  color: @red;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

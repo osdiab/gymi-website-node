@@ -36,21 +36,21 @@ export class LogInModalView extends React.Component {
     const { username, password } = this.parseLoginEntries();
 
     if (username.length === 0) {
-      return 'errors.sessions.usernameMissing';
+      return 'errors.username.missing';
     }
 
     if (password.length === 0) {
-      return 'errors.sessions.passwordMissing';
+      return 'errors.password.missing';
     }
 
-    const usernameValid = validateUsername(username);
-    if (!usernameValid.valid) {
-      return usernameValid.message;
+    const usernameValidationError = validateUsername(username);
+    if (usernameValidationError) {
+      return usernameValidationError;
     }
 
-    const passwordValid = validatePassword(password);
-    if (!passwordValid.valid) {
-      return passwordValid.message;
+    const passwordValidationError = validatePassword(password);
+    if (passwordValidationError) {
+      return passwordValidationError;
     }
 
     return null;

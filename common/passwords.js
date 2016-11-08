@@ -3,26 +3,16 @@ export const MAX_PASSWORD_LENGTH = 50;
 
 export function validatePassword(password) {
   if (password.length < MIN_PASSWORD_LENGTH) {
-    return {
-      valid: false,
-      message: 'errors.sessions.passwordTooShort',
-    };
+    return 'errors.password.tooShort';
   }
 
   if (password.length > MAX_PASSWORD_LENGTH) {
-    return {
-      valid: false,
-      message: 'errors.sessions.passwordTooLong',
-    };
+    return 'errors.password.tooLong';
   }
 
   if (!/^[\x00-\x7F]*$/.test(password)) {
-    return {
-      valid: false,
-      message: 'errors.sessions.passwordHasBadCharacters',
-    };
+    return 'errors.password.hasBadCharacters';
   }
-  return {
-    valid: true,
-  };
+
+  return null;
 }

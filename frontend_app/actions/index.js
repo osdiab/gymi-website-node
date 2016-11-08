@@ -570,8 +570,10 @@ export function signUpUser(username, name, password, role, loggedInToken = '') {
       if (response.status >= 200 && response.status <= 299) {
         const { user, token } = responseData.data;
         dispatch(signUpUserSuccess());
+        dispatch(hideModal());
         if (token) {
-          dispatch(logInSuccess(user, token));
+          dispatch(logInSuccess(token, user));
+          browserHistory.push('/dreamProject');
         }
         return;
       }
