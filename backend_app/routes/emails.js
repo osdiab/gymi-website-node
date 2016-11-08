@@ -22,25 +22,30 @@ export default {
   send: (req, res, next) => {
     const requiredFields = ['reason', 'sender', 'message', 'name'];
     if (_.compact(requiredFields.map(field => req.body[field])).length !== requiredFields.length) {
-      throw new ApplicationError('Missing required fields', 400, { requiredFields });
+      next(new ApplicationError('Missing required fields', 400, { requiredFields }));
+      return;
     }
 
     const { sender, reason, message, name } = req.body;
     if (!emailValidator.validate(sender)) {
-      throw new ApplicationError('Invalid email', 400);
+      next(new ApplicationError('Invalid email', 400));
+      return;
     }
 
     if (name.length > MAX_NAME_LENGTH) {
-      throw new ApplicationError('Name too long', 400);
+      next(new ApplicationError('Name too long', 400));
+      return;
     }
 
     if (message.length > MAX_MESSAGE_LENGTH) {
-      throw new ApplicationError('Message too long', 400);
+      next(new ApplicationError('Message too long', 400));
+      return;
     }
 
     const validReasons = ['general', 'press'];
     if (!validReasons.includes(reason)) {
-      throw new ApplicationError('Invalid message reason', 400);
+      next(new ApplicationError('Invalid message reason', 400));
+      return;
     }
 
     let receiver = null;

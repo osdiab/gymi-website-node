@@ -23,9 +23,10 @@ export default {
     const requiredFields = ['identifier'];
     const values = _.pick(req.params, requiredFields);
     if (_.size(_.omitBy(values, _.isEmpty)) < requiredFields.length) {
-      throw new ApplicationError('Missing required fields', 400, {
+      next(new ApplicationError('Missing required fields', 400, {
         requiredFields,
-      });
+      }));
+      return;
     }
     usersDb.find(values.identifier).then((user) => {
       res.send({ data: user });
@@ -36,28 +37,32 @@ export default {
     const values = _.pick(req.body, requiredFields);
     const { username, password, name, role } = values;
     if (_.size(_.omitBy(values, _.isEmpty)) < requiredFields.length) {
-      throw new ApplicationError('Missing required fields', 400, {
+      next(new ApplicationError('Missing required fields', 400, {
         requiredFields,
-      });
+      }));
+      return;
     }
 
     const passwordValidation = validatePassword(req.body.password);
     if (!passwordValidation.valid) {
-      throw new ApplicationError('Invalid password', 400, {
+      next(new ApplicationError('Invalid password', 400, {
         message: passwordValidation.message,
-      });
+      }));
+      return;
     }
 
     if (!VALID_ROLES.includes(role)) {
-      throw new ApplicationError('Invalid role', 400, {
+      next(new ApplicationError('Invalid role', 400, {
         validRoles: VALID_ROLES,
-      });
+      }));
+      return;
     }
 
     // Only admins can create non-admin accounts
     if (role === 'admin') {
       if (!res.locals.authData || res.locals.authData.role !== 'admin') {
-        throw new ApplicationError('Unauthorized', 401);
+        next(new ApplicationError('Unauthorized', 401));
+        return;
       }
     }
 

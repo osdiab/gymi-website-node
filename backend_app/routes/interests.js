@@ -9,9 +9,10 @@ export default {
     const userId = req.params.userId;
 
     if (_.isEmpty(userId)) {
-      throw new ApplicationError(
+      next(new ApplicationError(
         'Missing required fields', 400, { missing: ['userId'], requiredFields }
-      );
+      ));
+      return;
     }
 
     interestsDb.list(userId).then((interests) => {
@@ -26,15 +27,18 @@ export default {
     const values = Object.assign({}, req.body, req.params);
 
     if (_.compact(_.values(_.pick(values, requiredFields))).length !== requiredFields.length) {
-      throw new ApplicationError('Missing required fields', 400, { requiredFields });
+      next(new ApplicationError('Missing required fields', 400, { requiredFields }));
+      return;
     }
 
     if (isNaN(values.userId)) {
-      throw new ApplicationError('userId must be an integer', 400);
+      next(new ApplicationError('userId must be an integer', 400));
+      return;
     }
 
     if (res.locals.authData.id !== parseInt(values.userId, 10)) {
-      throw new ApplicationError('You may only add interests for your own account', 403);
+      next(new ApplicationError('You may only add interests for your own account', 403));
+      return;
     }
 
     const dbFunc = req.body.primary ? interestsDb.updatePrimary : interestsDb.add;
@@ -51,19 +55,23 @@ export default {
     const values = Object.assign({}, req.body, req.params);
 
     if (_.compact(_.values(values)).length !== requiredFields.length) {
-      throw new ApplicationError('Missing required fields', 400, { requiredFields });
+      next(new ApplicationError('Missing required fields', 400, { requiredFields }));
+      return;
     }
 
     if (isNaN(values.userId)) {
-      throw new ApplicationError('userId must be an integer', 400);
+      next(new ApplicationError('userId must be an integer', 400));
+      return;
     }
 
     if (isNaN(values.topicId)) {
-      throw new ApplicationError('topicId must be an integer', 400);
+      next(new ApplicationError('topicId must be an integer', 400));
+      return;
     }
 
     if (res.locals.authData.id !== parseInt(values.userId, 10)) {
-      throw new ApplicationError('You may only remove interests for your own account', 403);
+      next(new ApplicationError('You may only remove interests for your own account', 403));
+      return;
     }
 
     interestsDb.remove(values.userId, values.topicId).then(() => {

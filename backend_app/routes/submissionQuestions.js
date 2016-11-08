@@ -7,11 +7,12 @@ export default {
   create: (req, res, next) => {
     const { title } = req.body;
     if (_.isEmpty(title)) {
-      throw new ApplicationError(
+      next(new ApplicationError(
         'Missing required fields', 400, {
           missing: ['title'], requiredFields: ['title'],
         }
-      );
+      ));
+      return;
     }
 
     submissionQuestionsDb.create(title).then((id) => {
@@ -21,9 +22,10 @@ export default {
   destroy: (req, res, next) => {
     const id = req.params.id || req.body.id;
     if (_.isEmpty(id)) {
-      throw new ApplicationError(
+      next(new ApplicationError(
         'Missing required fields', 400, { missing: ['id'], requiredFields: ['id'] }
-      );
+      ));
+      return;
     }
 
     submissionQuestionsDb.destroy(id).then(() => {

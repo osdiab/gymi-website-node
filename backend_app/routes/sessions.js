@@ -16,14 +16,16 @@ export default {
     const requiredFields = ['username', 'password'];
     const userIdentifier = req.body.username;
     if (!userIdentifier) {
-      throw new ApplicationError('Missing required fields', 400, {
+      next(new ApplicationError('Missing required fields', 400, {
         requiredFields, missing: ['username'],
-      });
+      }));
+      return;
     }
     if (!req.body.password) {
-      throw new ApplicationError('Missing required fields', 400, {
+      next(new ApplicationError('Missing required fields', 400, {
         requiredFields, missing: ['password'],
-      });
+      }));
+      return;
     }
 
     // Security note: from this point on, do not reveal whether the user exists or a password is
@@ -31,27 +33,31 @@ export default {
     usersDb.find(userIdentifier, true).then((user) => {
       // user does not exist
       if (!user) {
-        throw new ApplicationError('Invalid credentials', 401);
+        return Promise.reject(new ApplicationError('Invalid credentials', 401));
       }
 
       return Promise.all([user, comparePassword(req.body.password, user.passwordHash)]);
     }).then(([user, passwordMatches]) => {
       // password is wrong
       if (!passwordMatches) {
-        throw new ApplicationError('Invalid credentials', 401);
+        return Promise.reject(new ApplicationError('Invalid credentials', 401));
       }
 
-      generateToken(user.id, user.role, (err, token) => {
-        if (err) {
-          throw err;
-        }
+      return new Promise((resolve, reject) => {
+        generateToken(user.id, user.role, (err, token) => {
+          if (err) {
+            reject(err);
+            return;
+          }
 
-        res.send({
-          message: 'success',
-          data: {
-            token,
-            user: _.pick(user, PUBLIC_USER_FIELDS),
-          },
+          res.send({
+            message: 'success',
+            data: {
+              token,
+              user: _.pick(user, PUBLIC_USER_FIELDS),
+            },
+          });
+          resolve();
         });
       });
     }).catch(next);
@@ -61,13 +67,15 @@ export default {
   verify: (req, res, next) => {
     const authHeader = req.get('Authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      throw new ApplicationError('Missing Authorization header with Bearer token', 401);
+      next(new ApplicationError('Missing Authorization header with Bearer token', 401));
+      return;
     }
 
     const token = authHeader.substring('Bearer '.length);
     jwt.verify(token, TOKEN_SECRET, (err, decoded) => {
       if (err) {
-        throw new ApplicationError('Could not verify token', 401);
+        next(new ApplicationError('Could not verify token', 401));
+        return;
       }
 
       res.locals.authData = decoded; // eslint-disable-line no-param-reassign
@@ -94,33 +102,38 @@ export default {
     });
   },
 
-  setCredentials: (req, res) => {
+  setCredentials: (req, res, next) => {
     const requiredFields = ['userId', 'newPassword'];
     if (!req.params.userId) {
-      throw new ApplicationError('Missing required fields', 400, {
+      next(new ApplicationError('Missing required fields', 400, {
         requiredFields, missing: ['userId'],
-      });
+      }));
+      return;
     }
 
     if (!req.body.password) {
-      throw new ApplicationError('Missing required fields', 400, {
-        requiredFields, missing: ['password'],
-      });
+      next(new ApplicationError('Missing required fields', 400, {
+        requiredFields, missing: ['newPassword'],
+      }));
+      return;
     }
 
     if (isNaN(req.params.userId)) {
-      throw new ApplicationError('Invalid userId', 400);
+      next(new ApplicationError('Invalid userId', 400));
+      return;
     }
     const userId = parseInt(req.params.userId, 10);
     const tokenUserId = res.locals.authData.id;
 
     if (userId !== tokenUserId) {
-      throw new ApplicationError('Forbidden', 403);
+      next(new ApplicationError('Forbidden', 403));
+      return;
     }
 
     const passwordValidation = validatePassword(req.body.password);
     if (!passwordValidation.valid) {
-      throw new ApplicationError(passwordValidation.message, 400);
+      next(new ApplicationError(passwordValidation.message, 400));
+      return;
     }
 
     hashPassword(req.body.password).then(
@@ -130,11 +143,13 @@ export default {
 
   assertRole: assertedRoles => (req, res, next) => {
     if (!res.locals.authData) {
-      throw new ApplicationError('Unauthorized', 401);
+      next(new ApplicationError('Unauthorized', 401));
+      return;
     }
     const rolesToCheck = _.isArray(assertedRoles) ? assertedRoles : [assertedRoles];
     if (!rolesToCheck.includes(res.locals.authData.role)) {
-      throw new ApplicationError('Forbidden', 403);
+      next(new ApplicationError('Forbidden', 403));
+      return;
     }
     next();
   },

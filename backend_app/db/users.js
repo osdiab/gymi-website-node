@@ -20,14 +20,15 @@ const find = (identifier, getPasswordHash = false) => new Promise((resolve, reje
 export default {
   create: (username, passwordHash, name, role) => new Promise((resolve, reject) => {
     if (!isNaN(username)) {
-      throw new ApplicationError('Username cannot be a number', 400);
+      reject(new ApplicationError('Username cannot be a number', 400));
+      return;
     }
 
     find(username).then((user) => {
       if (user) {
-        throw new ApplicationError('User already exists', 400);
+        return Promise.reject(new ApplicationError('User already exists', 400));
       }
-      return;
+      return null;
     }).then(() => db.one(
       'INSERT INTO users (username, "normalizedUsername", "passwordHash", name, role) VALUES ($1, $2, $3, $4, $5) RETURNING id',
       [username, username.toLowerCase(), passwordHash, name, role],

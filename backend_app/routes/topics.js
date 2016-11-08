@@ -7,9 +7,10 @@ export default {
   create: (req, res, next) => {
     const requiredFields = ['title'];
     if (_.isEmpty(req.body.title)) {
-      throw new ApplicationError(
+      next(new ApplicationError(
         'Missing required fields', 400, { missing: ['title'], requiredFields }
-      );
+      ));
+      return;
     }
     topicsDb.create(req.body.title).then((result) => {
       res.status(201).send({
@@ -22,9 +23,10 @@ export default {
     const requiredFields = ['id'];
     const id = (req.params.id || req.body.id);
     if (_.isEmpty(id)) {
-      throw new ApplicationError(
+      next(new ApplicationError(
         'Missing required fields', 400, { missing: ['id'], requiredFields }
-      );
+      ));
+      return;
     }
     topicsDb.destroy(id).then(() => {
       res.sendStatus(204);

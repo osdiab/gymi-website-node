@@ -14,7 +14,8 @@ const list = (filters, limit = 100) => new Promise((resolve, reject) => {
   ];
   const supportedFilters = ['after', 'userId'];
   if (_.difference(_.keys(filters), supportedFilters).length !== 0) {
-    throw new Error('Unsupported filters provided');
+    reject(new Error('Unsupported filters provided'));
+    return;
   }
   const clauses = [];
   const additionalArgs = {};
@@ -80,14 +81,16 @@ const list = (filters, limit = 100) => new Promise((resolve, reject) => {
 });
 
 const create = (userId, answers) => new Promise((resolve, reject) => {
-  answers.forEach((a) => {
-    if (!a.questionId) {
-      throw new Error('Missing question ID');
+  for (const answer of answers) {
+    if (!answer.questionId) {
+      reject(new Error('Missing question ID'));
+      return;
     }
-    if (!a.body) {
-      throw new Error('Missing answer body');
+    if (!answer.body) {
+      reject(new Error('Missing answer body'));
+      return;
     }
-  });
+  }
   const timestamp = new Date();
   const submissionsQuery =
     'INSERT INTO submissions (timestamp, "userId") VALUES ($<timestamp>, $<userId>) RETURNING id';
