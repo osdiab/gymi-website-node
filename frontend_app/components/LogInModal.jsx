@@ -7,6 +7,7 @@ import { validatePassword } from '../../common/passwords';
 import { validateUsername } from '../../common/usernames';
 import Modal from './Modal';
 import Button from './Button';
+import TextInput from './TextInput';
 import { logIn } from '../actions';
 
 import './LogInModal.less';
@@ -62,11 +63,9 @@ export class LogInModalView extends React.Component {
     this.props.logIn(username, password, remember);
   }
 
-  handleChange(e) {
-    e.preventDefault();
+  handleChange() {
     const formValidation = this.validateForm();
     this.setState({
-      validationError: formValidation,
       formIsValid: !formValidation,
     });
   }
@@ -77,11 +76,6 @@ export class LogInModalView extends React.Component {
         title="Log in"
         closeModal={this.props.closeModal}
       >
-        { this.state.validationError &&
-          <p className="LoginModal--errors">
-            <FormattedMessage {..._.get(messages, this.state.validationError)} />
-          </p>
-        }
         { this.props.logInError &&
           <p className="LoginModal--errors">
             <FormattedMessage {..._.get(messages, this.props.logInError)} />
@@ -94,22 +88,16 @@ export class LogInModalView extends React.Component {
         >
           <ul className="LoginModal--form--entries">
             <li>
-              <label htmlFor="LogInModal--form--username">
-                <FormattedMessage {...messages.sessions.username} />
-              </label>
-              <input
-                type="text" name="username" id="LogInModal--form--username"
-                onChange={this.handleChange}
+              <TextInput
+                type="text" name="username" required labelId="sessions.username"
+                onChange={this.handleChange} validateFn={validateUsername}
               />
             </li>
 
             <li>
-              <label htmlFor="LogInModal--form--password">
-                <FormattedMessage {...messages.sessions.password} />
-              </label>
-              <input
-                type="password" name="password" id="LogInModal--form--password"
-                onChange={this.handleChange}
+              <TextInput
+                type="password" name="password" required labelId="sessions.password"
+                onChange={this.handleChange} validateFn={validatePassword}
               />
             </li>
             <li className="LogInModal--form--rememberItem">

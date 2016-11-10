@@ -30,7 +30,11 @@ class TextInput extends React.Component {
   }
 
   render() {
-    const { type, validateFn, placeholderId, labelId, required, intl, onChange, name } = this.props;
+    const {
+      type, validateFn, placeholderId, labelId, required, intl, onChange, name, maxLength
+    } = this.props;
+
+    const { focused, hasFocusedBefore } = this.state;
 
     let errorId;
     if (required && this.state.value === '') {
@@ -49,17 +53,21 @@ class TextInput extends React.Component {
           onChange(this.input.value);
         }
       },
-      onFocus: () => this.setState({ focused: true }),
+      onFocus: () => this.setState({ focused: true, hasFocusedBefore: true }),
       onBlur: () => this.setState({ focused: false }),
     }
     if (placeholderId) {
       inputProps.placeholder = intl.formatMessage(placeholderId);
     }
 
+    if (maxLength) {
+      inputProps.maxLength = maxLength;
+    }
+
     const colorBarClassName = classnames(
       'TextInput--colorBar',
-      this.state.focused && 'TextInput--colorBar--focused',
-      errorId && 'TextInput--colorBar--error',
+      focused && 'TextInput--colorBar--focused',
+      !focused && hasFocusedBefore && errorId && 'TextInput--colorBar--error',
     )
     return (
       <div className="TextInput">
@@ -71,7 +79,7 @@ class TextInput extends React.Component {
                 <FormattedMessage {..._.get(messages, labelId)} />
               </span>
 
-              {errorId &&
+              {!focused && hasFocusedBefore && errorId &&
                 <span className="TextInput--error">
                   <FormattedMessage {..._.get(messages, errorId)} />
                 </span>
@@ -94,6 +102,7 @@ TextInput.propTypes = {
   onChange: PropTypes.func,
   intl: intlShape,
   name: PropTypes.string.isRequired,
+  maxLength: PropTypes.number,
 };
 
 TextInput.defaultProps = {

@@ -4,6 +4,7 @@ import _ from 'lodash';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import TextInput from '../TextInput';
 import Button from '../Button';
 import ChevronPage from './ChevronPage';
 import messages from '../../messages';
@@ -13,31 +14,28 @@ require('./ContactUsPage.less');
 
 const contactMessages = messages.ContactUsPage;
 
+const validateEmail = (email) => {
+  if (emailValidator.validate(email)) {
+    return false;
+  }
+  return 'errors.unexpected';
+};
+
 export default class ContactUsPage extends React.Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+    this.validateForm = this.validateForm.bind(this);
     this.state = {
       sent: false,
       sendTriggered: false,
     };
   }
+
   onSubmit(e) {
     e.preventDefault();
-    const requiredFields = ['name', 'message', 'reason', 'sender'];
-    const formValues = _.chain(this.contactForm.elements)
-      .pick(requiredFields)
-      .mapValues(v => v.value).value();
-
-    if (_.compact(_.values(formValues)).length !== requiredFields.length) {
-      alert('Please fill in all the fields!');
-      return;
-    }
-
-    const { name, message, reason, sender } = formValues;
-
-    if (!emailValidator.validate(sender)) {
-      alert('Please enter a valid email address.');
+    if (this.validateForm()) {
+      alert('Contact form invalid, please try again');
     }
 
     this.setState({
@@ -64,6 +62,32 @@ export default class ContactUsPage extends React.Component {
       alert('Oh no! Something went wrong. Please email us at the addresses above.');
     });
   }
+
+  validateForm() {
+    const { name, sender, reason, message } = _.chain(this.contactForm.elements)
+      .pick(['name', 'sender', 'reason', 'message'])
+      .mapValues(e => e.value).value();
+
+    if (!(name && sender && reason && message)) {
+      this.setState({
+        formIsValid: false,
+      });
+      return true;
+    }
+    const emailError = validateEmail(sender);
+    if (emailError) {
+      this.setState({
+        formIsValid: false,
+      });
+      return true;
+    }
+
+    this.setState({
+      formIsValid: true,
+    });
+    return false;
+  }
+
   render() {
     return (
       <ChevronPage className="ContactUsPage ChevronPage">
@@ -120,19 +144,20 @@ export default class ContactUsPage extends React.Component {
                 <label htmlFor="ContactUsPage--contactForm--name">
                   <FormattedMessage {...contactMessages.contactForm.name} />
                 </label>
-                <input
-                  type="text" name="name" id="ContactUsPage--contactForm--name"
-                  maxLength="80"
+                <TextInput
+                  type="text" name="name" maxLength={80} required
+                  labelId="ContactUsPage.contactForm.name"
+                  onChange={this.validateForm}
                 />
               </div>
 
               <div className="ContactUsPage--contactForm--row">
-                <label htmlFor="ContactUsPage--contactForm--email">
-                  <FormattedMessage {...contactMessages.contactForm.email} />
-                </label>
-                <input
-                  type="text" name="sender" id="ContactUsPage--contactForm--email"
-                  maxLength="254"
+                <TextInput
+                  type="text" name="sender"
+                  labelId="ContactUsPage.contactForm.email"
+                  maxLength={254}
+                  validateFn={validateEmail}
+                  onChange={this.validateForm}
                 />
               </div>
 
@@ -141,12 +166,20 @@ export default class ContactUsPage extends React.Component {
                   <FormattedMessage {...contactMessages.contactForm.occasion} />
                 </legend>
 
-                <input type="radio" name="reason" id="ContactUsPage--contactForm--reason--general" value="general" />
+                <input
+                  type="radio" name="reason" id="ContactUsPage--contactForm--reason--general"
+                  value="general"
+                  onChange={this.validateForm}
+                />
                 <label htmlFor="ContactUsPage--contactForm--reason--general">
                   <FormattedMessage {...contactMessages.contactForm.generalInquiries} />
                 </label>
 
-                <input type="radio" name="reason" id="ContactUsPage--contactForm--reason--press" value="press" />
+                <input
+                  type="radio" name="reason" id="ContactUsPage--contactForm--reason--press"
+                  value="press"
+                  onChange={this.validateForm}
+                />
                 <label htmlFor="ContactUsPage--contactForm--reason--press">
                   <FormattedMessage {...contactMessages.contactForm.pressInformation} />
                 </label>
@@ -158,12 +191,12 @@ export default class ContactUsPage extends React.Component {
                 <textarea
                   id="ContactUsPage--contactForm--message"
                   name="message"
-                  cols="80"
                   rows="10"
                   maxLength="1000"
+                  onChange={this.validateForm}
                 />
               </div>
-              <Button action="submit" disabled={this.state.sendTriggered}>
+              <Button action="submit" disabled={!this.state.formIsValid || this.state.sendTriggered}>
                 <FormattedMessage
                   {...contactMessages.contactForm[this.state.sent ? 'sent' : 'send']}
                 />
