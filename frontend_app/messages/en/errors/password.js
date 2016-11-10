@@ -5,14 +5,14 @@ export default [
   },
   {
     id: 'errors.password.tooShort',
-    defaultMessage: 'Your password is too short.',
+    defaultMessage: 'Too short!',
   },
   {
     id: 'errors.password.tooLong',
-    defaultMessage: 'Your password is too long—please shorten it.',
+    defaultMessage: 'Too long!',
   },
   {
     id: 'errors.password.hasBadCharacters',
-    defaultMessage: 'Passwords can only contain ASCII characters—that is, English letters, numbers, and most common symbols.',
+    defaultMessage: 'Only English letters, numbers, symbols allowed',
   },
 ];
