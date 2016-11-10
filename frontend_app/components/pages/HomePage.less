@@ -68,7 +68,14 @@
 
 .HomePage--joinUs--buttons {
   display: flex;
-  .Button {
+  & > form {
+    flex: 1;
+    margin: 0 25px;
+    .Button {
+      width: 100%;
+    }
+  }
+  & > .Button {
     flex: 1;
     margin: 0 25px;
   }
