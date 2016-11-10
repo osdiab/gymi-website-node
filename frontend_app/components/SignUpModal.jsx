@@ -19,7 +19,7 @@ export class SignUpModalView extends React.Component {
     super(props);
     this.handleSignUp = this.handleSignUp.bind(this);
     this.formIsValid = this.formIsValid.bind(this);
-    this.parseLoginEntries = this.parseLoginEntries.bind(this);
+    this.parseFormEntries = this.parseFormEntries.bind(this);
     this.state = {
       usernameError: validateUsername(''),
       passwordError: validatePassword(''),
@@ -27,7 +27,7 @@ export class SignUpModalView extends React.Component {
     };
   }
 
-  parseLoginEntries() {
+  parseFormEntries() {
     const username = this.loginForm.elements.username.value;
     const name = this.loginForm.elements.name.value;
     const password = this.loginForm.elements.password.value;
@@ -37,8 +37,8 @@ export class SignUpModalView extends React.Component {
 
   handleSignUp(e) {
     e.preventDefault();
-    const { username, password, name, role } = this.parseLoginEntries();
-    this.props.signUp(username, password, name, role);
+    const { username, password, name, role } = this.parseFormEntries();
+    this.props.signUp(username, name, password, role);
   }
 
   formIsValid() {
@@ -52,7 +52,7 @@ export class SignUpModalView extends React.Component {
         closeModal={this.props.closeModal}
       >
         { this.props.signUpError &&
-          <p className="LoginModal--errors">
+          <p className="SignUpModal--errors">
             <FormattedMessage {..._.get(messages, this.props.signUpError)} />
           </p>
         }
@@ -67,7 +67,7 @@ export class SignUpModalView extends React.Component {
               {_.capitalize(this.props.role)} sign up
             </h2>
           }
-          <ul className="LoginModal--form--entries">
+          <ul className="SignUpModal--form--entries">
             <li>
               <TextInput
                 name="username"
