@@ -28,12 +28,20 @@ export default [
     defaultMessage: 'Other',
   },
   {
+    id: 'dreamProject.profile.interests.undecided',
+    defaultMessage: 'Undecided',
+  },
+  {
     id: 'dreamProject.profile.interests.cancel',
     defaultMessage: 'Cancel',
   },
   {
     id: 'dreamProject.profile.submissions.title',
     defaultMessage: 'Submissions',
+  },
+  {
+    id: 'dreamProject.profile.submissions.none',
+    defaultMessage: 'No submissions here yet',
   },
   {
     id: 'dreamProject.profile.account.title',

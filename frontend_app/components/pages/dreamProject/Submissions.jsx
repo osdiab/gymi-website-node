@@ -12,6 +12,9 @@ export default function Submissions({ submissions, displayMetadata }) {
       <h3 className="sectionHeader">Submissions</h3>
       { _.isArray(submissions) ? (
         <ul className="Submissions--submissions">
+          {submissions.length === 0 && <p>
+            <FormattedMessage {...messages.dreamProject.profile.submissions.none} />
+          </p>}
           { submissions.map(s => (
             <li key={s.id}>
               <div className="Submissions--gutter">

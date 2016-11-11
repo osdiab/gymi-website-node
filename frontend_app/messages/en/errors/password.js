@@ -5,11 +5,11 @@ export default [
   },
   {
     id: 'errors.password.tooShort',
-    defaultMessage: 'Too short!',
+    defaultMessage: 'Too short',
   },
   {
     id: 'errors.password.tooLong',
-    defaultMessage: 'Too long!',
+    defaultMessage: 'Too long',
   },
   {
     id: 'errors.password.hasBadCharacters',

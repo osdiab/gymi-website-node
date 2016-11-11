@@ -29,14 +29,15 @@ class Interests extends React.Component {
   }
 
   render() {
-    const loading = this.props.interests.loading;
-    const loadError = this.props.interests.error;
+    const { interests, edit, intl } = this.props;
+    const loading = interests.loading;
+    const loadError = interests.error;
 
     return (
       <div className="Interests">
         <div className="Interests--title sectionHeader">
           <h3><FormattedMessage {...interestsMessages.title} /></h3>
-          { this.props.edit && (
+          { edit && (
             <Button
               action={() =>
                 this.setState({ changingInterests: !this.state.changingInterests })}
@@ -55,13 +56,13 @@ class Interests extends React.Component {
           </p> : <LoadingSpinner />
           }
         </div> : <div className="Interests--interests">
-          { this.props.edit && this.state.changingInterests ? (
+          { edit && this.state.changingInterests ? (
             <div className="Interests--editPrimary">
               <FormattedMessage {...interestsMessages.choosePrimary} />
               <Select
                 name="primaryInterest"
-                value={this.props.interests.primaryInterest.id}
-                options={interestsToOptions(this.props.edit.allTopics)}
+                value={interests.primaryInterest && interests.primaryInterest.id}
+                options={interestsToOptions(edit.allTopics)}
                 onChange={selected => this.handleAddInterest(selected, true)}
                 clearable={false}
               />
@@ -72,11 +73,15 @@ class Interests extends React.Component {
                 <FormattedMessage {...interestsMessages.primary} />:
               </span>
               <span>
-                {this.props.interests.primaryInterest.title}
+                {interests.primaryInterest ?
+                  interests.primaryInterest.title
+                :
+                  <FormattedMessage {...interestsMessages.undecided} />
+                }
               </span>
             </p>
           )}
-          { this.props.edit && this.state.changingInterests ? (
+          { edit && this.state.changingInterests ? (
             <div>
               <div>
                 <FormattedMessage {...interestsMessages.chooseInterests} />
@@ -84,26 +89,26 @@ class Interests extends React.Component {
                   name="otherInterest"
                   options={interestsToOptions(
                     _.differenceBy(
-                      this.props.edit.allTopics,
-                      this.props.interests.otherInterests,
+                      edit.allTopics,
+                      interests.otherInterests,
                       'id',
                     )
                   )}
                   autofocus
                   onChange={this.handleAddInterest}
-                  placeholder={this.props.intl.formatMessage(
+                  placeholder={intl.formatMessage(
                     interestsMessages.typeInterestHere)}
                 />
               </div>
               <ul className="Interests--editOtherInterests">
-                {this.props.interests.otherInterests.map(i => (
+                {interests.otherInterests.map(i => (
                   <li key={i.id}>
                     <span>{i.title}</span>
                     <button
                       className="Interests--removeInterest"
                       onClick={(e) => {
                         e.preventDefault();
-                        this.props.edit.removeInterest(i.id);
+                        edit.removeInterest(i.id);
                       }}
                     />
                   </li>
@@ -116,7 +121,9 @@ class Interests extends React.Component {
                 <FormattedMessage {...interestsMessages.other} />:
               </span>
               <span>
-                {this.props.interests.otherInterests.map(i => i.title).join(', ')}
+                {
+                  interests.otherInterests.length === 0 ? 'None' :
+                  interests.otherInterests.map(i => i.title).join(', ')}
               </span>
             </p>
           )}
@@ -136,21 +143,24 @@ Interests.propTypes = {
   interests: PropTypes.oneOfType([
     PropTypes.shape({
       otherInterests: PropTypes.arrayOf(interestType).isRequired,
-      primaryInterest: interestType.isRequired,
+      primaryInterest: interestType,
     }),
     PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       error: PropTypes.string,
     }),
   ]).isRequired,
-  edit: PropTypes.oneOfType([
-    PropTypes.shape({
-      addInterest: PropTypes.func.isRequired,
-      removeInterest: PropTypes.func.isRequired,
-      allTopics: PropTypes.arrayOf(interestType).isRequired,
-    }),
-    PropTypes.oneOf([false]),
-  ]),
+  edit: PropTypes.shape({
+    addInterest: PropTypes.func.isRequired,
+    removeInterest: PropTypes.func.isRequired,
+    allTopics: PropTypes.oneOfType([
+      PropTypes.arrayOf(interestType),
+      PropTypes.shape({
+        loading: PropTypes.bool.isRequired,
+        error: PropTypes.string,
+      }),
+    ]),
+  }),
   intl: intlShape,
 };
 
