@@ -17,4 +17,8 @@ export default [
     id: 'errors.required',
     defaultMessage: 'Required',
   },
+  {
+    id: 'errors.invalidEmail',
+    defaultMessage: 'Invalid email address',
+  },
 ];

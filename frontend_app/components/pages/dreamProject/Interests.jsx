@@ -3,7 +3,6 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import Select from 'react-select';
 import _ from 'lodash';
 
-import Button from '../../Button';
 import messages from '../../../messages';
 import LoadingSpinner from '../../LoadingSpinner';
 import './Interests.less';
@@ -17,10 +16,6 @@ function interestsToOptions(interests) {
 class Interests extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      changingInterests: false,
-      interestToAdd: null,
-    };
     this.handleAddInterest = this.handleAddInterest.bind(this);
   }
 
@@ -35,28 +30,13 @@ class Interests extends React.Component {
 
     return (
       <div className="Interests">
-        <div className="Interests--title sectionHeader">
-          <h3><FormattedMessage {...interestsMessages.title} /></h3>
-          { edit && (
-            <Button
-              action={() =>
-                this.setState({ changingInterests: !this.state.changingInterests })}
-            >
-              { this.state.changingInterests ?
-                <FormattedMessage {...interestsMessages.cancel} />
-              :
-                <FormattedMessage {...interestsMessages.changeInterests} />
-              }
-            </Button>
-          )}
-        </div>
         { loading || loadError ? <div className="Interests--no-data">
           { loadError ? <p className="Interests--error">
             <FormattedMessage {...messages.errors.unexpected} />
           </p> : <LoadingSpinner />
           }
         </div> : <div className="Interests--interests">
-          { edit && this.state.changingInterests ? (
+          { edit ? (
             <div className="Interests--editPrimary">
               <FormattedMessage {...interestsMessages.choosePrimary} />
               <Select
@@ -81,7 +61,7 @@ class Interests extends React.Component {
               </span>
             </p>
           )}
-          { edit && this.state.changingInterests ? (
+          { edit ? (
             <div>
               <div>
                 <FormattedMessage {...interestsMessages.chooseInterests} />
@@ -96,8 +76,7 @@ class Interests extends React.Component {
                   )}
                   autofocus
                   onChange={this.handleAddInterest}
-                  placeholder={intl.formatMessage(
-                    interestsMessages.typeInterestHere)}
+                  placeholder={intl.formatMessage(interestsMessages.typeInterestHere)}
                 />
               </div>
               <ul className="Interests--editOtherInterests">

@@ -130,6 +130,9 @@ export class DreamProjectHomePageView extends React.Component {
           )
         }
 
+        <h3 className="sectionHeader">
+          <FormattedMessage {...messages.dreamProject.home.submissions.title.current} />
+        </h3>
         { submissions !== 'not loaded' &&
           <Submissions
             submissions={submissions}

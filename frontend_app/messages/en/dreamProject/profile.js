@@ -32,12 +32,12 @@ export default [
     defaultMessage: 'Undecided',
   },
   {
-    id: 'dreamProject.profile.interests.cancel',
-    defaultMessage: 'Cancel',
+    id: 'dreamProject.profile.interests.finishEditing',
+    defaultMessage: 'Finish Editing',
   },
   {
     id: 'dreamProject.profile.submissions.title',
-    defaultMessage: 'Submissions',
+    defaultMessage: 'My Submissions',
   },
   {
     id: 'dreamProject.profile.submissions.none',

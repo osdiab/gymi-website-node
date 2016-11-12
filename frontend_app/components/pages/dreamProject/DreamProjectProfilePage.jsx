@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
+import messages from '../../../messages';
+import Button from '../../Button';
 import Interests, { interestType } from './Interests';
 import Submissions, { submissionType } from './Submissions';
 import {
@@ -13,12 +16,22 @@ import {
 
 import './DreamProjectProfilePage.less';
 
+const interestsMessages = messages.dreamProject.profile.interests;
+
 export class DreamProjectProfilePageView extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      editingInterests: false,
+    };
+  }
+
   componentWillMount() {
     this.props.loadSubmissions(this.props.user.id, this.props.token);
     this.props.loadInterests(this.props.user.id, this.props.token);
     this.props.loadTopics(this.props.user.id, this.props.token);
   }
+
   render() {
     const {
       user, interests, submissions,
@@ -30,17 +43,33 @@ export class DreamProjectProfilePageView extends React.Component {
           <h2>{user.name}</h2>
           <span>{user.username}</span>
         </div>
+        <div className="DreamProjectProfilePage--interestsTitle sectionHeader">
+          <h3><FormattedMessage {...interestsMessages.title} /></h3>
+          <Button
+            action={() => this.setState({ editingInterests: !this.state.editingInterests })}
+            disabled={allTopics === 'not loaded'}
+          >
+            { this.state.editingInterests ?
+              <FormattedMessage {...interestsMessages.finishEditing} />
+            :
+              <FormattedMessage {...interestsMessages.changeInterests} />
+            }
+          </Button>
+        </div>
         { interests !== 'not loaded' &&
           allTopics !== 'not loaded' &&
           <Interests
             interests={interests}
-            edit={{
+            edit={this.state.editingInterests && {
               addInterest: (id, primary) => addInterest(user.id, token, id, primary),
               removeInterest: id => removeInterest(user.id, token, id),
               allTopics,
             }}
           />
         }
+        <h3 className="sectionHeader">
+          <FormattedMessage {...messages.dreamProject.profile.submissions.title} />
+        </h3>
         { submissions !== 'not loaded' &&
           <Submissions submissions={submissions} displayMetadata="date" />
         }

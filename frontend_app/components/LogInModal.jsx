@@ -26,6 +26,10 @@ export class LogInModalView extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.loginForm.elements.username.focus();
+  }
+
   parseLoginEntries() {
     const username = this.loginForm.elements.username.value;
     const password = this.loginForm.elements.password.value;

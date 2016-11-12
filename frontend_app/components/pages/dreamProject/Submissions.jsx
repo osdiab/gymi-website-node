@@ -9,7 +9,6 @@ import './Submissions.less';
 export default function Submissions({ submissions, displayMetadata }) {
   return (
     <div className="Submissions">
-      <h3 className="sectionHeader">Submissions</h3>
       { _.isArray(submissions) ? (
         <ul className="Submissions--submissions">
           {submissions.length === 0 && <p>

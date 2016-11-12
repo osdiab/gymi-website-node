@@ -18,7 +18,7 @@ const validateEmail = (email) => {
   if (emailValidator.validate(email)) {
     return false;
   }
-  return 'errors.unexpected';
+  return 'errors.invalidEmail';
 };
 
 export default class ContactUsPage extends React.Component {
@@ -141,9 +141,6 @@ export default class ContactUsPage extends React.Component {
               ref={(f) => { this.contactForm = f; }}
             >
               <div className="ContactUsPage--contactForm--row">
-                <label htmlFor="ContactUsPage--contactForm--name">
-                  <FormattedMessage {...contactMessages.contactForm.name} />
-                </label>
                 <TextInput
                   type="text" name="name" maxLength={80} required
                   labelId="ContactUsPage.contactForm.name"
