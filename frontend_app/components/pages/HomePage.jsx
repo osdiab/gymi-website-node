@@ -13,7 +13,7 @@ require('./HomePage.less');
 const homeMessages = messages.HomePage;
 export class HomePageView extends React.Component {
   componentDidMount() {
-    if (this.props.location.query.signUp) {
+    if (this.props.location.query.signUp && !this.props.loggedIn) {
       this.props.showSignUpModal();
     }
   }
@@ -121,7 +121,14 @@ HomePageView.propTypes = {
     }),
   }),
   showSignUpModal: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
 };
+
+function mapStateToProps(state) {
+  return {
+    loggedIn: !!state.session.token,
+  };
+}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -132,7 +139,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const HomePage = connect(null, mapDispatchToProps)(HomePageView);
+const HomePage = connect(mapStateToProps, mapDispatchToProps)(HomePageView);
 export default HomePage;
 
       // <PageSection
