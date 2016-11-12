@@ -6,7 +6,9 @@
 /* GYMI-wide common styling. */
 html {
   box-sizing: border-box;
-  min-height: 100%;
+}
+html, body, #gymi-app-container {
+  height: 100%;
 }
 
 *, *:before, *:after {
@@ -23,6 +25,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .SiteLayout {
+  height: 100%;
   font-family: @noto-serif;
 
   h1, h2, h3, h4, h5, h6 {
@@ -53,4 +56,15 @@ h1, h2, h3, h4, h5, h6, p {
 
 .SiteLayout--wrapper {
   padding-left: @sidebar-width;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  main {
+    flex: 1;
+  }
+  footer {
+    flex: 0;
+  }
 }
