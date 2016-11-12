@@ -9,7 +9,7 @@ import SignUpModal from './SignUpModal';
 
 import './SiteLayout.less';
 
-export function SiteLayoutView({ children, modalId, modalProps }) {
+export function SiteLayoutView({ children, modalId, modalProps, loggedIn }) {
   let modal;
   if (modalId) {
     switch (modalId) {
@@ -17,6 +17,7 @@ export function SiteLayoutView({ children, modalId, modalProps }) {
         modal = <LogInModal {...modalProps} />;
         break;
       case 'signup':
+        if (loggedIn) break;
         modal = <SignUpModal {...modalProps} />;
         break;
       default:
@@ -38,13 +39,15 @@ export function SiteLayoutView({ children, modalId, modalProps }) {
 }
 
 SiteLayoutView.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
   modalId: PropTypes.node,
   modalProps: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  loggedIn: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
+    loggedIn: !!state.session.token,
     modalId: state.modal.modalId,
     modalProps: state.modal.props,
   };

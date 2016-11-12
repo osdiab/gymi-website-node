@@ -27,11 +27,15 @@ export class SignUpModalView extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.signUpForm.elements.username.focus();
+  }
+
   parseFormEntries() {
-    const username = this.loginForm.elements.username.value;
-    const name = this.loginForm.elements.name.value;
-    const password = this.loginForm.elements.password.value;
-    const role = this.loginForm.elements.role.value;
+    const username = this.signUpForm.elements.username.value;
+    const name = this.signUpForm.elements.name.value;
+    const password = this.signUpForm.elements.password.value;
+    const role = this.signUpForm.elements.role.value;
     return { username, password, name, role };
   }
 
@@ -57,7 +61,7 @@ export class SignUpModalView extends React.Component {
           </p>
         }
         <form
-          ref={(el) => { this.loginForm = el; }}
+          ref={(el) => { this.signUpForm = el; }}
           onSubmit={this.handleSignUp}
           className="SignUpModal--form"
         >
