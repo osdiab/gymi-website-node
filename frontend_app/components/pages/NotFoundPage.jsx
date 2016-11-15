@@ -1,14 +1,24 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
+import Helmet from 'react-helmet';
 
+import messages from '../../messages';
 import Button from '../Button';
 import './NotFoundPage.less';
 
 export default function NotFoundPage() {
   return (
     <div className="NotFoundPage">
-      <h1>Uh oh!</h1>
-      <h2>404: This page does not exist.</h2>
-      <Button action={{ href: '/' }}>Return home</Button>
+      <Helmet title="404" />
+      <h1>
+        <FormattedMessage {...messages.NotFoundPage.uhOh} />
+      </h1>
+      <h2>
+        <FormattedMessage {...messages.NotFoundPage.pageNonexistent} />
+      </h2>
+      <Button action={{ href: '/' }}>
+        <FormattedMessage {...messages.NotFoundPage.returnHome} />
+      </Button>
     </div>
   );
 }

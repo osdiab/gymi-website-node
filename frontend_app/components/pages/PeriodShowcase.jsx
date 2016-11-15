@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, { PropTypes } from 'react';
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
+import Helmet from 'react-helmet';
+import { FormattedMessage, FormattedHTMLMessage, injectIntl, intlShape } from 'react-intl';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
 
@@ -10,11 +11,17 @@ import messages from '../../messages';
 
 require('./PeriodShowcase.less');
 
-export default function PeriodShowcase({
+function PeriodShowcase({
   messagesId, season, year, imageDetails, imageGallery, backgroundImageUrl, backgroundTint,
+  intl,
 }) {
   return (
     <ChevronPage className={`PeriodShowcase--${messagesId}`}>
+      <Helmet
+        title={intl.formatMessage(
+          messages.seasons.seasonalDate[season], { season, year }
+        )}
+      />
       <PageSection
         className="PeriodShowcase--section PeriodShowcase--splash"
         background={{
@@ -86,4 +93,7 @@ PeriodShowcase.propTypes = {
   imageGallery: PropTypes.arrayOf(PropTypes.shape({ original: PropTypes.string })),
   backgroundImageUrl: PropTypes.string.isRequired,
   backgroundTint: PropTypes.string,
+  intl: intlShape,
 };
+
+export default injectIntl(PeriodShowcase);

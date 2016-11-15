@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
+import { FormattedMessage, FormattedHTMLMessage, injectIntl, intlShape } from 'react-intl';
+import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 
 import Button from '../Button';
@@ -21,6 +22,7 @@ export class HomePageView extends React.Component {
   render() {
     return (
       <ChevronPage className="HomePage">
+        <Helmet title={this.props.intl.formatMessage(messages.SiteNavigation.home)} />
         <PageSection
           className="HomePage--section HomePage--splash"
           background={{
@@ -122,6 +124,7 @@ HomePageView.propTypes = {
   }),
   showSignUpModal: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
+  intl: intlShape,
 };
 
 function mapStateToProps(state) {
@@ -139,7 +142,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const HomePage = connect(mapStateToProps, mapDispatchToProps)(HomePageView);
+const HomePage = connect(
+  mapStateToProps, mapDispatchToProps
+)(injectIntl(HomePageView));
 export default HomePage;
 
       // <PageSection

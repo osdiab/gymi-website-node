@@ -2,7 +2,8 @@
 import emailValidator from 'email-validator';
 import _ from 'lodash';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import Helmet from 'react-helmet';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
 import TextInput from '../TextInput';
 import Button from '../Button';
@@ -21,7 +22,7 @@ const validateEmail = (email) => {
   return 'errors.invalidEmail';
 };
 
-export default class ContactUsPage extends React.Component {
+class ContactUsPage extends React.Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -91,6 +92,7 @@ export default class ContactUsPage extends React.Component {
   render() {
     return (
       <ChevronPage className="ContactUsPage ChevronPage">
+        <Helmet title={this.props.intl.formatMessage(messages.SiteNavigation.contactUs)} />
         <PageSection
           className="ContactUsPage--section ContactUsPage--splash"
           background={{
@@ -205,3 +207,9 @@ export default class ContactUsPage extends React.Component {
     );
   }
 }
+
+ContactUsPage.propTypes = {
+  intl: intlShape,
+};
+
+export default injectIntl(ContactUsPage);

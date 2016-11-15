@@ -1,7 +1,8 @@
 import React from 'react';
-import { FormattedMessage, FormattedDate } from 'react-intl';
+import { FormattedMessage, FormattedDate, injectIntl, intlShape } from 'react-intl';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
+import Helmet from 'react-helmet';
 
 import Button from '../Button';
 import ChevronPage from './ChevronPage';
@@ -78,9 +79,10 @@ const imageGalleryOpts = {
   },
 };
 
-export default function TimelinePage() {
+function TimelinePage({ intl }) {
   return (
     <ChevronPage className="TimelinePage ChevronPage">
+      <Helmet title={intl.formatMessage(messages.SiteNavigation.timeline)} />
       <PageSection
         className="TimelinePage--section TimelinePage--splash"
         background={{
@@ -136,3 +138,9 @@ export default function TimelinePage() {
     </ChevronPage>
   );
 }
+
+TimelinePage.propTypes = {
+  intl: intlShape,
+};
+
+export default injectIntl(TimelinePage);

@@ -6,6 +6,7 @@ import { match, RouterContext } from 'react-router';
 import { IntlProvider } from 'react-intl';
 import areIntlLocalesSupported from 'intl-locales-supported';
 import IntlPolyfill from 'intl';
+import Helmet from 'react-helmet';
 
 import reducers from '../frontend_app/reducers';
 import { findSupportedLanguage, getSupportedLanguages } from '../frontend_app/reducers/language';
@@ -41,11 +42,12 @@ const googleAnalyticsCode = `
 
 </script>`;
 
-function renderFullPage(html, preloadedState) {
+function renderFullPage(html, preloadedState, head) {
   return `
 <!DOCTYPE html>
 <html>
-  <head>
+  <head ${head.htmlAttributes.toString()}>
+    ${head.title.toString()}
     <link rel="stylesheet" type="text/css" href="/stylesheets/general.css" />
     <link rel="stylesheet" type="text/css" href="/stylesheets/bundle.css" />
     <link rel="shortcut icon" type="image/png" href="/media/favicon.png"/>
@@ -87,11 +89,12 @@ export function handleRender(req, res) {
         </IntlProvider>
       </ReduxProvider>
     );
+    const head = Helmet.rewind();
 
     // Grab the initial state from our Redux store
     const preloadedState = store.getState();
 
     // Send the rendered page back to the client
-    res.send(renderFullPage(html, preloadedState));
+    res.send(renderFullPage(html, preloadedState, head));
   });
 }

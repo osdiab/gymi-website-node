@@ -1,5 +1,6 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
+import Helmet from 'react-helmet';
 
 import Button from '../../Button';
 import ChevronPage from '../ChevronPage';
@@ -49,9 +50,10 @@ const SECTIONS = [
   },
 ];
 
-export default function JoinUsPage() {
+function JoinUsPage({ intl }) {
   return (
     <ChevronPage className="JoinUsPage ChevronPage">
+      <Helmet title={intl.formatMessage(messages.SiteNavigation.joinUs)} />
       <PageSection
         className="JoinUsPage--section JoinUsPage--splash"
         background={{
@@ -73,3 +75,8 @@ export default function JoinUsPage() {
   );
 }
 
+JoinUsPage.propTypes = {
+  intl: intlShape,
+};
+
+export default injectIntl(JoinUsPage);

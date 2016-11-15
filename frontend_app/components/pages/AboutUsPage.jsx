@@ -1,5 +1,6 @@
 import React from 'react';
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
+import Helmet from 'react-helmet';
+import { FormattedMessage, FormattedHTMLMessage, injectIntl, intlShape } from 'react-intl';
 
 import Button from '../Button';
 import ChevronPage from './ChevronPage';
@@ -11,9 +12,10 @@ require('./AboutUsPage.less');
 
 const aboutMessages = messages.AboutUsPage;
 
-export default function AboutUsPage() {
+function AboutUsPage({ intl }) {
   return (
     <ChevronPage className="AboutUsPage ChevronPage">
+      <Helmet title={intl.formatMessage(messages.SiteNavigation.aboutUs)} />
       <PageSection
         className="AboutUsPage--section AboutUsPage--splash"
         background={{
@@ -146,3 +148,8 @@ export default function AboutUsPage() {
   );
 }
 
+AboutUsPage.propTypes = {
+  intl: intlShape,
+};
+
+export default injectIntl(AboutUsPage);
