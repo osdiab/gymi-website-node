@@ -2,10 +2,6 @@
 
 export default [
   {
-    id: 'AboutUsPage.title',
-    defaultMessage: '关于我们',
-  },
-  {
     id: 'AboutUsPage.splash.title',
     defaultMessage: 'GYMI在志愿者和领导者组成的卓越团队的努力下一直茁壮成长。',
   },

@@ -3,11 +3,11 @@
 export default [
   {
     id: 'sessions.username',
-    defaultMessage: 'Username',
+    defaultMessage: '用户名',
   },
   {
     id: 'sessions.password',
-    defaultMessage: 'Password',
+    defaultMessage: '密码',
   },
   {
     id: 'sessions.name',
@@ -23,10 +23,10 @@ export default [
   },
   {
     id: 'sessions.logIn',
-    defaultMessage: 'Log In',
+    defaultMessage: '登陆',
   },
   {
     id: 'sessions.logOut',
-    defaultMessage: 'Log Out',
+    defaultMessage: '登出',
   },
 ];

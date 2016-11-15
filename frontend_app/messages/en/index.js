@@ -10,6 +10,7 @@ import sessions from './sessions';
 import periods from './periods';
 import errors from './errors';
 import dreamProject from './dreamProject';
+import NotFoundPage from './NotFoundPage';
 
 export default [
   ...HomePage,
@@ -24,4 +25,5 @@ export default [
   ...periods,
   ...errors,
   ...dreamProject,
+  ...NotFoundPage,
 ];

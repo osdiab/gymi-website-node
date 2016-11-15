@@ -33,10 +33,6 @@ export default [
     '<p>A big thanks to all of the mentors and coordinators for their hard work that made it possible!</p>',
   },
   {
-    id: 'AboutUsPage.progress.seasonalDate',
-    defaultMessage: '{season} {year}',
-  },
-  {
     id: 'AboutUsPage.team.title',
     defaultMessage: 'Leadership Team',
   },

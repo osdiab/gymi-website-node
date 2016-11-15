@@ -1,5 +1,9 @@
 export default [
   {
+    id: 'SiteNavigation.home',
+    defaultMessage: 'Home',
+  },
+  {
     id: 'SiteNavigation.aboutUs',
     defaultMessage: 'About Us',
   },

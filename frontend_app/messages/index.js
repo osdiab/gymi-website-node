@@ -20,7 +20,7 @@ import unformattedTranslations from './translations';
 //
 // preserveFullMessages makes the values contain a full message object instead of just the
 // defaultMessage.
-function formatMessages(messages, nested = false, preserveFullMessages = false) {
+export function formatMessages(messages, nested = false, preserveFullMessages = false) {
   const result = {};
   messages.forEach((entry) => {
     const value = preserveFullMessages ? entry : entry.defaultMessage;
