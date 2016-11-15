@@ -43,3 +43,16 @@ Ensure all the proper environment variables are present, and then run:
 ```
 npm start
 ```
+
+## Deploying
+
+1. SSH into the prod machine.
+1. Build the repo. `npm run-script build`
+1. Stop the existing process. `pm2 stop backend.bundle`
+1. Start the new version. `pm2 start build/backend.bundle.js`
+
+### Environment variables
+
+They are contained in `~/.bashrc` on the prod machines.
+
+- TODO: enumerate necessary env variables somewhere
