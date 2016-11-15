@@ -64,7 +64,9 @@ export function SiteNavigationView(
         </div>
         <ul className="SiteNavigation--items">{links}</ul>
         <LanguageSelector />
-        { !loggedIn && <Button type="primary" action={showLogInModal}>Log In</Button> }
+        { !loggedIn && <Button type="primary" action={showLogInModal}>
+          <FormattedMessage {...messages.sessions.logIn} />
+        </Button> }
       </div>
     </nav>
   );
