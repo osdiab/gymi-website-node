@@ -12,6 +12,7 @@ module.exports = [
     name: 'frontend_app',
     entry: [
       'webpack-hot-middleware/client',
+      'whatwg-fetch',
       'babel-polyfill',
       path.join(__dirname, 'frontend_app', 'index.js'),
     ],
