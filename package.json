@@ -5,7 +5,8 @@
   "scripts": {
     "dev-server": "nodemon dev_server.js --exec babel-node",
     "build": "webpack",
-    "start": "webpack && node build/backend.bundle.js"
+    "start": "webpack && node build/backend.bundle.js",
+    "check-translations": "babel-node scripts/checkTranslations.js"
   },
   "repository": {
     "type": "git",
