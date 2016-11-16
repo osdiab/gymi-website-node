@@ -90,3 +90,7 @@ npm start
 ### Environment variables
 
 They are contained in `~/.bashrc` on the prod machines.
+
+## Webpack & Babel explanation
+
+Check out `./webpack.README.md` for some cursory explanation about those topics.
