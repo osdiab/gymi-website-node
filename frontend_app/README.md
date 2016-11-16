@@ -1,8 +1,11 @@
 # frontend_app
 
-This directory contains the entirety of the frontend application.
+This directory contains the entirety of the frontend application. It gets run in the browser, not on
+the server (except when the `backend_app` server-renders it; see the `backend_app README` for
+details about that).
 
-For an overview of React and Redux, I recommend the following resources:
+This project is written in React and Redux; for an overview of those tools, I recommend the
+following resources:
 
 * The [official React docs](https://facebook.github.io/react/tutorial/tutorial.html) are thorough
     and accessible. Definitely recommend a quick read-through.
