@@ -15,7 +15,12 @@ const homeMessages = messages.HomePage;
 export class HomePageView extends React.Component {
   componentDidMount() {
     if (this.props.location.query.signUp && !this.props.loggedIn) {
-      this.props.showSignUpModal();
+      let role = this.props.location.query.role;
+      // don't allow admin signup
+      if (role === 'admin') {
+        role = null;
+      }
+      this.props.showSignUpModal(role || 'student');
     }
   }
 
@@ -135,8 +140,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    showSignUpModal: () => dispatch(showModal('signup', {
-      role: 'student',
+    showSignUpModal: (role = 'student') => dispatch(showModal('signup', {
+      role,
       closeModal: () => dispatch(hideModal()),
     })),
   };
