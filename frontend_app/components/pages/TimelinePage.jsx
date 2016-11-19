@@ -34,6 +34,7 @@ const PERIODS = [
   { period: 'summer', year: 2013 },
   { period: 'summer', year: 2014 },
   { period: 'summer', year: 2015 },
+  { period: 'summer', year: 2016 },
 ];
 
 const imageGalleryOpts = {
