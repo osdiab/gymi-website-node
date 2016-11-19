@@ -3,7 +3,8 @@
 export default [
   {
     id: 'periods.summer2016.description',
-    defaultMessage: '<p>JWelcome to Summer 2016!</p>'
+    defaultMessage: '<p>Join us to relive the exciting moments of 2016 summer camps in Hangzhou, Guizhou, and Quzhou. The highlights of 2016 summer camps include Intro to Python Class and Western Art History. </p>' +
+    '<p>2016 is the first year we launched the Dream Project, which connects mentors and students over the course of 2016-2017 school year to complete a series of mini-projects to develop critical thinking skills to help students succeed in the future.</p>'
   },
   {
     id: 'periods.summer2016.sections.0',

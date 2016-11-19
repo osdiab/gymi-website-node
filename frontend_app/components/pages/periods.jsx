@@ -162,18 +162,6 @@ export function Summer2016Page() {
         media: '/media/page_assets/summer_2016/4.png',
         imageId: '3',
       },
-      {
-        media: '/media/page_assets/summer_2015/5.jpg',
-        imageId: '4',
-      },
-      {
-        media: '/media/page_assets/summer_2015/6.jpg',
-        imageId: '5',
-      },
-      {
-        media: '/media/page_assets/summer_2015/7.jpg',
-        imageId: '6',
-      },
     ]}
     imageGallery={[
       '/media/page_assets/summer_2016/other_photos/1.jpg',
@@ -184,7 +172,7 @@ export function Summer2016Page() {
       '/media/page_assets/summer_2016/other_photos/6.jpg',
       '/media/page_assets/summer_2016/other_photos/7.jpg',
     ].map(i => ({ original: i, thumbnail: i }))}
-    backgroundImageUrl="/media/page_assets/summer_2015/main.jpg"
-    backgroundTint="lightGreen"
+    backgroundImageUrl="/media/page_assets/summer_2016/main.jpg"
+    backgroundTint="yellow"
   />);
 }

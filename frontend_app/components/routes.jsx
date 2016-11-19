@@ -23,8 +23,6 @@ export default (
     <Route path="timeline/summer2014" component={Summer2014Page} />
     <Route path="timeline/summer2015" component={Summer2015Page} />
     <Route path="timeline/summer2016" component={Summer2016Page} />
-
-
     <Route path="joinUs" component={JoinUsPage} />
     <Route path="contactUs" component={ContactUsPage} />
     <Route path="/dreamProject" component={DreamProjectLayout}>
