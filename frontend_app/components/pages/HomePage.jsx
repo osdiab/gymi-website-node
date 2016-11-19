@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { FormattedMessage, FormattedHTMLMessage, injectIntl, intlShape } from 'react-intl';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 
 import Button from '../Button';
 import ChevronPage from './ChevronPage';
@@ -142,7 +143,10 @@ function mapDispatchToProps(dispatch) {
   return {
     showSignUpModal: (role = 'student') => dispatch(showModal('signup', {
       role,
-      closeModal: () => dispatch(hideModal()),
+      closeModal: () => {
+        browserHistory.push('/');
+        return dispatch(hideModal());
+      },
     })),
   };
 }
