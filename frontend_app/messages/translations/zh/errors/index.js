@@ -11,10 +11,14 @@ export default [
   ...newSubmission,
   {
     id: 'errors.unexpected',
-    defaultMessage: 'Sorry, something went wrong! Please try again.',
+    defaultMessage: '操作错误，请重试。',
   },
   {
     id: 'errors.required',
     defaultMessage: '必填',
+  },
+  {
+    id: 'errors.invalidEmail',
+    defaultMessage: '邮箱地址无效',
   },
 ];

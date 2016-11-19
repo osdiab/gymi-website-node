@@ -17,7 +17,7 @@ export default [
   },
   {
     id: 'dreamProject.profile.interests.typeInterestHere',
-    defaultMessage: 'Type your new interest here',
+    defaultMessage: '输入你的新兴趣',
   },
   {
     id: 'dreamProject.profile.interests.primary',
@@ -32,8 +32,8 @@ export default [
     defaultMessage: '不确定',
   },
   {
-    id: 'dreamProject.profile.interests.cancel',
-    defaultMessage: '取消',
+    id: 'dreamProject.profile.interests.finishEditing',
+    defaultMessage: '结束修改',
   },
   {
     id: 'dreamProject.profile.submissions.title',
@@ -49,7 +49,7 @@ export default [
   },
   {
     id: 'dreamProject.profile.account.settings',
-    defaultMessage: 'Settings',
+    defaultMessage: '设置',
   },
   {
     id: 'dreamProject.profile.account.changePassword',
