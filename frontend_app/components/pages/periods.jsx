@@ -139,3 +139,40 @@ export function Summer2015Page() {
     backgroundTint="lightGreen"
   />);
 }
+
+export function Summer2016Page() {
+  return (<PeriodShowcase
+    messagesId="summer2016"
+    season="summer"
+    year={2016}
+    imageDetails={[
+      {
+        media: '/media/page_assets/summer_2016/1.png',
+        imageId: '0',
+      },
+      {
+        media: '/media/page_assets/summer_2016/2.png',
+        imageId: '1',
+      },
+      {
+        media: '/media/page_assets/summer_2016/3.png',
+        imageId: '2',
+      },
+      {
+        media: '/media/page_assets/summer_2016/4.png',
+        imageId: '3',
+      },
+    ]}
+    imageGallery={[
+      '/media/page_assets/summer_2016/other_photos/1.jpg',
+      '/media/page_assets/summer_2016/other_photos/2.jpg',
+      '/media/page_assets/summer_2016/other_photos/3.jpg',
+      '/media/page_assets/summer_2016/other_photos/4.jpg',
+      '/media/page_assets/summer_2016/other_photos/5.jpg',
+      '/media/page_assets/summer_2016/other_photos/6.jpg',
+      '/media/page_assets/summer_2016/other_photos/7.jpg',
+    ].map(i => ({ original: i, thumbnail: i }))}
+    backgroundImageUrl="/media/page_assets/summer_2016/main.jpg"
+    backgroundTint="yellow"
+  />);
+}
