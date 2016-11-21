@@ -1,7 +1,7 @@
 export default [
   {
     id: 'dreamProject.newSubmission.inputPlaceholder',
-    defaultMessage: '请在这里输入你新的兴趣',
+    defaultMessage: '请在此输入你的回答',
   },
   {
     id: 'dreamProject.newSubmission.submissionForDate',
