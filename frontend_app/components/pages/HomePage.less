@@ -32,9 +32,12 @@
   display: flex;
 }
 
+.HomePage--details--leftColumn {
+  padding-bottom: 125px;
+}
+
 .HomePage--details--column {
   padding-top: 175px;
-  padding-bottom: 125px;
   flex: 1;
   section {
     padding: 0 100px;
@@ -45,6 +48,12 @@
   &:last-of-type {
     background-color: @light-grey;
   }
+}
+
+.HomePage--details--rightColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .HomePage--details--latestNews {
@@ -77,9 +86,12 @@
 
 .HomePage--joinUs--buttons {
   display: flex;
+  justify-content: center;
+  align-items: center;
+
   & > form {
     flex: 1;
-    margin: 0 25px;
+    margin: 0 5px;
     .Button {
       width: 100%;
     }
@@ -87,5 +99,6 @@
   & > .Button {
     flex: 1;
     margin: 0 25px;
+    padding: 10px 20px;
   }
 }

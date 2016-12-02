@@ -112,6 +112,14 @@ export default [
     defaultMessage: 'Become a Mentor',
   },
   {
+    id: 'HomePage.joinUs.donate',
+    defaultMessage: 'Donate',
+  },
+  {
+    id: 'HomePage.joinUs.viewProjectProgress',
+    defaultMessage: 'View Current Projects',
+  },
+  {
     id: 'HomePage.joinUs.followUsButton',
     defaultMessage: 'Follow Us',
   },

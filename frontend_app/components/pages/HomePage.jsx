@@ -65,7 +65,7 @@ export class HomePageView extends React.Component {
 
         <PageSection className="HomePage--section HomePage--details" style={{ padding: 0 }}>
           <div className="HomePage--details--content">
-            <div className="HomePage--details--column">
+            <div className="HomePage--details--column HomePage--details--leftColumn">
               <section>
                 <h2><FormattedMessage {...homeMessages.whatWeDo.title} /></h2>
                 <p><FormattedMessage {...homeMessages.whatWeDo.body} /></p>
@@ -77,7 +77,7 @@ export class HomePageView extends React.Component {
               </section>
             </div>
 
-            <div className="HomePage--details--column">
+            <div className="HomePage--details--column HomePage--details--rightColumn">
               <section className="HomePage--details--latestNews">
                 <h2><FormattedMessage {...homeMessages.latestNews.title} /></h2>
                 <FormattedHTMLMessage {...homeMessages.latestNews.body} />
@@ -112,8 +112,13 @@ export class HomePageView extends React.Component {
                 <Button
                   className="HomePage--donate"
                   action="submit"
-                >Donate</Button>
+                >
+                  <FormattedMessage {...homeMessages.joinUs.donate} />
+                </Button>
               </form>
+              <Button action={{ href: 'https://gymi.ngo.karmaworld.co/' }}>
+                <FormattedMessage {...homeMessages.joinUs.viewProjectProgress} />
+              </Button>
             </div>
           </div>
         </PageSection>
@@ -156,18 +161,3 @@ const HomePage = connect(
   mapStateToProps, mapDispatchToProps
 )(injectIntl(HomePageView));
 export default HomePage;
-
-      // <PageSection
-      //   className="HomePage--section HomePage--donate"
-      //   whiteText
-      //   background={{ media: { imageUrl: '/media/textures/blue_horizontal.jpg' } }}
-      // >
-      //   <div className="HomePage--section--content">
-      //     <h2><FormattedMessage {...homeMessages.donate.title} /></h2>
-      //     <p><FormattedMessage {...homeMessages.donate.body} /></p>
-      //     <Button action={{ href: '/aboutUs' }}>
-      //       <FormattedMessage {...homeMessages.donate.learnMoreButton} />
-      //     </Button>
-      //   </div>
-      // </PageSection>
-

@@ -46,6 +46,10 @@ export default [
     defaultMessage: 'GYMI正式成为美国501(c)(3)条款下的公益组织。',
   },
   {
+    id: 'TimelinePage.view',
+    defaultMessage: '查看',
+  },
+  {
     id: 'TimelinePage.andMoreToCome',
     defaultMessage: '...以及更加精彩的未来',
   },

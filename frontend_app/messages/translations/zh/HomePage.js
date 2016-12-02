@@ -57,18 +57,6 @@ export default [
     defaultMessage: '查看时间轴',
   },
   {
-    id: 'HomePage.donate.title',
-    defaultMessage: 'GYMI + A Karma World',
-  },
-  {
-    id: 'HomePage.donate.body',
-    defaultMessage: 'Like our cause? Donate please!',
-  },
-  {
-    id: 'HomePage.donate.learnMoreButton',
-    defaultMessage: 'Learn More',
-  },
-  {
     id: 'HomePage.joinUs.title',
     defaultMessage: '加入我们',
   },
@@ -79,6 +67,14 @@ export default [
   {
     id: 'HomePage.joinUs.becomeMentorButton',
     defaultMessage: '立即申请成为导师',
+  },
+  {
+    id: 'HomePage.joinUs.donate',
+    defaultMessage: '捐赠',
+  },
+  {
+    id: 'HomePage.joinUs.viewProjectProgress',
+    defaultMessage: '查看吉米项目的进度',
   },
   {
     id: 'HomePage.joinUs.followUsButton',

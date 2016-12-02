@@ -46,6 +46,10 @@ export default [
     defaultMessage: 'GYMI is recognized as an official 501(c)(3) nonprofit!',
   },
   {
+    id: 'TimelinePage.view',
+    defaultMessage: 'View',
+  },
+  {
     id: 'TimelinePage.andMoreToCome',
     defaultMessage: '... and more to come!',
   },
