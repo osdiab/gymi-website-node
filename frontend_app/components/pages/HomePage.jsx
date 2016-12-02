@@ -49,7 +49,7 @@ export class HomePageView extends React.Component {
         <PageSection
           className="HomePage--section HomePage--about"
           background={{
-            media: { imageUrl: '/media/page_assets/home/shermin_with_kids.png' }, tint: 'white',
+            media: { imageUrl: '/media/page_assets/home/shermin_with_kids.jpg' }, tint: 'white',
           }}
         >
           <div className="HomePage--section--content">
@@ -70,7 +70,7 @@ export class HomePageView extends React.Component {
                 <h2><FormattedMessage {...homeMessages.whatWeDo.title} /></h2>
                 <p><FormattedMessage {...homeMessages.whatWeDo.body} /></p>
               </section>
-              <div className="HomePage--details--leftImage" />
+              <div className="HomePage--details--leftImage HomePage--details--displayImage" />
               <section>
                 <h2><FormattedMessage {...homeMessages.whyWeDoThis.title} /></h2>
                 <p><FormattedMessage {...homeMessages.whyWeDoThis.body} /></p>
@@ -87,6 +87,7 @@ export class HomePageView extends React.Component {
                   </Button>
                 </div>
               </section>
+              <div className="HomePage--details--rightImage HomePage--details--displayImage" />
             </div>
           </div>
         </PageSection>

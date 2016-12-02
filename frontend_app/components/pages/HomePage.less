@@ -54,16 +54,25 @@
   }
 }
 
-.HomePage--details--leftImage {
+.HomePage--details--displayImage {
   display: block;
   width: 100%;
+  min-height: 450px;
+  background-size: cover;
+  background-position: center;
+}
+
+.HomePage--details--leftImage {
   margin-top: -15px;
   clip-path: polygon(0 0, 100% 20%, 100% 100%, 0 80%);
   margin-bottom: 40px;
-  min-height: 450px;
   background-image: url("/media/page_assets/home/happy_kid_cropped.jpg");
-  background-size: cover;
-  background-position: center;
+}
+
+.HomePage--details--rightImage {
+  margin-top: 60px;
+  clip-path: polygon(0 20%, 100% 0%, 100% 80%, 0 100%);
+  background-image: url("/media/page_assets/home/birthday_cake.jpg");
 }
 
 .HomePage--joinUs--buttons {
