@@ -36,7 +36,26 @@ export default function users(state = {}, action) {
         userSignUpError: action.err,
         userSignUpSuccessful: false,
       });
+    case 'LOAD_USER_REQUEST':
+      return Object.assign({}, state, {
+        loadingUser: true,
+        loadUserError: null,
+      });
+    case 'LOAD_USER_SUCCESS':
+      return Object.assign({}, state, {
+        loadingUser: false,
+        loadedUsers: Object.assign({}, state.loadedUsers, {
+          [action.user.id]: action.user,
+        }),
+      });
+    case 'LOAD_USER_FAILURE':
+      return Object.assign({}, state, {
+        loadingUser: false,
+        loadUserError: action.err,
+      });
     default:
-      return Object.assign({}, state);
+      return Object.assign({
+        loadedUsers: [],
+      }, state);
   }
 }

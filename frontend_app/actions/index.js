@@ -599,3 +599,35 @@ export function signUpUser(username, name, password, role, loggedInToken = '') {
     });
   };
 }
+
+export function loadUserRequest() {
+  return { type: 'LOAD_USER_REQUEST' };
+}
+
+export function loadUserFailure(err) {
+  return { type: 'LOAD_USER_FAILURE', err };
+}
+
+export function loadUserSuccess(user) {
+  return { type: 'LOAD_USER_SUCCESS', user };
+}
+
+export function loadUser(userId, token) {
+  return (dispatch) => {
+    dispatch(loadUserRequest());
+    return fetch(`/api/users/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(response => Promise.all([response, response.json()])
+    ).then(([response, responseData]) => {
+      if (response.status >= 200 && response.status <= 299) {
+        dispatch(loadUserSuccess(responseData.data));
+        return;
+      }
+      dispatch(loadUserFailure('errors.unexpected'));
+    }).catch(() => {
+      dispatch(loadUserFailure('errors.unexpected'));
+    });
+  };
+}
