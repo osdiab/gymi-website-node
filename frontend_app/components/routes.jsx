@@ -28,7 +28,7 @@ export default (
     <Route path="/dreamProject" component={DreamProjectLayout}>
       <IndexRoute component={DreamProjectHomePage} />
       <Route path="/dreamProject/students" component={DreamProjectStudentsPage} />
-      <Route path="/dreamProject/profile" component={DreamProjectProfilePage} />
+      <Route path="/dreamProject/profile(/:userId)" component={DreamProjectProfilePage} />
     </Route>
     <Route path="*" component={NotFoundPage} />
   </Route>

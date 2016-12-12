@@ -37,7 +37,7 @@ export default [
   },
   {
     id: 'dreamProject.profile.submissions.title',
-    defaultMessage: 'My Submissions',
+    defaultMessage: 'Submissions',
   },
   {
     id: 'dreamProject.profile.submissions.none',

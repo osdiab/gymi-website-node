@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import { FormattedMessage, FormattedDate } from 'react-intl';
 import _ from 'lodash';
 
@@ -32,7 +33,7 @@ export default function Submissions({ submissions, displayMetadata }) {
               }
               { displayMetadata === 'user' &&
                 <div className="Submissions--metadata">
-                  <h4>{s.user.name}</h4>
+                  <h4><Link to={`/dreamProject/profile/${s.user.id}`}>{s.user.name}</Link></h4>
                   <span className="Submissions--metadata--subtext">
                     {s.user.primaryInterest.title}
                   </span>
