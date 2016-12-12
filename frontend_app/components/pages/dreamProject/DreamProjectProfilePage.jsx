@@ -6,9 +6,11 @@ import messages from '../../../messages';
 import Button from '../../Button';
 import Interests, { interestType } from './Interests';
 import Submissions, { submissionType } from './Submissions';
+import LoadingSpinner from '../../LoadingSpinner';
 import {
   loadOwnSubmissions,
   loadOwnInterests,
+  loadUser as loadUserAction,
   loadTopics as loadTopicsAction,
   removeInterest as removeInterestAction,
   addInterest as addInterestAction,
@@ -27,34 +29,47 @@ export class DreamProjectProfilePageView extends React.Component {
   }
 
   componentWillMount() {
-    this.props.loadSubmissions(this.props.user.id, this.props.token);
-    this.props.loadInterests(this.props.user.id, this.props.token);
-    this.props.loadTopics(this.props.user.id, this.props.token);
+    const userId = this.props.params.userId || this.props.loggedInUser.id;
+    const {token} = this.props;
+
+    if (!this.props.user) {
+      this.props.loadUser(userId, token);
+    }
+    this.props.loadSubmissions(userId, token);
+    this.props.loadInterests(userId, token);
+    this.props.loadTopics(userId, token);
   }
 
   render() {
     const {
-      user, interests, submissions,
+      user, loggedInUser, interests, submissions,
       addInterest, removeInterest, allTopics, token,
     } = this.props;
     return (
       <div className="DreamProjectProfilePage">
         <div className="DreamProjectProfilePage--user">
-          <h2>{user.name}</h2>
-          <span>{user.username}</span>
+          {!user ?
+            <LoadingSpinner /> :
+            <div>
+              <h2>{user.name}</h2>
+              <span>{user.username}</span>
+            </div>
+          }
         </div>
         <div className="DreamProjectProfilePage--interestsTitle sectionHeader">
           <h3><FormattedMessage {...interestsMessages.title} /></h3>
+          { user && loggedInUser.id === user.id &&
           <Button
-            action={() => this.setState({ editingInterests: !this.state.editingInterests })}
+            action={() => this.setState({editingInterests: !this.state.editingInterests})}
             disabled={allTopics === 'not loaded'}
           >
             { this.state.editingInterests ?
               <FormattedMessage {...interestsMessages.finishEditing} />
-            :
+              :
               <FormattedMessage {...interestsMessages.changeInterests} />
             }
           </Button>
+          }
         </div>
         { interests !== 'not loaded' &&
           allTopics !== 'not loaded' &&
@@ -78,12 +93,18 @@ export class DreamProjectProfilePageView extends React.Component {
   }
 }
 
+const userShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+});
+
 DreamProjectProfilePageView.propTypes = {
-  user: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
+  params: PropTypes.shape({
+    user_id: PropTypes.number,
   }).isRequired,
+  user: userShape,
+  loggedInUser: userShape.isRequired,
   interests: PropTypes.oneOfType([
     PropTypes.shape({
       otherInterests: PropTypes.arrayOf(interestType).isRequired,
@@ -117,12 +138,13 @@ DreamProjectProfilePageView.propTypes = {
   loadInterests: PropTypes.func.isRequired,
   loadTopics: PropTypes.func.isRequired,
   loadSubmissions: PropTypes.func.isRequired,
+  loadUser: PropTypes.func.isRequired,
   addInterest: PropTypes.func.isRequired,
   removeInterest: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
 };
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   const { ownInterests, requestingOwnInterests, ownInterestsError } = state.interests;
   const interests =
     ownInterests || requestingOwnInterests || ownInterestsError ? (
@@ -152,8 +174,10 @@ function mapStateToProps(state) {
         }
       ) : 'not loaded';
 
+  const loggedInUser = state.session.user;
   return {
-    user: state.session.user,
+    loggedInUser,
+    user: state.users.loadedUsers[ownProps.params.userId || loggedInUser.id],
     token: state.session.token,
     interests,
     submissions,
@@ -166,6 +190,7 @@ function mapDispatchToProps(dispatch) {
     loadTopics: (userId, token) => dispatch(loadTopicsAction(userId, token)),
     loadInterests: (userId, token) => dispatch(loadOwnInterests(userId, token)),
     loadSubmissions: (userId, token) => dispatch(loadOwnSubmissions(userId, token)),
+    loadUser: (userId, token) => dispatch(loadUserAction(userId, token)),
     addInterest: (userId, token, topicId, primary) =>
       dispatch(addInterestAction(userId, token, topicId, primary)),
     removeInterest: (userId, token, topicId) =>
