@@ -67,7 +67,7 @@ export default function createRouter() {
   // authenticate. Returns a json web token to use with requests.
   router.post('/api/sessions', sessions.authenticate);
   router.get('/api/users', sessions.verify, users.list);
-  router.get('/api/users/:id', sessions.verify, users.find);
+  router.get('/api/users/:identifier', sessions.verify, users.find);
   router.post('/api/users', sessions.populate, users.create);
   // sets a user's password
   router.patch('/api/users/:userId/credentials', sessions.verify, sessions.setCredentials);
