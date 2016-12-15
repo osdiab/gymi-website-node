@@ -46,15 +46,13 @@ export default {
         case 'primaryInterest':
           return {
             key: 'primaryInterests',
-            clause: 'INNER JOIN "primaryUserTopics" ON users.id = "primaryUserTopics"."userId" AND ' +
-              '"primaryUserTopics"."topicId" IN $<primaryInterests:csv>',
+            clause: '"topicId" IN ($<primaryInterests:csv>)',
             value,
           };
         case 'period':
           return {
             key: 'periods',
-            clause: 'INNER JOIN "activeUsers" ON users.id = "activeUsers"."userId" AND ' +
-              '"activeUsers"."periodId" IN $<periods:csv>',
+            clause: '"periodId" IN ($<periods:csv>)',
             value,
           };
         default:
@@ -63,12 +61,35 @@ export default {
     }).compact()
     .value();
 
-    const completeClauses = whereClauses.map(entry => entry.clause).join(' ');
-    const query = `SELECT $<columns:name> FROM users ${completeClauses}`;
+    const columns = PUBLIC_USER_FIELDS.concat(
+      '"topicId" AS "primaryInterestId"',
+      '"periodId"',
+    );
+    const completeClauses = whereClauses.map(entry => entry.clause).join(' AND ');
+    const query = `
+      SELECT ${columns.join(', ')}
+      FROM users
+      LEFT OUTER JOIN "primaryUserInterests" ON "primaryUserInterests"."userId" = users.id
+      LEFT OUTER JOIN "activeUsers" ON "activeUsers"."userId" = users.id
+      ${completeClauses.length > 0 ? `WHERE ${completeClauses}` : ''}`;
     const queryArgs = _.chain(whereClauses).mapKeys('key').mapValues('value').value();
 
-    return db.manyOrNone(query, Object.assign({ columns: PUBLIC_USER_FIELDS }, queryArgs))
-      .then(resolve).catch(reject);
+    return db.manyOrNone(query, queryArgs).then((results) => {
+      // query returns redundant entries with different periods;
+      // combine the periods active into an array
+      const combined = results.reduce((memo, entry) => {
+        if (memo[entry.id]) {
+          const updatedEntry = memo[entry.id];
+          updatedEntry.periodsActive = updatedEntry.periodsActive.concat(entry.periodId);
+          return Object.assign({}, memo, { [entry.id]: updatedEntry });
+        }
+
+        const newEntry = _.omit(entry, ['periodId']);
+        newEntry.periodsActive = entry.periodId === null ? [] : [entry.periodId];
+        return Object.assign({}, memo, { [entry.id]: newEntry });
+      }, {});
+      resolve(_.values(combined));
+    }).catch(reject);
   }),
   setPassword: (id, newPasswordHash) => new Promise((resolve, reject) => {
     db.one(
