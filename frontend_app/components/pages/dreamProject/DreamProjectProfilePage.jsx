@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import * as _ from 'lodash';
 
 import messages from '../../../messages';
 import Button from '../../Button';
@@ -30,41 +31,40 @@ export class DreamProjectProfilePageView extends React.Component {
 
   componentWillMount() {
     const userId = this.props.params.userId || this.props.loggedInUser.id;
-    const { token } = this.props;
 
-    this.props.loadUser(userId, token);
-    this.props.loadSubmissions(userId, token);
-    this.props.loadInterests(userId, token);
-    this.props.loadTopics(userId, token);
+    this.props.loadUser(userId);
+    this.props.loadSubmissions(userId);
+    this.props.loadInterests(userId);
+    this.props.loadTopics(userId);
   }
 
   render() {
     const {
       user, loggedInUser, interests, submissions,
-      addInterest, removeInterest, allTopics, token,
+      addInterest, removeInterest, allTopics,
     } = this.props;
     return (
       <div className="DreamProjectProfilePage">
         <div className="DreamProjectProfilePage--user">
           { !user ?
-            <LoadingSpinner /> :
-            <div>
-              <h2>{user.name}</h2>
-              <span>{user.username}</span>
-            </div>
+            <LoadingSpinner /> : (
+              <div>
+                <h2>{user.name}</h2>
+                <span>{user.username}</span>
+              </div>
+            )
           }
         </div>
         <div className="DreamProjectProfilePage--interestsTitle sectionHeader">
           <h3><FormattedMessage {...interestsMessages.title} /></h3>
           { user && loggedInUser.id === user.id &&
           <Button
-            action={() => this.setState({editingInterests: !this.state.editingInterests})}
+            action={() => this.setState({ editingInterests: !this.state.editingInterests })}
             disabled={allTopics === 'not loaded'}
           >
             { this.state.editingInterests ?
               <FormattedMessage {...interestsMessages.finishEditing} />
-              :
-              <FormattedMessage {...interestsMessages.changeInterests} />
+              : <FormattedMessage {...interestsMessages.changeInterests} />
             }
           </Button>
           }
@@ -74,8 +74,8 @@ export class DreamProjectProfilePageView extends React.Component {
           <Interests
             interests={interests}
             edit={this.state.editingInterests && {
-              addInterest: (id, primary) => addInterest(user.id, token, id, primary),
-              removeInterest: id => removeInterest(user.id, token, id),
+              addInterest: (id, primary) => addInterest(user.id, id, primary),
+              removeInterest: id => removeInterest(user.id, id),
               allTopics,
             }}
           />
@@ -99,7 +99,7 @@ const userShape = PropTypes.shape({
 
 DreamProjectProfilePageView.propTypes = {
   params: PropTypes.shape({
-    user_id: PropTypes.number,
+    userId: PropTypes.number,
   }).isRequired,
   user: userShape,
   loggedInUser: userShape.isRequired,
@@ -139,7 +139,6 @@ DreamProjectProfilePageView.propTypes = {
   loadUser: PropTypes.func.isRequired,
   addInterest: PropTypes.func.isRequired,
   removeInterest: PropTypes.func.isRequired,
-  token: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state, ownProps) {
@@ -189,16 +188,33 @@ function mapDispatchToProps(dispatch) {
     loadInterests: (userId, token) => dispatch(loadOwnInterests(userId, token)),
     loadSubmissions: (userId, token) => dispatch(loadOwnSubmissions(userId, token)),
     loadUser: (userId, token) => dispatch(loadUserAction(userId, token)),
-    addInterest: (userId, token, topicId, primary) =>
-      dispatch(addInterestAction(userId, token, topicId, primary)),
-    removeInterest: (userId, token, topicId) =>
+    addInterest: (userId, topicId, primary, token) =>
+      dispatch(addInterestAction(userId, topicId, primary, token)),
+    removeInterest: (userId, topicId, token) =>
       dispatch(removeInterestAction(userId, token, topicId)),
   };
+}
+
+function mergeProps(stateProps, dispatchProps, ownProps) {
+  const token = stateProps.token;
+  const newDispatchProps = {
+    loadTopics: userId => dispatchProps.loadTopics(userId, token),
+    loadInterests: userId => dispatchProps.loadInterests(userId, token),
+    loadSubmissions: userId => dispatchProps.loadSubmissions(userId, token),
+    loadUser: userId => dispatchProps.loadUser(userId, token),
+    addInterest: (userId, topicId, primary) => dispatchProps.addInterest(
+      userId, topicId, primary, token),
+    removeInterest: (userId, topicId) => dispatchProps.addInterest(
+      userId, topicId, token),
+  };
+  const newStateProps = _.omit(stateProps, ['token']);
+  return Object.assign({}, ownProps, newStateProps, newDispatchProps);
 }
 
 const DreamProjectProfilePage = connect(
   mapStateToProps,
   mapDispatchToProps,
+  mergeProps,
 )(DreamProjectProfilePageView);
 
 export default DreamProjectProfilePage;
