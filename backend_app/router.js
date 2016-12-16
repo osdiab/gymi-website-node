@@ -10,6 +10,7 @@ import { ApplicationError } from './errors';
 import users from './routes/users';
 import interests from './routes/interests';
 import topics from './routes/topics';
+import periods from './routes/periods';
 import sessions from './routes/sessions';
 import submissions from './routes/submissions';
 import submissionQuestions from './routes/submissionQuestions';
@@ -92,6 +93,12 @@ export default function createRouter() {
   router.get('/api/topics', sessions.verify, topics.list);
   router.post('/api/topics', sessions.verify, sessions.assertRole('admin'), topics.create);
   router.delete('/api/topics', sessions.verify, sessions.assertRole('admin'), topics.destroy);
+
+  /*
+   * periods endpoints
+   */
+  router.get('/api/periods', sessions.verify, periods.list);
+  router.post('/api/periods', sessions.verify, sessions.assertRole('admin'), periods.create);
 
   /*
    * submission questions endpoints

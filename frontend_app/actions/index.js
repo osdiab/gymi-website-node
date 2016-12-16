@@ -322,6 +322,53 @@ export function loadSubmissionQuestions(userId, token) {
   };
 }
 
+export function loadPeriodsRequest() {
+  return { type: 'LOAD_PERIODS_REQUEST' };
+}
+
+export function loadPeriodsFailure(err) {
+  return { type: 'LOAD_PERIODS_FAILURE', err };
+}
+
+export function loadPeriodsSuccess(periods) {
+  return { type: 'LOAD_PERIODS_SUCCESS', periods };
+}
+
+export function loadPeriods(token) {
+  return (dispatch) => {
+    dispatch(loadPeriodsRequest());
+    return fetch('/api/periods', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(response => Promise.all([response, response.json()])
+    ).then(([response, responseData]) => {
+      if (response.status >= 200 && response.status <= 299) {
+        dispatch(loadPeriodsSuccess(responseData.data));
+        return;
+      }
+      let errMessage;
+      switch (response.status) {
+        case 400:
+          errMessage = 'errors.unexpected';
+          break;
+        case 401:
+          // probably token expired
+          dispatch(logOut());
+          browserHistory.push('/');
+          dispatch(showModal('login'));
+          errMessage = 'errors.unexpected';
+          break;
+        default:
+          errMessage = 'errors.unexpected';
+      }
+      dispatch(loadPeriodsFailure(errMessage));
+    }).catch(() => {
+      dispatch(loadPeriodsFailure('errors.unexpected'));
+    });
+  };
+}
+
 export function loadTopicsRequest() {
   return { type: 'LOAD_TOPICS_REQUEST' };
 }
@@ -334,7 +381,7 @@ export function loadTopicsSuccess(topics) {
   return { type: 'LOAD_TOPICS_SUCCESS', topics };
 }
 
-export function loadTopics(userId, token) {
+export function loadTopics(token) {
   return (dispatch) => {
     dispatch(loadTopicsRequest());
     return fetch('/api/topics', {
@@ -628,6 +675,38 @@ export function loadUser(userId, token) {
       dispatch(loadUserFailure('errors.unexpected'));
     }).catch(() => {
       dispatch(loadUserFailure('errors.unexpected'));
+    });
+  };
+}
+
+export function loadAllUsersRequest() {
+  return { type: 'LOAD_ALL_USERS_REQUEST' };
+}
+
+export function loadAllUsersFailure(err) {
+  return { type: 'LOAD_ALL_USERS_FAILURE', err };
+}
+
+export function loadAllUsersSuccess(users) {
+  return { type: 'LOAD_ALL_USERS_SUCCESS', users };
+}
+
+export function loadAllUsers(token) {
+  return (dispatch) => {
+    dispatch(loadAllUsersRequest());
+    return fetch('/api/users', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then(response => Promise.all([response, response.json()])
+    ).then(([response, responseData]) => {
+      if (response.status >= 200 && response.status <= 299) {
+        dispatch(loadAllUsersSuccess(responseData.data));
+        return;
+      }
+      dispatch(loadAllUsersFailure('errors.unexpected'));
+    }).catch(() => {
+      dispatch(loadAllUsersFailure('errors.unexpected'));
     });
   };
 }

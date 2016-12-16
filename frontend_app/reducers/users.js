@@ -56,6 +56,21 @@ export default function users(state = {}, action) {
         loadingUser: false,
         loadUserError: action.err,
       });
+    case 'LOAD_ALL_USERS_REQUEST':
+      return Object.assign({}, state, {
+        loadingAllUsers: true,
+        loadAllUsersError: null,
+      });
+    case 'LOAD_ALL_USERS_SUCCESS':
+      return Object.assign({}, state, {
+        loadingAllUsers: false,
+        allUsers: action.users,
+      });
+    case 'LOAD_ALL_USERS_FAILURE':
+      return Object.assign({}, state, {
+        loadingAllUsers: false,
+        loadAllUsersError: action.err,
+      });
     default:
       return Object.assign({
         loadedUsers: [],

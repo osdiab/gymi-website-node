@@ -6,6 +6,7 @@ import session from './session';
 import interests from './interests';
 import submissions from './submissions';
 import submissionQuestions from './submissionQuestions';
+import periods from './periods';
 import topics from './topics';
 import users from './users';
 import modal from './modal';
@@ -19,4 +20,5 @@ export default combineReducers({
   topics,
   users,
   modal,
+  periods,
 });
