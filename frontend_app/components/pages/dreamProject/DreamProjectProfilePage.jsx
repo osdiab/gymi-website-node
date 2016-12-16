@@ -30,11 +30,9 @@ export class DreamProjectProfilePageView extends React.Component {
 
   componentWillMount() {
     const userId = this.props.params.userId || this.props.loggedInUser.id;
-    const {token} = this.props;
+    const { token } = this.props;
 
-    if (!this.props.user) {
-      this.props.loadUser(userId, token);
-    }
+    this.props.loadUser(userId, token);
     this.props.loadSubmissions(userId, token);
     this.props.loadInterests(userId, token);
     this.props.loadTopics(userId, token);
@@ -48,7 +46,7 @@ export class DreamProjectProfilePageView extends React.Component {
     return (
       <div className="DreamProjectProfilePage">
         <div className="DreamProjectProfilePage--user">
-          {!user ?
+          { !user ?
             <LoadingSpinner /> :
             <div>
               <h2>{user.name}</h2>

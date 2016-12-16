@@ -40,6 +40,9 @@ export default function users(state = {}, action) {
       return Object.assign({}, state, {
         loadingUser: true,
         loadUserError: null,
+        loadedUsers: Object.assign({}, state.loadedUsers, {
+          [action.id]: null,
+        }),
       });
     case 'LOAD_USER_SUCCESS':
       return Object.assign({}, state, {

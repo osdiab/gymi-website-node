@@ -600,8 +600,8 @@ export function signUpUser(username, name, password, role, loggedInToken = '') {
   };
 }
 
-export function loadUserRequest() {
-  return { type: 'LOAD_USER_REQUEST' };
+export function loadUserRequest(id) {
+  return { type: 'LOAD_USER_REQUEST', id };
 }
 
 export function loadUserFailure(err) {
@@ -614,7 +614,7 @@ export function loadUserSuccess(user) {
 
 export function loadUser(userId, token) {
   return (dispatch) => {
-    dispatch(loadUserRequest());
+    dispatch(loadUserRequest(userId));
     return fetch(`/api/users/${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
