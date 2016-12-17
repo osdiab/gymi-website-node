@@ -35,7 +35,7 @@ export class DreamProjectProfilePageView extends React.Component {
     this.props.loadUser(userId);
     this.props.loadSubmissions(userId);
     this.props.loadInterests(userId);
-    this.props.loadTopics(userId);
+    this.props.loadTopics();
   }
 
   render() {
@@ -73,11 +73,11 @@ export class DreamProjectProfilePageView extends React.Component {
           allTopics !== 'not loaded' &&
           <Interests
             interests={interests}
-            edit={this.state.editingInterests && {
+            edit={this.state.editingInterests ? {
               addInterest: (id, primary) => addInterest(user.id, id, primary),
               removeInterest: id => removeInterest(user.id, id),
               allTopics,
-            }}
+            } : null}
           />
         }
         <h3 className="sectionHeader">
@@ -184,7 +184,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadTopics: (userId, token) => dispatch(loadTopicsAction(userId, token)),
+    loadTopics: (token) => dispatch(loadTopicsAction(token)),
     loadInterests: (userId, token) => dispatch(loadOwnInterests(userId, token)),
     loadSubmissions: (userId, token) => dispatch(loadOwnSubmissions(userId, token)),
     loadUser: (userId, token) => dispatch(loadUserAction(userId, token)),
@@ -198,7 +198,7 @@ function mapDispatchToProps(dispatch) {
 function mergeProps(stateProps, dispatchProps, ownProps) {
   const token = stateProps.token;
   const newDispatchProps = {
-    loadTopics: userId => dispatchProps.loadTopics(userId, token),
+    loadTopics: () => dispatchProps.loadTopics(token),
     loadInterests: userId => dispatchProps.loadInterests(userId, token),
     loadSubmissions: userId => dispatchProps.loadSubmissions(userId, token),
     loadUser: userId => dispatchProps.loadUser(userId, token),

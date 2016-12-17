@@ -207,7 +207,7 @@ function mapStateToProps(state) {
     submissionQuestions,
     createdSubmission,
     creatingSubmission,
-    createSubmissionError,
+    createSubmissionError: !!createSubmissionError,
     user,
     token,
   };
