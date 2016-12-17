@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as _ from 'lodash';
 
 import Button from '../../Button';
+import LoadingSpinner from '../../LoadingSpinner';
 import UserCategories from './UserCategories';
 import {
   loadAllUsers,
@@ -26,28 +27,53 @@ export class DreamProjectStudentsPage extends React.Component {
   }
 
   render() {
-    const { filterByField, topics, periods, students } = this.props;
+    const { topics, periods, students } = this.props;
+    const filterByField = this.state.filterByField;
+
     const title = filterByField === 'period' ? 'Students by year' : `Students interested in ${filterByField.title}`;
 
-    let categories = null;
+    const matchingStudents = filterByField === 'period' ? students :
+      students && students.filter(student => student.primaryInterestId === filterByField);
+
+    const studentsByPeriod = matchingStudents && matchingStudents.reduce((memo, student) => {
+      const change = {};
+      for (const periodId of student.periodsActive) {
+        if (!memo[periodId]) {
+          change[periodId] = [student];
+        } else {
+          change[periodId] = memo[periodId].concat(student);
+        }
+      }
+      return Object.assign({}, memo, change);
+    }, {});
+
+    const categories = students && periods ?
+      Object.keys(studentsByPeriod).map(periodId => (
+        {
+          // cast to string because obj keys are strings
+          title: periods.find(period => `${period.id}` === periodId).title,
+          users: studentsByPeriod[periodId],
+        }
+      )) : {};
+
     return (
       <div>
         <div className="DreamProjectStudentsPage--period">
           <h2>{title}</h2>
-          { topics && periods && students &&
-          <UserCategories categories={categories} />
+          { topics && periods && students ?
+            <UserCategories categories={categories} /> : <LoadingSpinner />
           }
         </div>
         <div className="DreamProjectStudentsPage--sidebar">
-          <Button action={() => alert('hi')}>
+          <Button action={() => this.setState({ filterByField: 'period' })}>
             <h4>Filter by year</h4>
           </Button>
           <h4>Filter by primary interest</h4>
-          {topics && topics.map(field => (
-            <Button key={field.id} action={() => alert(field.title)}>
+          {topics ? topics.map(field => (
+            <Button key={field.id} action={() => this.setState({ filterByField: field.id })}>
               {field.title}
             </Button>
-          ))}
+          )) : <LoadingSpinner />}
         </div>
       </div>
     );
@@ -56,36 +82,39 @@ export class DreamProjectStudentsPage extends React.Component {
 
 DreamProjectStudentsPage.propTypes = {
   topics: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     title: PropTypes.string,
   })),
   periods: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     title: PropTypes.string,
   })),
   students: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
     name: PropTypes.string,
     primaryInterestId: PropTypes.string,
     activePeriods: PropTypes.arrayOf(PropTypes.string).isRequired,
   })),
   loadUsers: PropTypes.func,
+  loadTopics: PropTypes.func,
+  loadPeriods: PropTypes.func,
 };
 
 function mapStateToProps(state) {
-  return {
+  return Object.assign({
     topics: state.topics.topics,
     periods: state.periods.periods,
-    students: state.users.allUsers.filter(u => u.role === 'student'),
     token: state.session.token,
-  };
+  }, state.users.allUsers && {
+    students: state.users.allUsers.filter(u => u.role === 'student'),
+  });
 }
 
-function mapDispatchToProps(state, ownState) {
+function mapDispatchToProps(dispatch) {
   return {
-    loadTopics: token => loadTopicsAction(token),
-    loadPeriods: token => loadPeriodsAction(token),
-    loadUsers: token => loadAllUsers(token),
+    loadTopics: token => dispatch(loadTopicsAction(token)),
+    loadPeriods: token => dispatch(loadPeriodsAction(token)),
+    loadUsers: token => dispatch(loadAllUsers(token)),
   };
 }
 
@@ -93,9 +122,11 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
   const token = stateProps.token;
   const newDispatchProps = {
     loadUsers: () => dispatchProps.loadUsers(token),
+    loadTopics: () => dispatchProps.loadTopics(token),
+    loadPeriods: () => dispatchProps.loadPeriods(token),
   };
   const newStateProps = _.omit(stateProps, ['token']);
-  Object.assign({}, ownProps, newStateProps, newDispatchProps);
+  return Object.assign({}, ownProps, newStateProps, newDispatchProps);
 }
 
 export default connect(
