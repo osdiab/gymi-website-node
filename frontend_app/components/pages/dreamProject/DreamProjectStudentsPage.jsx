@@ -30,7 +30,13 @@ export class DreamProjectStudentsPage extends React.Component {
     const { topics, periods, students } = this.props;
     const filterByField = this.state.filterByField;
 
-    const title = filterByField === 'period' ? 'Students by year' : `Students interested in ${filterByField.title}`;
+    let title = null;
+    if (students && topics && periods) {
+      title = filterByField === 'period' ? 'Students by year' :
+        `Students interested in ${topics.find(t => t.id === filterByField).title}`;
+    } else {
+      title = 'Loading...';
+    }
 
     const matchingStudents = filterByField === 'period' ? students :
       students && students.filter(student => student.primaryInterestId === filterByField);
