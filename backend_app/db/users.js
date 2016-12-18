@@ -2,6 +2,7 @@
 import _ from 'lodash';
 
 import db from './';
+import periodsDb from './periods';
 import { ApplicationError } from '../errors';
 
 export const PUBLIC_USER_FIELDS = ['id', 'username', 'role', 'name'];
@@ -29,10 +30,20 @@ export default {
         return Promise.reject(new ApplicationError('User already exists', 400));
       }
       return null;
-    }).then(() => db.one(
-      'INSERT INTO users (username, "normalizedUsername", "passwordHash", name, role) VALUES ($1, $2, $3, $4, $5) RETURNING id',
-      [username, username.toLowerCase(), passwordHash, name, role],
-    )).then(({ id }) => resolve(id))
+    }).then(() => periodsDb.list()
+    ).then((periods) => {
+      const latestPeriodId = Math.max(...periods.map(period => period.id));
+      return db.tx(tx =>
+        tx.one(
+          'INSERT INTO users (username, "normalizedUsername", "passwordHash", name, role) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+          [username, username.toLowerCase(), passwordHash, name, role],
+        ).then(user => tx.one(
+          'INSERT INTO "activeUsers" ("userId", "periodId") VALUES ($1, $2) RETURNING "userId"',
+          [user.id, latestPeriodId],
+        ))
+      );
+    })
+    .then(({ userId }) => resolve(userId))
     .catch(reject);
   }),
 
