@@ -1,0 +1,47 @@
+@import "../../colors";
+
+.DreamProjectStudentsPage {
+  display: flex;
+}
+
+.DreamProjectStudentsPage--body > h2 {
+  margin-bottom: 14px;
+}
+.DreamProjectStudentsPage--sidebar > h4 {
+  margin-bottom: 14px;
+  border-bottom: 1px solid @medium-grey;
+}
+
+.DreamProjectStudentsPage--body {
+  flex-grow: 1;
+}
+.DreamProjectStudentsPage--sidebar {
+  flex-shrink: 0;
+  width: 200px;
+  margin-left: 40px;
+
+  h4 {
+    font-size: 20px;
+  }
+}
+
+.DreamProjectStudentsPage--topicFilter, .DreamProjectStudentsPage--periodFilter {
+  border: none;
+  padding: 0;
+  display: block;
+  margin-bottom: 14px;
+  font-weight: bold;
+  color: @medium-blue;
+  text-transform: none;
+
+  &:hover, &:focus {
+    background: none !important;
+    border: none !important;
+    color: @light-blue;
+  }
+}
+
+.DreamProjectStudentsPage--periodFilter > h4 {
+  color: @medium-blue;
+  padding: 0;
+}

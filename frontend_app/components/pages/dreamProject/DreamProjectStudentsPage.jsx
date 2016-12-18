@@ -63,20 +63,26 @@ export class DreamProjectStudentsPage extends React.Component {
       )) : {};
 
     return (
-      <div>
-        <div className="DreamProjectStudentsPage--period">
+      <div className="DreamProjectStudentsPage">
+        <div className="DreamProjectStudentsPage--body">
           <h2>{title}</h2>
           { topics && periods && students ?
             <UserCategories categories={categories} /> : <LoadingSpinner />
           }
         </div>
         <div className="DreamProjectStudentsPage--sidebar">
-          <Button action={() => this.setState({ filterByField: 'period' })}>
+          <Button
+            className="DreamProjectStudentsPage--periodFilter"
+            action={() => this.setState({ filterByField: 'period' })}
+          >
             <h4>Filter by year</h4>
           </Button>
-          <h4>Filter by primary interest</h4>
+          <h4>Filter by interest</h4>
           {topics ? topics.map(field => (
-            <Button key={field.id} action={() => this.setState({ filterByField: field.id })}>
+            <Button
+              className="DreamProjectStudentsPage--topicFilter"
+              key={field.id} action={() => this.setState({ filterByField: field.id })}
+            >
               {field.title}
             </Button>
           )) : <LoadingSpinner />}

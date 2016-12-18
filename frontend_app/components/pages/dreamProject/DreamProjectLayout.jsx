@@ -38,11 +38,10 @@ export class DreamProjectLayoutView extends React.Component {
         id: 'home',
         action: { href: '/dreamProject' },
       },
-      // TODO: show again when implemented
-      // {
-      //   id: 'students',
-      //   action: { href: '/dreamProject/students' },
-      // },
+      {
+        id: 'students',
+        action: { href: '/dreamProject/students' },
+      },
       {
         id: 'profile',
         action: { href: '/dreamProject/profile' },
