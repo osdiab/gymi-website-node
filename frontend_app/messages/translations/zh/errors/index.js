@@ -21,4 +21,8 @@ export default [
     id: 'errors.invalidEmail',
     defaultMessage: '邮箱地址无效',
   },
+  {
+    id: 'errors.noneFound',
+    defaultMessage: '查找不到',
+  },
 ];

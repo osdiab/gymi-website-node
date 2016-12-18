@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import * as _ from 'lodash';
 
+import messages from '../../../messages';
 import Button from '../../Button';
 import LoadingSpinner from '../../LoadingSpinner';
 import UserCategories from './UserCategories';
@@ -12,6 +14,8 @@ import {
 } from '../../../actions';
 
 import './DreamProjectStudentsPage.less';
+
+const studentsMessages = messages.dreamProject.students;
 
 export class DreamProjectStudentsPage extends React.Component {
   constructor(props) {
@@ -32,10 +36,14 @@ export class DreamProjectStudentsPage extends React.Component {
 
     let title = null;
     if (students && topics && periods) {
-      title = filterByField === 'period' ? 'Students by year' :
-        `Students interested in ${topics.find(t => t.id === filterByField).title}`;
+      title = filterByField === 'period' ?
+        <FormattedMessage {...studentsMessages.byYear} /> :
+          <FormattedMessage
+            {...studentsMessages.byInterest}
+            values={{ field: topics.find(t => t.id === filterByField).title }}
+          />;
     } else {
-      title = 'Loading...';
+      title = <FormattedMessage {...messages.common.loading} />;
     }
 
     const matchingStudents = filterByField === 'period' ? students :
@@ -75,9 +83,9 @@ export class DreamProjectStudentsPage extends React.Component {
             className="DreamProjectStudentsPage--periodFilter"
             action={() => this.setState({ filterByField: 'period' })}
           >
-            <h4>Filter by year</h4>
+            <h4><FormattedMessage {...studentsMessages.filterByYear} /></h4>
           </Button>
-          <h4>Filter by interest</h4>
+          <h4><FormattedMessage {...studentsMessages.filterByField} /></h4>
           {topics ? topics.map(field => (
             <Button
               className="DreamProjectStudentsPage--topicFilter"

@@ -11,6 +11,7 @@ import periods from './periods';
 import errors from './errors';
 import dreamProject from './dreamProject';
 import NotFoundPage from './NotFoundPage';
+import common from './common';
 
 export default [
   ...HomePage,
@@ -26,4 +27,5 @@ export default [
   ...errors,
   ...dreamProject,
   ...NotFoundPage,
+  ...common,
 ];

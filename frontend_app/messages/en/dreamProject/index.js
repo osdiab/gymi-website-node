@@ -4,6 +4,7 @@ import layout from './layout';
 import profile from './profile';
 import newSubmission from './newSubmission';
 import home from './home';
+import students from './students';
 
 export default [
   ...navigation,
@@ -11,5 +12,6 @@ export default [
   ...profile,
   ...newSubmission,
   ...home,
+  ...students,
 ];
 

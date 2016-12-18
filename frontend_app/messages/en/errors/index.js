@@ -21,4 +21,8 @@ export default [
     id: 'errors.invalidEmail',
     defaultMessage: 'Invalid email address',
   },
+  {
+    id: 'errors.noneFound',
+    defaultMessage: 'None found',
+  },
 ];

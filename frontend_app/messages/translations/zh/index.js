@@ -11,6 +11,7 @@ import periods, { summer2013, summer2014, summer2015, summer2016 } from './perio
 import errors from './errors';
 import dreamProject from './dreamProject';
 import NotFoundPage from './NotFoundPage';
+import common from './common';
 
 export default [
   ...HomePage,
@@ -30,4 +31,5 @@ export default [
   ...errors,
   ...dreamProject,
   ...NotFoundPage,
+  ...common,
 ];
