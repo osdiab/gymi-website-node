@@ -184,12 +184,12 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadTopics: (token) => dispatch(loadTopicsAction(token)),
+    loadTopics: token => dispatch(loadTopicsAction(token)),
     loadInterests: (userId, token) => dispatch(loadOwnInterests(userId, token)),
     loadSubmissions: (userId, token) => dispatch(loadOwnSubmissions(userId, token)),
     loadUser: (userId, token) => dispatch(loadUserAction(userId, token)),
     addInterest: (userId, topicId, primary, token) =>
-      dispatch(addInterestAction(userId, topicId, primary, token)),
+      dispatch(addInterestAction(userId, token, topicId, primary)),
     removeInterest: (userId, topicId, token) =>
       dispatch(removeInterestAction(userId, token, topicId)),
   };
@@ -204,7 +204,7 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     loadUser: userId => dispatchProps.loadUser(userId, token),
     addInterest: (userId, topicId, primary) => dispatchProps.addInterest(
       userId, topicId, primary, token),
-    removeInterest: (userId, topicId) => dispatchProps.addInterest(
+    removeInterest: (userId, topicId) => dispatchProps.removeInterest(
       userId, topicId, token),
   };
   const newStateProps = _.omit(stateProps, ['token']);
