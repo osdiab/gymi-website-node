@@ -101,7 +101,7 @@ const create = (userId, answers) => new Promise((resolve, reject) => {
   const submissionsQuery =
     'INSERT INTO submissions (timestamp, "userId") VALUES ($<timestamp>, $<userId>) RETURNING id';
   db.tx(tx =>
-    tx.one(submissionsQuery, { timestamp, userId }).then(({ id }) => {
+    return tx.one(submissionsQuery, { timestamp, userId }).then(({ id }) => {
       const answersCols = new pgpHelpers.ColumnSet(['submissionId', 'questionId', 'body'],
                                                           { table: 'submissionAnswers' });
       const answersQuery = pgpHelpers.insert(
