@@ -9,8 +9,8 @@ const list = (filters, limit = 100) => new Promise((resolve, reject) => {
   const columns = [
     'submissions.id', 'timestamp', 'submissions."userId"', 'body AS answer', '"questionId"',
     '"submissionQuestions".title AS question', '"submissionQuestions".archived AS "questionArchived"',
-    '"topicId" AS "primaryInterestId"', 'users.name AS "userFullName"',
-    'topics.title AS "primaryInterestTitle"',
+    '"primaryInterestId"', 'users.name AS "userFullName"',
+    '"primaryInterestTitle"',
   ];
   const supportedFilters = ['after', 'userId'];
   if (_.difference(_.keys(filters), supportedFilters).length !== 0) {
@@ -37,8 +37,14 @@ const list = (filters, limit = 100) => new Promise((resolve, reject) => {
     INNER JOIN "submissionAnswers" ON submissions.id = "submissionId"
     INNER JOIN "submissionQuestions" ON "submissionQuestions".id = "questionId"
     INNER JOIN users ON submissions."userId" = users.id
-    INNER JOIN "primaryUserInterests" ON submissions."userId" = "primaryUserInterests"."userId"
-    INNER JOIN topics ON "primaryUserInterests"."topicId" = topics.id
+    LEFT JOIN (
+      SELECT
+        "userId",
+        "topicId" AS "primaryInterestId",
+        topics.title AS "primaryInterestTitle"
+      FROM "primaryUserInterests"
+      INNER JOIN topics ON "primaryUserInterests"."topicId" = topics.id
+    ) AS "primaryInterests" ON submissions."userId" = "primaryInterests"."userId"
     WHERE submissions.id IN (
       SELECT id
       FROM submissions
