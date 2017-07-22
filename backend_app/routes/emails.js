@@ -53,15 +53,15 @@ export default {
     switch (reason) {
       case 'press':
         subject = `GYMI WEBSITE: PRESS EMAIL FROM ${req.body.sender}`;
-        receiver = 'gymi.pr@gmail.com';
+        receiver = 'info@gymiteam.com';
         break;
       case 'general':
         subject = `GYMI WEBSITE: GENERAL EMAIL FROM ${req.body.sender}`;
-        receiver = 'info@gymiteam.com';
+        receiver = 'hr@gymiteam.com';
         break;
       default:
         subject = `GYMI WEBSITE: ??? EMAIL FROM ${req.body.sender}`;
-        receiver = 'info@gymiteam.com';
+        receiver = 'hr@gymiteam.com';
     }
 
     const mailOptions = {
