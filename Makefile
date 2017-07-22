@@ -1,7 +1,7 @@
 JS_FILES := $(shell find . -name "*.js" -not -path "./node_modules/*" -not -name "bundle.js")
 JSX_FILES := $(shell find . -name "*.jsx" -not -path "./node_modules/*")
 TESTS := $(shell find . -not -path "*node_modules*" -name "*_test*")
-LINT := ./node_modules/.bin/eslint
+LINT := ./node_modules/.bin/tslint --type-check -p ./
 MOCHA := node_modules/mocha/bin/mocha
 MOCHA_OPTIONS := --compilers jsx:babel-register --recursive --require ignore-styles --require jsdom-global/register
 
