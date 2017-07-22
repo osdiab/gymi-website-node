@@ -57,11 +57,11 @@ export default {
         break;
       case 'general':
         subject = `GYMI WEBSITE: GENERAL EMAIL FROM ${req.body.sender}`;
-        receiver = 'gymi.volunteer@gmail.com';
+        receiver = 'info@gymiteam.com';
         break;
       default:
         subject = `GYMI WEBSITE: ??? EMAIL FROM ${req.body.sender}`;
-        receiver = 'gymi.volunteer@gmail.com';
+        receiver = 'info@gymiteam.com';
     }
 
     const mailOptions = {
