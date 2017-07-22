@@ -44,7 +44,7 @@ export default [
   {
     id: 'JoinUsPage.becomeAMentor.sessionCoordinators.description',
     defaultMessage: '<p>While GYMI Board members coordinate the larger details for each summer program, session coordinators on the ground and are liaisons for the larger GYMI organization. They are responsible for organizing and leading many of the mentors’ day-to-day activities. They help GYMI maintain good working relationships with schools, and directly work with school administrators to ensure the summer session works smoothly. Session coordinators often also choose to participate in mentor activities and take on mentees.</p>' +
-    '<p>If you’re interested, please first fill out the mentor form and then email us at <a href="mailto:gymi.volunteer@gmail.com">gymi.volunteer@gmail.com</a> regarding your interest.</p>',
+    '<p>If you’re interested, please first fill out the mentor form and then email us at <a href="mailto:info@gymiteam.com">info@gymiteam.com</a> regarding your interest.</p>',
   },
   {
     id: 'JoinUsPage.becomeAMentor.faq.name',
@@ -79,7 +79,7 @@ export default [
       '<p>Human Resources management team: The Human Resources Committee headed by Claire Que will focus on volunteer recruitment, on-board orientations and trainings, organizational recruitment and develop organizational culture. They will also be in charge of long-term performance management.</p>' +
       '<p>Finance management team: The Finance committee headed by Andrew Tang will supervise the cash flow and budgetary issues and work with relevant attorneys. The team will work closely with co-presidents to make financial projections and with PR team to reach out to sponsors and corporate partners.</p>' +
       '<p>Tech management team: The tech team headed by Rona Wo will be working to develop, implement and maintain all technological aspects of our venture. Since our venture relies on a lot of technology platforms, this work is very important to the success of our venture and the satisfaction of our mentees. The responsibilities include website supports, system supports such as user database, and app development.</p>' +
-    '<p>If you’re interested, please first fill out the mentor form and then email us at <a href="mailto:gymi.volunteer@gmail.com">gymi.volunteer@gmail.com</a> regarding your interest.</p>',
+    '<p>If you’re interested, please first fill out the mentor form and then email us at <a href="mailto:info@gymiteam.com">info@gymiteam.com</a> regarding your interest.</p>',
   },
   {
     id: 'JoinUsPage.joinTheGymiTeam.requirements.name',

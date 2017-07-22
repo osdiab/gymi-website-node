@@ -45,7 +45,7 @@ export default [
   {
     id: 'JoinUsPage.becomeAMentor.sessionCoordinators.description',
     defaultMessage: '<p>虽然整个项目是由吉米在美国的成员设计组织的，实地夏令营的队长是联系当地和吉米组织的纽带。队长们将会负责组织每个当地的项目，并且带领整个志愿者团队完成每日教学计划。他们将会负责和当地学校对接，同时和学校领导交流。大多数时候，他们同时也会教学。</p>' +
-      '<p>如何申请：如果你有兴趣加入吉米成为一名志愿者，请填这份志愿者表格，然后发送你的申请到：<a href="mailto:gymi.volunteer@gmail.com">gymi.volunteer@gmail.com</a>。</p>',
+      '<p>如何申请：如果你有兴趣加入吉米成为一名志愿者，请填这份志愿者表格，然后发送你的申请到：<a href="mailto:info@gymiteam.com">info@gymiteam.com</a>。</p>',
   },
   {
     id: 'JoinUsPage.becomeAMentor.faq.name',

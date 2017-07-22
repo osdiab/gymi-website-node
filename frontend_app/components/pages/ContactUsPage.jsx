@@ -122,13 +122,13 @@ class ContactUsPage extends React.Component {
                   <span className="ContactUsPage--details--contact--emails--prompt">
                     <FormattedMessage {...contactMessages.emails.general} />:
                   </span>
-                  <a href="mailto:gymi.volunteer@gmail.com">gymi.volunteer@gmail.com</a>
+                  <a href="mailto:info@gymiteam.com">info@gymiteam.com</a>
                 </p>
                 <p>
                   <span className="ContactUsPage--details--contact--emails--prompt">
                     <FormattedMessage {...contactMessages.emails.press} />:
                   </span>
-                  <a href="mailto:gymi.volunteer@gmail.com">gymi.volunteer@gmail.com</a>
+                  <a href="mailto:info@gymiteam.com">info@gymiteam.com</a>
                 </p>
               </div>
             </div>

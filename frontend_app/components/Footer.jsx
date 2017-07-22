@@ -19,7 +19,7 @@ export default class Footer extends React.Component {
         <p>
           © GYMI 2015<br />
           Official 501(c)(3)<br />
-          <a href="mailto:gymi.volunteer@gmail.com">gymi.volunteer@gmail.com</a>
+          <a href="mailto:info@gymiteam.com">info@gymiteam.com</a>
         </p>
         <ul className="Footer--social">
           <li>
