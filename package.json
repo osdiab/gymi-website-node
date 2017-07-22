@@ -40,7 +40,7 @@
     "@types/react-helmet": "^5.0.3",
     "@types/react-intl": "^2.3.1",
     "@types/react-redux": "^4.4.46",
-    "@types/react-router": "^4.0.14",
+    "@types/react-router": "^2.0.50",
     "@types/react-select": "^1.0.48",
     "autoprefixer": "^6.5.1",
     "babel-polyfill": "^6.16.0",
@@ -93,6 +93,9 @@
   },
   "devDependencies": {
     "@types/enzyme": "^2.8.3",
+    "@types/sinon": "^2.3.3",
+    "@types/webpack-dev-middleware": "^1.9.2",
+    "@types/webpack-hot-middleware": "^2.15.0",
     "db-migrate": "^0.10.0-beta.20",
     "db-migrate-pg": "^0.1.11",
     "enzyme": "^2.2.0",
