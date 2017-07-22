@@ -47,6 +47,7 @@ export default class Footer extends React.Component {
           <Modal
             closeModal={() => this.setState({ wechatModalOpen: false })}
             title="GYMI Wechat"
+            width=500
           >
             <img src="/media/wechat_qr.jpg" alt="Wechat QR Code" />
           </Modal>
