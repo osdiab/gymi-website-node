@@ -14,7 +14,7 @@ module.exports = [
       'webpack-hot-middleware/client',
       'whatwg-fetch',
       'babel-polyfill',
-      path.join(__dirname, 'frontend_app', 'index.js'),
+      path.join(__dirname, 'frontend_app', 'index.ts'),
     ],
     output: {
       path: path.join(__dirname, 'public'),
@@ -22,7 +22,7 @@ module.exports = [
       publicPath: '/',
     },
     resolve: {
-      extensions: ['', '.js', '.jsx'],
+      extensions: ['', '.js', '.jsx', '.ts', '.tsx'],
     },
     module: {
       devtool: 'eval-source-map',
@@ -36,13 +36,9 @@ module.exports = [
           loader: 'style-loader!css-loader!postcss-loader!less-loader',
         },
         {
-          test: /\.jsx?$/,
+          test: /\.(j|t)sx?$/,
           exclude: /node_modules/,
-          loader: 'babel',
-          query: {
-            babelrc: false,
-            presets: ['es2015', 'react'],
-          },
+          loader: 'ts-loader',
         },
       ],
     },
@@ -55,7 +51,7 @@ module.exports = [
     name: 'backend_app',
     entry: [
       'babel-polyfill',
-      path.join(__dirname, 'backend_app', 'index.js'),
+      path.join(__dirname, 'backend_app', 'index.ts'),
     ],
     output: {
       path: path.join(__dirname, 'build'),
@@ -68,10 +64,10 @@ module.exports = [
       __filename: false,
     },
     externals: [nodeExternals({
-      whitelist: [/\.(?!(?:jsx?|json)$).{1,5}$/i],
+      whitelist: [/\.(?!(?:(j|t)sx?|json)$).{1,5}$/i],
     })],
     resolve: {
-      extensions: ['', '.js', '.jsx'],
+      extensions: ['', '.js', '.jsx', '.ts', '.tsx'],
     },
     module: {
       devtool: 'eval-source-map',
@@ -87,13 +83,9 @@ module.exports = [
           ),
         },
         {
-          test: /\.jsx?$/,
+          test: /\.(j|t)sx?$/,
           exclude: /node_modules/,
-          loader: 'babel',
-          query: {
-            babelrc: false,
-            presets: ['node6', 'react'],
-          },
+          loader: 'ts-loader',
         },
       ],
     },
