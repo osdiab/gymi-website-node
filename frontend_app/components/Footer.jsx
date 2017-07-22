@@ -19,7 +19,7 @@ export default class Footer extends React.Component {
         <p>
           © GYMI 2015<br />
           Official 501(c)(3)<br />
-          <a href="mailto:info@gymiteam.com">info@gymiteam.com</a>
+          <a href="mailto:hr@gymiteam.com">info@gymiteam.com</a>
         </p>
         <ul className="Footer--social">
           <li>
@@ -47,7 +47,7 @@ export default class Footer extends React.Component {
           <Modal
             closeModal={() => this.setState({ wechatModalOpen: false })}
             title="GYMI Wechat"
-            width=500
+            width={500}
           >
             <img src="/media/wechat_qr.jpg" alt="Wechat QR Code" />
           </Modal>
