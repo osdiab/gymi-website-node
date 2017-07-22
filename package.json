@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "description": "Global Youth Mentorship Initiative (GYMI) website",
   "scripts": {
-    "dev-server": "nodemon dev_server.js --exec babel-node",
+    "dev-server": "nodemon dev_server.js --exec ts-node",
     "build": "webpack",
     "start": "webpack && node build/backend.bundle.js",
-    "check-translations": "babel-node scripts/checkTranslations.js"
+    "check-translations": "ts-node scripts/checkTranslations.ts"
   },
   "repository": {
     "type": "git",
