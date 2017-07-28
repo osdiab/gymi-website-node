@@ -1,11 +1,11 @@
-/* eslint-disable no-console */
+
 // Hooks up demo boilerplate application with webpack's development server. Not essential for
 // understanding how to code frontend codebases; just makes demo easier to run and update.
 
-import express from 'express';
-import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
+import * as express from 'express';
+import * as webpack from 'webpack';
+import * as webpackDevMiddleware from 'webpack-dev-middleware';
+import * as webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from './webpack.config';
 
 import router from './backend_app/router';

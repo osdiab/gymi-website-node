@@ -1,5 +1,5 @@
-/* eslint-disable no-console */
-import _ from 'lodash';
+
+import * as _ from 'lodash';
 
 import { formatMessages } from '../frontend_app/messages';
 import unformattedEn from '../frontend_app/messages/en';
