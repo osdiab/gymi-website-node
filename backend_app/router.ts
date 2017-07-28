@@ -1,25 +1,28 @@
-// Defines an express app that runs the boilerplate codebase.
+/**
+ * Defines routes for the GYMI application server.
+ */
 
-import bodyParser from 'body-parser';
-import express from 'express';
-import path from 'path';
-import requestLanguage from 'express-request-language';
-import cookieParser from 'cookie-parser';
+import * as bodyParser from 'body-parser';
+import * as cookieParser from 'cookie-parser';
+import * as express from 'express';
+import * as requestLanguage from 'express-request-language';
+import * as path from 'path';
 
-import { ApplicationError } from './errors';
-import users from './routes/users';
-import interests from './routes/interests';
-import topics from './routes/topics';
-import periods from './routes/periods';
-import sessions from './routes/sessions';
-import submissions from './routes/submissions';
-import submissionQuestions from './routes/submissionQuestions';
-import emails from './routes/emails';
-import { handleRender } from './serverRendering';
-import { LANGUAGE_KEY } from '../frontend_app/reducers/language';
+import { ApplicationError } from 'backend/errors';
+import emails from 'backend/routes/emails';
+import interests from 'backend/routes/interests';
+import periods from 'backend/routes/periods';
+import sessions from 'backend/routes/sessions';
+import submissionQuestions from 'backend/routes/submissionQuestions';
+import submissions from 'backend/routes/submissions';
+import topics from 'backend/routes/topics';
+import users from 'backend/routes/users';
+import { handleRender } from 'backend/serverRendering';
+import { LANGUAGE_KEY } from 'frontend/reducers/language';
 
+// tslint:disable-next-line:max-func-body-length
 export default function createRouter() {
-  const router = express.Router(); // eslint-disable-line new-cap
+  const router = express.Router();
 
   // static assets; this includes the compiled frontend app!
   router.use(express.static(path.join(__dirname, '..', 'public')));
@@ -29,8 +32,8 @@ export default function createRouter() {
     languages: ['en', 'zh'],
     cookie: {
       name: LANGUAGE_KEY,
-      options: { maxAge: 10 * 365 * 24 * 60 * 60 * 1000 }, // 10 yrs from now
-    },
+      options: { maxAge: 10 * 365 * 24 * 60 * 60 * 1000 } // 10 yrs from now
+    }
   }));
   router.use(bodyParser.json()); // parse json bodies
 
@@ -40,11 +43,11 @@ export default function createRouter() {
    * prevent 304 Unmodified cache returns. This middleware applies it to all subsequently
    * defined routes.
    */
-  router.get('/*', (req, res, next) => {
+  router.get('/*', (req: express.Request, res: express.Response, next: express.NextFunction) => {
     res.set({
       'Last-Modified': (new Date()).toUTCString(),
       Expires: -1,
-      'Cache-Control': 'must-revalidate, private',
+      'Cache-Control': 'must-revalidate, private'
     });
     next();
   });
@@ -104,35 +107,35 @@ export default function createRouter() {
    * submission questions endpoints
    */
   router.get(
-    '/api/submissionQuestions', sessions.verify, submissionQuestions.list,
+    '/api/submissionQuestions', sessions.verify, submissionQuestions.list
   );
   router.post(
     '/api/submissionQuestions', sessions.verify, sessions.assertRole('admin'),
-    submissionQuestions.create,
+    submissionQuestions.create
   );
   router.delete(
     '/api/submissionQuestions', sessions.verify, sessions.assertRole('admin'),
-    submissionQuestions.destroy,
+    submissionQuestions.destroy
   );
 
-  router.all('/api/*', (req, res, next) => {
+  router.all('/api/*', (req: express.Request, res: express.Response, next: express.NextFunction) => {
     next(new ApplicationError('Not Found', 404));
   });
 
-  router.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+  router.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (err instanceof ApplicationError) {
       res.status(err.statusCode).send({
         message: err.message,
-        data: err.data || {},
+        data: err.data || {}
       });
+
       return;
     }
 
     // log the error for debugging
-    console.error(err); // eslint-disable-line no-console
+    console.error(err);
     res.sendStatus(500); // uncaught exception
   });
-
 
   /**
    * Frontend app catch-all hook

@@ -1,80 +1,112 @@
-// TODO: don't throw ApplicationErrors from here, db shouldn't know about app logic
-import _ from 'lodash';
+/**
+ * Database methods related to retrieving and updating users.
+ */
 
-import db from './';
-import periodsDb from './periods';
-import { ApplicationError } from '../errors';
+// tslint:disable-next-line
+// TODO: don't throw ApplicationErrors from here, db shouldn't know about app logic
+
+import * as _ from 'lodash';
+
+import db, {Id} from 'backend/db';
+import periodsDb from 'backend/db/periods';
+import { ApplicationError } from 'backend/errors';
 
 export const PUBLIC_USER_FIELDS = ['id', 'username', 'role', 'name'];
+export const VALID_LIST_FILTERS = ['primaryInterest', 'period'];
+
+// Types of roles a user can have.
+export type Role = 'student' | 'teacher' | 'admin';
 
 // flexible find function—can search for id or username.
 // Returns one entry, or null.
-const find = (identifier, getPasswordHash = false) => new Promise((resolve, reject) => {
+async function find(identifier: (Id | string), getPasswordHash = false) {
   const columns = getPasswordHash ? PUBLIC_USER_FIELDS.concat('passwordHash') :
     PUBLIC_USER_FIELDS;
-  const clause = isNaN(identifier) ? '"normalizedUsername" = $<id>' : 'id = $<id>';
+  const normalizedUsername = typeof identifier === 'number' ? identifier : identifier.toLowerCase();
+  const clause = (typeof identifier !== 'number') ? '"normalizedUsername" = $<id>' : 'id = $<id>';
   const query = `SELECT $<columns:name> FROM users WHERE ${clause}`;
 
-  return db.oneOrNone(query, { columns, id: identifier.toLowerCase() }).then(resolve).catch(reject);
-});
+  return await db.oneOrNone(query, { columns, id: normalizedUsername });
+}
+
+interface IFilter {
+  primaryInterest?: Id | Id[];
+  period?: Id | Id[];
+}
+
+interface IFilterStrict {
+  primaryInterest?: Id[];
+  period?: Id[];
+}
+
+interface IDbClause {
+  key: 'primaryInterests' | 'periods';
+  clause: string;
+  value: Id[];
+}
 
 export default {
-  create: (username, passwordHash, name, role) => new Promise((resolve, reject) => {
-    if (!isNaN(username)) {
-      reject(new ApplicationError('Username cannot be a number', 400));
-      return;
+  create: async (
+    username: string, passwordHash: string, name: string, role: Role
+  ) => {
+    if (!isNaN(Number(username))) {
+      throw new ApplicationError('Username cannot be a number', 400);
     }
 
-    find(username).then((user) => {
-      if (user) {
-        return Promise.reject(new ApplicationError('User already exists', 400));
-      }
-      return null;
-    }).then(() => periodsDb.list()
-    ).then((periods) => {
-      const latestPeriodId = Math.max(...periods.map(period => period.id));
-      return db.tx(tx =>
-        tx.one(
-          'INSERT INTO users (username, "normalizedUsername", "passwordHash", name, role) VALUES ($1, $2, $3, $4, $5) RETURNING id',
-          [username, username.toLowerCase(), passwordHash, name, role],
-        ).then(user => tx.one(
-          'INSERT INTO "activeUsers" ("userId", "periodId") VALUES ($1, $2) RETURNING "userId"',
-          [user.id, latestPeriodId],
-        ))
-      );
-    })
-    .then(({ userId }) => resolve(userId))
-    .catch(reject);
-  }),
+    const existingUser = await find(username);
+    if (existingUser) {
+      throw new ApplicationError('User already exists', 400);
+    }
+
+    const periods = await periodsDb.list();
+    const latestPeriodId = Math.max(...periods.map(period => period.id));
+
+    const {userId} = await db.tx(tx =>
+      tx.one(
+        'INSERT INTO users (username, "normalizedUsername", "passwordHash", name, role) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+        [username, username.toLowerCase(), passwordHash, name, role]
+      ).then(user => tx.one(
+        'INSERT INTO "activeUsers" ("userId", "periodId") VALUES ($1, $2) RETURNING "userId"',
+        [user.id, latestPeriodId]
+      ))
+    );
+
+    return userId;
+  },
 
   find,
-  list: (filters = {}) => new Promise((resolve, reject) => {
-    const normalizedFilters = _.chain(filters).mapValues(
+  list: (filters: IFilter) => new Promise((resolve, reject) => {
+    const normalizedFilters: IFilterStrict = _(filters).mapValues(
       val => (_.isArray(val) ? val : [val])
-    );
-    const whereClauses = normalizedFilters.map((value, key) => {
-      switch (key) {
-        case 'primaryInterest':
-          return {
-            key: 'primaryInterests',
-            clause: '"topicId" IN ($<primaryInterests:csv>)',
-            value,
-          };
-        case 'period':
-          return {
-            key: 'periods',
-            clause: '"periodId" IN ($<periods:csv>)',
-            value,
-          };
-        default:
-          return null;
-      }
-    }).compact()
-    .value();
+    ).value();
+    const whereClauses = Object.keys(normalizedFilters).reduce(
+      (memo, key) => {
+        switch (key) {
+          case 'primaryInterest':
+            if (normalizedFilters.primaryInterest) {
+              return memo.concat({
+                key: 'primaryInterests',
+                clause: '"topicId" IN ($<primaryInterests:csv>)',
+                value: normalizedFilters.primaryInterest
+              });
+            }
+          case 'period':
+            if (normalizedFilters.period) {
+              return memo.concat({
+                key: 'periods',
+                clause: '"periodId" IN ($<periods:csv>)',
+                value: normalizedFilters.period
+              });
+            }
+          default:
+            return memo;
+        }
+      },
+      <IDbClause[]>[]);
 
     const columns = PUBLIC_USER_FIELDS.concat(
       '"topicId" AS "primaryInterestId"',
-      '"periodId"',
+      '"periodId"'
     );
     const completeClauses = whereClauses.map(entry => entry.clause).join(' AND ');
     const query = `
@@ -88,26 +120,31 @@ export default {
     return db.manyOrNone(query, queryArgs).then((results) => {
       // query returns redundant entries with different periods;
       // combine the periods active into an array
-      const combined = results.reduce((memo, entry) => {
-        if (memo[entry.id]) {
-          const updatedEntry = memo[entry.id];
-          updatedEntry.periodsActive = updatedEntry.periodsActive.concat(entry.periodId);
-          return Object.assign({}, memo, { [entry.id]: updatedEntry });
-        }
+      const combined = results.reduce(
+        (memo, entry) => {
+          if (memo[entry.id]) {
+            const updatedEntry = memo[entry.id];
+            updatedEntry.periodsActive = updatedEntry.periodsActive.concat(entry.periodId);
 
-        const newEntry = _.omit(entry, ['periodId']);
-        newEntry.periodsActive = entry.periodId === null ? [] : [entry.periodId];
-        return Object.assign({}, memo, { [entry.id]: newEntry });
-      }, {});
+            return {...memo, [entry.id]: updatedEntry};
+          }
+
+          const newEntry = {
+            ..._.omit(entry, ['periodId']),
+            periodsActive: entry.periodId === null ? [] : [entry.periodId]
+          };
+
+          return {...memo, [entry.id]: newEntry };
+        },
+        {});
       resolve(_.values(combined));
     }).catch(reject);
   }),
-  setPassword: (id, newPasswordHash) => new Promise((resolve, reject) => {
+
+  setPassword: (id: Id, newPasswordHash: string) => new Promise((resolve, reject) => {
     db.one(
       'UPDATE users SET "passwordHash" = $1 WHERE id = $2',
       [newPasswordHash, id]
     ).then(resolve).catch(reject);
-  }),
-
+  })
 };
-export const VALID_LIST_FILTERS = ['primaryInterest', 'period'];

@@ -1,50 +1,62 @@
-import _ from 'lodash';
-import nodemailer from 'nodemailer';
-import emailValidator from 'email-validator';
+/**
+ * Handlers for API endpoints that send emails
+ */
 
-import { ApplicationError } from '../errors';
+import * as emailValidator from 'email-validator';
+import {NextFunction, Request, Response} from 'express';
+import * as _ from 'lodash';
+import * as nodemailer from 'nodemailer';
+
+import config from 'backend/config';
+import { ApplicationError } from 'backend/errors';
 
 const MAX_MESSAGE_LENGTH = 1000;
 const MAX_NAME_LENGTH = 50;
 
 const transporter = nodemailer.createTransport({
-  host: process.env.GYMI_EMAIL_HOST,
+  host: config.email.host,
   port: 587,
   secure: false,
   requireTLS: true,
   auth: {
-    user: process.env.GYMI_EMAIL_USERNAME,
-    pass: process.env.GYMI_EMAIL_PASSWORD,
-  },
+    user: config.email.username,
+    pass: config.email.password
+  }
 });
 
 export default {
-  send: (req, res, next) => {
+  send: (req: Request, res: Response, next: NextFunction) => {
     const requiredFields = ['reason', 'sender', 'message', 'name'];
-    if (_.compact(requiredFields.map(field => req.body[field])).length !== requiredFields.length) {
+    const numFieldsFound = _(requiredFields).map(field => req.body[field]).compact().value().length;
+    if (numFieldsFound !== requiredFields.length) {
       next(new ApplicationError('Missing required fields', 400, { requiredFields }));
+
       return;
     }
 
     const { sender, reason, message, name } = req.body;
     if (!emailValidator.validate(sender)) {
       next(new ApplicationError('Invalid email', 400));
+
       return;
     }
 
     if (name.length > MAX_NAME_LENGTH) {
       next(new ApplicationError('Name too long', 400));
+
       return;
     }
 
     if (message.length > MAX_MESSAGE_LENGTH) {
       next(new ApplicationError('Message too long', 400));
+
       return;
     }
 
     const validReasons = ['general', 'press'];
     if (!validReasons.includes(reason)) {
       next(new ApplicationError('Invalid message reason', 400));
+
       return;
     }
 
@@ -68,9 +80,11 @@ export default {
       from: `"${req.body.name}" <${req.body.sender}>`,
       to: receiver,
       subject,
-      text: req.body.message,
+      text: req.body.message
     };
 
-    transporter.sendMail(mailOptions).then(res.sendStatus(200)).catch(next);
-  },
+    transporter.sendMail(mailOptions)
+      .then(() => res.sendStatus(200))
+      .catch(next);
+  }
 };

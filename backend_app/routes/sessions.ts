@@ -1,30 +1,39 @@
-import jwt from 'jsonwebtoken';
-import _ from 'lodash';
+/**
+ * Handlers for methods related to sessions, i.e. records of logging in and out.
+ */
+import * as jwt from 'jsonwebtoken';
+import * as _ from 'lodash';
 
-import { ApplicationError } from '../errors';
-import usersDb, { PUBLIC_USER_FIELDS } from '../db/users';
-import { hashPassword, comparePassword } from './crypto';
-import { validatePassword } from '../../common/passwords';
+import {NextFunction, Request, Response} from 'express';
 
+import {Id} from 'backend/db';
+import usersDb, { PUBLIC_USER_FIELDS, Role } from 'backend/db/users';
+import { ApplicationError } from 'backend/errors';
+import { comparePassword, hashPassword } from 'backend/utils/crypto';
+import { validatePassword } from 'common/passwords';
+
+// tslint:disable-next-line
 const TOKEN_SECRET = 'super secret'; // TODO: make this an env variable
-export function generateToken(id, role, cb) {
+export function generateToken(id: Id, role: Role, cb: jwt.SignCallback) {
   return jwt.sign({ id, role }, TOKEN_SECRET, { expiresIn: '7 days' }, cb);
 }
 
 export default {
-  authenticate: (req, res, next) => {
+  authenticate: (req: Request, res: Response, next: NextFunction) => {
     const requiredFields = ['username', 'password'];
     const userIdentifier = req.body.username;
     if (!userIdentifier) {
       next(new ApplicationError('Missing required fields', 400, {
-        requiredFields, missing: ['username'],
+        requiredFields, missing: ['username']
       }));
+
       return;
     }
     if (!req.body.password) {
       next(new ApplicationError('Missing required fields', 400, {
-        requiredFields, missing: ['password'],
+        requiredFields, missing: ['password']
       }));
+
       return;
     }
 
@@ -47,6 +56,7 @@ export default {
         generateToken(user.id, user.role, (err, token) => {
           if (err) {
             reject(err);
+
             return;
           }
 
@@ -54,8 +64,8 @@ export default {
             message: 'success',
             data: {
               token,
-              user: _.pick(user, PUBLIC_USER_FIELDS),
-            },
+              user: _.pick(user, PUBLIC_USER_FIELDS)
+            }
           });
           resolve();
         });
@@ -64,10 +74,11 @@ export default {
   },
 
   // middleware that verifies that a token is present and is legitimate.
-  verify: (req, res, next) => {
+  verify: (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.get('Authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       next(new ApplicationError('Missing Authorization header with Bearer token', 401));
+
       return;
     }
 
@@ -75,19 +86,21 @@ export default {
     jwt.verify(token, TOKEN_SECRET, (err, decoded) => {
       if (err) {
         next(new ApplicationError('Could not verify token', 401));
+
         return;
       }
 
-      res.locals.authData = decoded; // eslint-disable-line no-param-reassign
+      res.locals.authData = decoded;
       next();
     });
   },
 
   // same as verify, but just continues if not present rather than throwing an error.
-  populate: (req, res, next) => {
+  populate: (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.get('Authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       next();
+
       return;
     }
 
@@ -95,31 +108,35 @@ export default {
     jwt.verify(token, TOKEN_SECRET, (err, decoded) => {
       if (err) {
         next();
+
         return;
       }
-      res.locals.authData = decoded; // eslint-disable-line no-param-reassign
+      res.locals.authData = decoded;
       next();
     });
   },
 
-  setCredentials: (req, res, next) => {
+  setCredentials: (req: Request, res: Response, next: NextFunction) => {
     const requiredFields = ['userId', 'newPassword'];
     if (!req.params.userId) {
       next(new ApplicationError('Missing required fields', 400, {
-        requiredFields, missing: ['userId'],
+        requiredFields, missing: ['userId']
       }));
+
       return;
     }
 
     if (!req.body.password) {
       next(new ApplicationError('Missing required fields', 400, {
-        requiredFields, missing: ['newPassword'],
+        requiredFields, missing: ['newPassword']
       }));
+
       return;
     }
 
     if (isNaN(req.params.userId)) {
       next(new ApplicationError('Invalid userId', 400));
+
       return;
     }
     const userId = parseInt(req.params.userId, 10);
@@ -127,12 +144,14 @@ export default {
 
     if (userId !== tokenUserId) {
       next(new ApplicationError('Forbidden', 403));
+
       return;
     }
 
     const passwordValidationError = validatePassword(req.body.password);
     if (passwordValidationError) {
       next(new ApplicationError(passwordValidationError, 400));
+
       return;
     }
 
@@ -141,16 +160,23 @@ export default {
     ).then(() => res.sendStatus(204));
   },
 
-  assertRole: assertedRoles => (req, res, next) => {
-    if (!res.locals.authData) {
-      next(new ApplicationError('Unauthorized', 401));
-      return;
+  /**
+   * Not an endpoint in itself, but rather a middleware to enforce that the
+   * logged in user has one of the specified roles.
+   */
+  assertRole: (assertedRoles: Role | Role[]) =>
+    (req: Request, res: Response, next: NextFunction) => {
+      if (!res.locals.authData) {
+        next(new ApplicationError('Unauthorized', 401));
+
+        return;
+      }
+      const rolesToCheck = _.isArray(assertedRoles) ? assertedRoles : [assertedRoles];
+      if (!rolesToCheck.includes(res.locals.authData.role)) {
+        next(new ApplicationError('Forbidden', 403));
+
+        return;
+      }
+      next();
     }
-    const rolesToCheck = _.isArray(assertedRoles) ? assertedRoles : [assertedRoles];
-    if (!rolesToCheck.includes(res.locals.authData.role)) {
-      next(new ApplicationError('Forbidden', 403));
-      return;
-    }
-    next();
-  },
 };

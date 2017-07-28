@@ -1,14 +1,17 @@
-import db from './';
+/**
+ * Database methods related to retrieving and creating periods—that is, sessions
+ * of GYMI mentorship.
+ */
+import db from 'backend/db';
 
-function list() {
-  return new Promise((resolve, reject) => {
-    const columns = ['id', 'title'];
-    const query = 'SELECT $<columns:name> FROM periods';
-    db.manyOrNone(query, { columns }).then(resolve).catch(reject);
-  });
+async function list() {
+  const columns = ['id', 'title'];
+  const query = 'SELECT $<columns:name> FROM periods';
+
+  return await db.manyOrNone(query, { columns });
 }
 
-function create(title) {
+function create(title: string) {
   return new Promise((resolve, reject) => {
     const query = `
     INSERT INTO periods (title) VALUES ($<title>)`;
@@ -18,5 +21,5 @@ function create(title) {
 
 export default {
   list,
-  create,
+  create
 };

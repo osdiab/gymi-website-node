@@ -1,60 +1,77 @@
-import _ from 'lodash';
+/**
+ * Endpoints reltaed to accessing, creating and updating users, including their
+ * credentials.
+ */
+import {NextFunction, Request, Response} from 'express';
+import * as _ from 'lodash';
 
-import { generateToken } from './sessions';
-import usersDb, { VALID_LIST_FILTERS } from '../db/users';
-import { ApplicationError } from '../errors';
-import { hashPassword } from './crypto';
-import { validatePassword } from '../../common/passwords';
+import usersDb, { Role, VALID_LIST_FILTERS } from 'backend/db/users';
+import { ApplicationError } from 'backend/errors';
+import { generateToken } from 'backend/routes/sessions';
+import { hashPassword } from 'backend/utils/crypto';
+import { validatePassword } from 'common/passwords';
 
 const VALID_ROLES = [
   'student',
   'teacher',
-  'admin',
+  'admin'
 ];
 
 export default {
-  list: (req, res) => {
+  list: (req: Request, res: Response) => {
     const filters = req.body.filters ? _.pick(req.body.filters, VALID_LIST_FILTERS) : {};
     usersDb.list(filters).then((users) => {
       res.send({ data: users });
     });
   },
-  find: (req, res, next) => {
+  find: (req: Request, res: Response, next: NextFunction) => {
     const requiredFields = ['identifier'];
-    const values = _.pick(req.params, requiredFields);
-    if (_.size(_.omitBy(values, _.isEmpty)) < requiredFields.length) {
+    const values: {
+      identifier: string
+    } = _.pick(req.params, requiredFields);
+
+    if (_(values).omitBy(_.isEmpty).size() < requiredFields.length) {
       next(new ApplicationError('Missing required fields', 400, {
-        requiredFields,
+        requiredFields
       }));
+
       return;
     }
     usersDb.find(values.identifier).then((user) => {
       res.send({ data: user });
-    }).catch(err => next(err));
+    }).catch(next);
   },
-  create: (req, res, next) => {
+  create: (req: Request, res: Response, next: NextFunction) => {
     const requiredFields = ['username', 'password', 'name', 'role'];
-    const values = _.pick(req.body, requiredFields);
+    const values: {
+      username: string,
+      password: string,
+      name: string,
+      role: Role
+    } = _.pick(req.body, requiredFields);
     const { username, password, name, role } = values;
-    if (_.size(_.omitBy(values, _.isEmpty)) < requiredFields.length) {
+    if (_(values).omitBy(_.isEmpty).size() < requiredFields.length) {
       next(new ApplicationError('Missing required fields', 400, {
-        requiredFields,
+        requiredFields
       }));
+
       return;
     }
 
     const passwordValidationError = validatePassword(req.body.password);
     if (passwordValidationError) {
       next(new ApplicationError('Invalid password', 400, {
-        message: passwordValidationError,
+        message: passwordValidationError
       }));
+
       return;
     }
 
     if (!VALID_ROLES.includes(role)) {
       next(new ApplicationError('Invalid role', 400, {
-        validRoles: VALID_ROLES,
+        validRoles: VALID_ROLES
       }));
+
       return;
     }
 
@@ -62,6 +79,7 @@ export default {
     if (role === 'admin') {
       if (!res.locals.authData || res.locals.authData.role !== 'admin') {
         next(new ApplicationError('Unauthorized', 401));
+
         return;
       }
     }
@@ -82,5 +100,5 @@ export default {
     })
     .then(data => res.send({ data }))
     .catch(next);
-  },
+  }
 };

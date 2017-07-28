@@ -1,28 +1,31 @@
-/* eslint-disable no-console */
-// Defines an express app that runs the boilerplate codebase.
+/**
+ * Creates and runs the GYMI website app.
+ */
 
-import express from 'express';
-import forceSsl from 'express-force-ssl';
-import https from 'https';
-import http from 'http';
-import fs from 'fs';
+import * as express from 'express';
+import * as forceSsl from 'express-force-ssl';
+import * as fs from 'fs';
+import * as http from 'http';
+import * as https from 'https';
 
-import createRouter from './router';
+import config from 'backend/config';
+import createRouter from 'backend/router';
 
 const app = express();
-if (process.env.NODE_ENV === 'production') {
+if (config.production) {
   app.use(forceSsl);
 }
 app.use(createRouter());
 
-if (process.env.NODE_ENV === 'production') {
+if (config.production) {
   const sslOptions = {
-    key: fs.readFileSync(process.env.PRIVKEY_CERT_LOC),
-    cert: fs.readFileSync(process.env.FULLCHAIN_CERT_LOC),
+    key: fs.readFileSync(config.production.PRIVKEY_CERT_LOC),
+    cert: fs.readFileSync(config.production.FULLCHAIN_CERT_LOC)
   };
   http.createServer(app).listen(80);
   https.createServer(sslOptions, app).listen(443);
 } else {
   const port = 3000;
+  // tslint:disable-next-line:no-console
   http.createServer(app).listen(3000, () => console.log(`Listening on port ${port}`));
 }

@@ -1,4 +1,9 @@
-import db from './';
+/**
+ * Database methods related to retrieving and updating topics—
+ * that is, potential interests that a user can have.
+ */
+
+import db, {Id} from 'backend/db';
 
 const list = (showArchived = false) => new Promise((resolve, reject) => {
   const defaultColumns = ['id', 'title'];
@@ -8,12 +13,12 @@ const list = (showArchived = false) => new Promise((resolve, reject) => {
   db.manyOrNone(query, { columns }).then(resolve).catch(reject);
 });
 
-const destroy = id => new Promise((resolve, reject) => {
+const destroy = (id: Id) => new Promise((resolve, reject) => {
   const query = 'UPDATE topics SET archived = true WHERE id = $<id>';
   db.oneOrNone(query, { id }).then(resolve).catch(reject);
 });
 
-const create = title => new Promise((resolve, reject) => {
+const create = (title: string) => new Promise((resolve, reject) => {
   const query = `
     INSERT INTO topics (title) VALUES ($<title>)
     ON CONFLICT (title) DO UPDATE SET archived = false
@@ -24,5 +29,5 @@ const create = title => new Promise((resolve, reject) => {
 export default {
   list,
   destroy,
-  create,
+  create
 };

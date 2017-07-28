@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 import { createStore } from 'redux';
 import { Provider as ReduxProvider } from 'react-redux';

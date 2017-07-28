@@ -1,24 +1,35 @@
-import _ from 'lodash';
-import pgPromise from 'pg-promise';
+/**
+ * Database methods related to retrieving and updating submission questions—
+ * that is, the questions mentees are asked when they make a submission.
+ */
 
-import db from './';
+import * as _ from 'lodash';
+import * as pgPromise from 'pg-promise';
+
+import db, {Id} from 'backend/db';
 
 const pgpHelpers = pgPromise().helpers;
 
-const list = (filters, limit = 100) => new Promise((resolve, reject) => {
+interface IFilters {
+  after?: Date;
+  userId?: Id;
+}
+
+const list = (filters: IFilters, limit = 100) => new Promise((resolve, reject) => {
   const columns = [
     'submissions.id', 'timestamp', 'submissions."userId"', 'body AS answer', '"questionId"',
     '"submissionQuestions".title AS question', '"submissionQuestions".archived AS "questionArchived"',
     '"primaryInterestId"', 'users.name AS "userFullName"',
-    '"primaryInterestTitle"',
+    '"primaryInterestTitle"'
   ];
   const supportedFilters = ['after', 'userId'];
-  if (_.difference(_.keys(filters), supportedFilters).length !== 0) {
+  if (_(filters).keys().difference(supportedFilters).value().length !== 0) {
     reject(new Error('Unsupported filters provided'));
+
     return;
   }
   const clauses = [];
-  const additionalArgs = {};
+  const additionalArgs: IFilters = {};
   if (filters.after) {
     clauses.push('timestamp > $<after>');
     additionalArgs.after = filters.after;
@@ -53,60 +64,62 @@ const list = (filters, limit = 100) => new Promise((resolve, reject) => {
 
   db.manyOrNone(
     query, Object.assign({}, { columns, limit }, additionalArgs)
-  ).then(submissions =>
+  ).then(submissions => {
     // combine multiple rows of answers into an array of answers per submission
-    _.reverse(_.sortBy(_.values(submissions.reduce((memo, submission) => {
-      const answerFields = ['answer', 'questionId', 'question', 'questionArchived'];
-      const interestFields = ['primaryInterestId', 'primaryInterestTitle'];
-      const userFields = ['userFullName', 'userId'];
-      const answerValues = _.pick(submission, answerFields);
+    const subsWithCombinedAnswers = submissions.reduce(
+      (memo, submission) => {
+        const answerFields = ['answer', 'questionId', 'question', 'questionArchived'];
+        const interestFields = ['primaryInterestId', 'primaryInterestTitle'];
+        const userFields = ['userFullName', 'userId'];
+        const answerValues = _.pick(submission, answerFields);
 
-      if (memo[submission.id]) {
-        const newAnswers = memo[submission.id].answers.concat(answerValues);
-        const newSubmission = Object.assign({}, memo[submission.id], { answers: newAnswers });
-        return Object.assign({}, memo, { [submission.id]: newSubmission });
-      }
+        if (memo[submission.id]) {
+          const newAnswers = memo[submission.id].answers.concat(answerValues);
+          const newSubmission = Object.assign({}, memo[submission.id], { answers: newAnswers });
 
-      const newEntry = Object.assign(
-        _.omit(submission, answerFields.concat(interestFields, userFields)),
-        {
-          answers: [answerValues],
-          user: {
-            id: submission.userId,
-            name: submission.userFullName,
-            primaryInterest: {
-              id: submission.primaryInterestId,
-              title: submission.primaryInterestTitle,
-            },
-          },
+          return Object.assign({}, memo, { [submission.id]: newSubmission });
         }
-      );
-      return Object.assign({}, memo, { [submission.id]: newEntry });
-    }, {})), 'timestamp'))
+
+        const newEntry = Object.assign(
+          _.omit(submission, answerFields.concat(interestFields, userFields)),
+          {
+            answers: [answerValues],
+            user: {
+              id: submission.userId,
+              name: submission.userFullName,
+              primaryInterest: {
+                id: submission.primaryInterestId,
+                title: submission.primaryInterestTitle
+              }
+            }
+          }
+        );
+
+        return Object.assign({}, memo, { [submission.id]: newEntry });
+      },
+      {});
+
+    return _(subsWithCombinedAnswers).values().sortBy('timestamp').reverse().value();
+  }
   ).then(resolve).catch(reject);
 });
 
-const create = (userId, answers) => new Promise((resolve, reject) => {
-  for (const answer of answers) {
-    if (!answer.questionId) {
-      reject(new Error('Missing question ID'));
-      return;
-    }
-    if (!answer.body) {
-      reject(new Error('Missing answer body'));
-      return;
-    }
-  }
+interface IAnswer {
+  questionId: Id;
+  body: string;
+}
+const create = (userId: Id, answers: IAnswer[]) => new Promise((resolve, reject) => {
   const timestamp = new Date();
   const submissionsQuery =
     'INSERT INTO submissions (timestamp, "userId") VALUES ($<timestamp>, $<userId>) RETURNING id';
   db.tx(tx =>
     tx.one(submissionsQuery, { timestamp, userId }).then(({ id }) => {
       const answersCols = new pgpHelpers.ColumnSet(['submissionId', 'questionId', 'body'],
-                                                          { table: 'submissionAnswers' });
+                                                   { table: 'submissionAnswers' });
       const answersQuery = pgpHelpers.insert(
         answers.map(a => Object.assign({}, a, { submissionId: id })), answersCols
       );
+
       return tx.none(answersQuery).then(() => id);
     })
   ).then(resolve).catch(reject);
@@ -114,6 +127,5 @@ const create = (userId, answers) => new Promise((resolve, reject) => {
 
 export default {
   list,
-  create,
+  create
 };
-

@@ -1,4 +1,7 @@
-import _ from 'lodash';
+/**
+ * Common errors at the application level.
+ */
+import * as _ from 'lodash';
 
 /**
  * Represents an error that should return a particular response code, and optionally a message and
@@ -7,9 +10,14 @@ import _ from 'lodash';
  * Only statusCode is required. It must be a code between 400 to 599 inclusive.
  */
 export class ApplicationError extends Error {
-  constructor(message, statusCode, data) {
+  public statusCode: number;
+  // tslint:disable-next-line:no-any
+  public data: any;
+
+  // tslint:disable-next-line:no-any
+  constructor(message: string, statusCode: number, data?: any) {
     super(message);
-    if (_.compact([message, statusCode]).length !== 2) {
+    if (_([message, statusCode]).compact().value().length !== 2) {
       throw new Error('message and statusCode must be provided');
     }
 
