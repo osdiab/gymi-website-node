@@ -5,6 +5,28 @@
         "tslint-microsoft-contrib"
     ],
     "jsRules": {},
-    "rules": {},
+    // Policy: if you add a rule to ignore, give a reason why it is good to
+    // disable
+    "rules": {
+        // disable no-backbone-get-set-outside-model because we are not using
+        // backbone
+        "no-backbone-get-set-outside-model": [false],
+        // disable import-name because renaming imported modules can be useful,
+        // like when a db method and a set of endpoints share the same name
+        // but reside in different folders, and therefore are differently
+        // namespaced
+        "import-name": [false],
+        // disable export-name because allowing for files with individual named
+        // exports allows for greater flexibility in the future, for example in
+        // error definitions
+        "export-name": [false],
+        // disable no-default-export because default exports are not bad
+        "no-default-export": false,
+        // disable typedef because explicitly adding them all is just redundant
+        "typedef": [false],
+        // disable no-multiline-string because multiline strings can make
+        // SQL statements more readable
+        "no-multiline-string": [false]
+    },
     "rulesDirectory": []
 }
