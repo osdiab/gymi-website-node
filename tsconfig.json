@@ -8,7 +8,13 @@
         "lib": [
             "dom",
             "es2017"
-        ]
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "backend/*": ["./backend_app/*"],
+            "frontend/*": ["./frontend_app/*"],
+            "common/*": ["./common/*"]
+        }
     },
 
     "exclude": [
