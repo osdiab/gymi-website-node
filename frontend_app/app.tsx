@@ -8,7 +8,9 @@ import { addLocaleData } from 'react-intl';
 import en from 'react-intl/locale-data/en';
 import zh from 'react-intl/locale-data/zh';
 import { Provider as ReduxProvider } from 'react-redux';
-import { applyMiddleware, createStore, compose } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
+import {composeWithDevTools} from 'redux-devtools-extension';
+
 // redux-thunk allows for asynchronous actions; see ../actions/index.js for an example.
 import thunkMiddleware from 'redux-thunk';
 
@@ -21,11 +23,9 @@ export default function run() {
   const el = document.getElementById('gymi-app-container');
 
   // Grab the state from a global injected into server-generated HTML
-  const preloadedState = window.__PRELOADED_STATE__; // eslint-disable-line no-underscore-dangle
-  const store = createStore(reducers, preloadedState, compose(
-    applyMiddleware(thunkMiddleware),
-    // add dev tools as middleware; if not present, add identity fn as middleware
-    (window.devToolsExtension ? window.devToolsExtension() : _ => _)
+  const preloadedState = (window as Window & {__PRELOADED_STATE__: {}}).__PRELOADED_STATE__;
+  const store = createStore(reducers, preloadedState, composeWithDevTools(
+    applyMiddleware(thunkMiddleware)
   ));
 
   render(
