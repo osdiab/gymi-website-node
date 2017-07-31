@@ -14,12 +14,36 @@ import { ApplicationError } from 'backend/errors';
 export const PUBLIC_USER_FIELDS = ['id', 'username', 'role', 'name'];
 export const VALID_LIST_FILTERS = ['primaryInterest', 'period'];
 
+export interface IPublicUser {
+  id: Id;
+  username: string;
+  role: Role;
+  name: string;
+}
+
+export interface IFullUser extends IPublicUser {
+  passwordHash: string;
+}
+
+export function toPublicUser(user: IFullUser): IPublicUser {
+  return _.pick(user, PUBLIC_USER_FIELDS);
+}
+
 // Types of roles a user can have.
-export type Role = 'student' | 'teacher' | 'admin';
+export enum Role {
+  student = 'student',
+  teacher = 'teacher',
+  admin = 'admin'
+}
+
+// Types of roles, expressed as an array of strings
+export const VALID_ROLES = Object.keys(Role).map((k: keyof typeof Role) => Role[k]);
 
 // flexible find function—can search for id or username.
 // Returns one entry, or null.
-async function find(identifier: (Id | string), getPasswordHash = false) {
+async function find(identifier: (Id | string), getPasswordHash: true): Promise<IFullUser>;
+async function find(identifier: (Id | string), getPasswordHash: false): Promise<IPublicUser>;
+async function find(identifier: (Id | string), getPasswordHash: boolean) {
   const columns = getPasswordHash ? PUBLIC_USER_FIELDS.concat('passwordHash') :
     PUBLIC_USER_FIELDS;
   const normalizedUsername = typeof identifier === 'number' ? identifier : identifier.toLowerCase();
@@ -53,7 +77,7 @@ export default {
       throw new ApplicationError('Username cannot be a number', 400);
     }
 
-    const existingUser = await find(username);
+    const existingUser = await find(username, false);
     if (existingUser) {
       throw new ApplicationError('User already exists', 400);
     }

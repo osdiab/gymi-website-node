@@ -8,6 +8,7 @@ import * as express from 'express';
 import * as requestLanguage from 'express-request-language';
 import * as path from 'path';
 
+import { Role } from 'backend/db/users';
 import { ApplicationError } from 'backend/errors';
 import emails from 'backend/routes/emails';
 import interests from 'backend/routes/interests';
@@ -94,14 +95,14 @@ export default function createRouter() {
    * topics endpoints
    */
   router.get('/api/topics', sessions.verify, topics.list);
-  router.post('/api/topics', sessions.verify, sessions.assertRole('admin'), topics.create);
-  router.delete('/api/topics', sessions.verify, sessions.assertRole('admin'), topics.destroy);
+  router.post('/api/topics', sessions.verify, sessions.assertRole(Role.admin), topics.create);
+  router.delete('/api/topics', sessions.verify, sessions.assertRole(Role.admin), topics.destroy);
 
   /*
    * periods endpoints
    */
   router.get('/api/periods', sessions.verify, periods.list);
-  router.post('/api/periods', sessions.verify, sessions.assertRole('admin'), periods.create);
+  router.post('/api/periods', sessions.verify, sessions.assertRole(Role.admin), periods.create);
 
   /*
    * submission questions endpoints
@@ -110,11 +111,11 @@ export default function createRouter() {
     '/api/submissionQuestions', sessions.verify, submissionQuestions.list
   );
   router.post(
-    '/api/submissionQuestions', sessions.verify, sessions.assertRole('admin'),
+    '/api/submissionQuestions', sessions.verify, sessions.assertRole(Role.admin),
     submissionQuestions.create
   );
   router.delete(
-    '/api/submissionQuestions', sessions.verify, sessions.assertRole('admin'),
+    '/api/submissionQuestions', sessions.verify, sessions.assertRole(Role.admin),
     submissionQuestions.destroy
   );
 

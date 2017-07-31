@@ -1,25 +1,27 @@
 /**
  * Handlers for methods related to sessions, i.e. records of logging in and out.
  */
+import {fromCallback} from 'bluebird';
 import * as jwt from 'jsonwebtoken';
 import * as _ from 'lodash';
 
 import {NextFunction, Request, Response} from 'express';
 
 import {Id} from 'backend/db';
-import usersDb, { PUBLIC_USER_FIELDS, Role } from 'backend/db/users';
+import usersDb, { PUBLIC_USER_FIELDS, Role, toPublicUser } from 'backend/db/users';
 import { ApplicationError } from 'backend/errors';
 import { comparePassword, hashPassword } from 'backend/utils/crypto';
 import { validatePassword } from 'common/passwords';
 
 // tslint:disable-next-line
 const TOKEN_SECRET = 'super secret'; // TODO: make this an env variable
-export function generateToken(id: Id, role: Role, cb: jwt.SignCallback) {
-  return jwt.sign({ id, role }, TOKEN_SECRET, { expiresIn: '7 days' }, cb);
+export async function generateToken(id: Id, role: Role) {
+  return await fromCallback((cb) =>
+    jwt.sign({ id, role }, TOKEN_SECRET, { expiresIn: '7 days' }, cb));
 }
 
 export default {
-  authenticate: (req: Request, res: Response, next: NextFunction) => {
+  authenticate: async (req: Request, res: Response, next: NextFunction) => {
     const requiredFields = ['username', 'password'];
     const userIdentifier = req.body.username;
     if (!userIdentifier) {
@@ -39,38 +41,23 @@ export default {
 
     // Security note: from this point on, do not reveal whether the user exists or a password is
     // incorrect.
-    usersDb.find(userIdentifier, true).then((user) => {
+    const user = await usersDb.find(userIdentifier, true);
+    if (!user) {
       // user does not exist
-      if (!user) {
-        return Promise.reject(new ApplicationError('Invalid credentials', 401));
-      }
+      throw new ApplicationError('Invalid credentials', 401);
+    }
 
-      return Promise.all([user, comparePassword(req.body.password, user.passwordHash)]);
-    }).then(([user, passwordMatches]) => {
-      // password is wrong
-      if (!passwordMatches) {
-        return Promise.reject(new ApplicationError('Invalid credentials', 401));
-      }
+    const passwordMatches = await comparePassword(req.body.password, user.passwordHash);
+    // password is wrong
+    if (!passwordMatches) {
+      throw new ApplicationError('Invalid credentials', 401);
+    }
 
-      return new Promise((resolve, reject) => {
-        generateToken(user.id, user.role, (err, token) => {
-          if (err) {
-            reject(err);
-
-            return;
-          }
-
-          res.send({
-            message: 'success',
-            data: {
-              token,
-              user: _.pick(user, PUBLIC_USER_FIELDS)
-            }
-          });
-          resolve();
-        });
-      });
-    }).catch(next);
+    const token = await generateToken(user.id, user.role);
+    res.send({
+      message: 'success',
+      data: { token, user: toPublicUser(user) }
+    });
   },
 
   // middleware that verifies that a token is present and is legitimate.

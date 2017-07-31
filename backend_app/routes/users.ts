@@ -5,17 +5,11 @@
 import {NextFunction, Request, Response} from 'express';
 import * as _ from 'lodash';
 
-import usersDb, { Role, VALID_LIST_FILTERS } from 'backend/db/users';
+import usersDb, { Role, VALID_LIST_FILTERS, VALID_ROLES } from 'backend/db/users';
 import { ApplicationError } from 'backend/errors';
 import { generateToken } from 'backend/routes/sessions';
 import { hashPassword } from 'backend/utils/crypto';
 import { validatePassword } from 'common/passwords';
-
-const VALID_ROLES = [
-  'student',
-  'teacher',
-  'admin'
-];
 
 export default {
   list: (req: Request, res: Response) => {
@@ -37,7 +31,7 @@ export default {
 
       return;
     }
-    usersDb.find(values.identifier).then((user) => {
+    usersDb.find(values.identifier, false).then((user) => {
       res.send({ data: user });
     }).catch(next);
   },
@@ -67,7 +61,7 @@ export default {
       return;
     }
 
-    if (!VALID_ROLES.includes(role)) {
+    if (!(role in Role)) {
       next(new ApplicationError('Invalid role', 400, {
         validRoles: VALID_ROLES
       }));
@@ -76,8 +70,8 @@ export default {
     }
 
     // Only admins can create non-admin accounts
-    if (role === 'admin') {
-      if (!res.locals.authData || res.locals.authData.role !== 'admin') {
+    if (role === Role.admin) {
+      if (!res.locals.authData || res.locals.authData.role !== Role.admin) {
         next(new ApplicationError('Unauthorized', 401));
 
         return;
@@ -85,7 +79,7 @@ export default {
     }
 
     hashPassword(password).then(hash => usersDb.create(username, hash, name, role))
-    .then((id) => {
+    .then(async (id) => {
       const user = { id, username, name, role };
 
       // if user is already logged in, they are making an account on someone else's behalf - don't
@@ -94,9 +88,9 @@ export default {
         return { user };
       }
 
-      return new Promise((resolve, reject) =>
-        generateToken(id, role, (err, token) => (err ? reject(err) : resolve({ user, token })))
-      );
+      const token = await generateToken(id, role);
+
+      return {user, token};
     })
     .then(data => res.send({ data }))
     .catch(next);
