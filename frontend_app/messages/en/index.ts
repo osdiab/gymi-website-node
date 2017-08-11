@@ -1,17 +1,20 @@
-import HomePage from './HomePage';
-import AboutUsPage from './AboutUsPage';
-import TimelinePage from './TimelinePage';
-import JoinUsPage from './JoinUsPage';
-import ContactUsPage from './ContactUsPage';
-import SiteNavigation from './SiteNavigation';
-import LeadershipTeamSection from './LeadershipTeamSection';
-import seasons from './seasons';
-import sessions from './sessions';
-import periods from './periods';
-import errors from './errors';
-import dreamProject from './dreamProject';
-import NotFoundPage from './NotFoundPage';
-import common from './common';
+/**
+ * All the messages in the frontend app, in english.
+ */
+import AboutUsPage from 'frontend/messages/en/AboutUsPage';
+import common from 'frontend/messages/en/common';
+import ContactUsPage from 'frontend/messages/en/ContactUsPage';
+import dreamProject from 'frontend/messages/en/dreamProject';
+import errors from 'frontend/messages/en/errors';
+import HomePage from 'frontend/messages/en/HomePage';
+import JoinUsPage from 'frontend/messages/en/JoinUsPage';
+import LeadershipTeamSection from 'frontend/messages/en/LeadershipTeamSection';
+import NotFoundPage from 'frontend/messages/en/NotFoundPage';
+import periods from 'frontend/messages/en/periods';
+import seasons from 'frontend/messages/en/seasons';
+import sessions from 'frontend/messages/en/sessions';
+import SiteNavigation from 'frontend/messages/en/SiteNavigation';
+import TimelinePage from 'frontend/messages/en/TimelinePage';
 
 export default [
   ...HomePage,
@@ -27,5 +30,5 @@ export default [
   ...errors,
   ...dreamProject,
   ...NotFoundPage,
-  ...common,
+  ...common
 ];

@@ -1,35 +1,38 @@
+/**
+ * Messages related to the formatting of seasons
+ */
+// NOTE: unsure if there is a better way to do this
 export default [
   {
     id: 'seasons.summer',
-    defaultMessage: '暑期',
+    defaultMessage: '暑期'
   },
   {
     id: 'seasons.winter',
-    defaultMessage: '冬季',
+    defaultMessage: '冬季'
   },
   {
     id: 'seasons.fall',
-    defaultMessage: '秋季',
+    defaultMessage: '秋季'
   },
   {
     id: 'seasons.spring',
-    defaultMessage: '春季',
+    defaultMessage: '春季'
   },
   {
     id: 'seasons.seasonalDate.summer',
-    defaultMessage: '{year}暑期',
+    defaultMessage: '{year}暑期'
   },
   {
     id: 'seasons.seasonalDate.winter',
-    defaultMessage: '{year}冬季',
+    defaultMessage: '{year}冬季'
   },
   {
     id: 'seasons.seasonalDate.fall',
-    defaultMessage: '{year}秋季',
+    defaultMessage: '{year}秋季'
   },
   {
     id: 'seasons.seasonalDate.spring',
-    defaultMessage: '{year}春季',
-  },
+    defaultMessage: '{year}春季'
+  }
 ];
-

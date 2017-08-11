@@ -1,18 +1,21 @@
+/**
+ * Messages related to new submissions for the dream project app
+ */
 export default [
   {
     id: 'dreamProject.newSubmission.inputPlaceholder',
-    defaultMessage: 'Type your response here...',
+    defaultMessage: 'Type your response here...'
   },
   {
     id: 'dreamProject.newSubmission.submissionForDate',
-    defaultMessage: 'Submission for {date}',
+    defaultMessage: 'Submission for {date}'
   },
   {
     id: 'dreamProject.newSubmission.submit',
-    defaultMessage: 'Submit',
+    defaultMessage: 'Submit'
   },
   {
     id: 'dreamProject.newSubmission.submitted',
-    defaultMessage: 'Submitted',
-  },
+    defaultMessage: 'Submitted'
+  }
 ];

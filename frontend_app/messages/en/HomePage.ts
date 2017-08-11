@@ -1,63 +1,65 @@
-/* eslint-disable max-len */
+/**
+ * Messages in homepage
+ */
 
 export default [
   {
     id: 'HomePage.splash.title',
-    defaultMessage: 'Join us on the journey of mentoring awesome kids.',
+    defaultMessage: 'Join us on the journey of mentoring awesome kids.'
   },
   {
     id: 'HomePage.splash.body',
     defaultMessage: 'Each summer, Global Youth Mentorship Initiative (GYMI) holds summer ' +
       'sessions that help underprivileged students gain access to mentorship and educational ' +
-      'resources.',
+      'resources.'
   },
   {
     id: 'HomePage.about.title',
-    defaultMessage: 'We are GYMI.',
+    defaultMessage: 'We are GYMI.'
   },
   {
     id: 'HomePage.about.body',
     defaultMessage: 'We are mentors from all over the world, dedicated with one purpose: to ' +
       'bring inspiration and passion for learning to those who are less privileged and help them ' +
-      'expand their borders.',
+      'expand their borders.'
   },
   {
     id: 'HomePage.about.aboutButton',
-    defaultMessage: 'About Us',
+    defaultMessage: 'About Us'
   },
   {
     id: 'HomePage.quote.body',
     defaultMessage: '"Education is only the most fully conscious of the channels whereby each ' +
-      'generation influences the next."',
+      'generation influences the next."'
   },
   {
     id: 'HomePage.quote.author',
-    defaultMessage: '―C.S. Lewis',
+    defaultMessage: '―C.S. Lewis'
   },
   {
     id: 'HomePage.whatWeDo.title',
-    defaultMessage: 'What we do',
+    defaultMessage: 'What we do'
   },
   {
     id: 'HomePage.whatWeDo.body',
     defaultMessage: 'Our trained mentors spearhead summer sessions focused on arts and ' +
       'technology in a one-to-one or small group setting, and follow up with their students for ' +
-      'at least a year online.',
+      'at least a year online.'
   },
   {
     id: 'HomePage.whyWeDoThis.title',
-    defaultMessage: 'Why do we do this?',
+    defaultMessage: 'Why do we do this?'
   },
   {
     id: 'HomePage.whyWeDoThis.body',
     defaultMessage: 'Many students around the world do not have access to resources outside of ' +
       'the basic academic curriculum even though they are enthusiastic about learning more. ' +
       'GYMI tries to address this type of educational inequality by mobilizing talented and ' +
-      'passionate undergraduates.',
+      'passionate undergraduates.'
   },
   {
     id: 'HomePage.latestNews.title',
-    defaultMessage: 'Latest News',
+    defaultMessage: 'Latest News'
   },
   {
     id: 'HomePage.latestNews.body',
@@ -80,47 +82,47 @@ export default [
 
       '<p>Ultimately, not only does this setup help the mentees achieve a personal dream, but ' +
       'also, the mentors are able to recognize thier own potential as future leaders or great ' +
-      'teachers.</p>',
+      'teachers.</p>'
   },
   {
     id: 'HomePage.latestNews.timelineButton',
-    defaultMessage: 'View Timeline',
+    defaultMessage: 'View Timeline'
   },
   {
     id: 'HomePage.donate.title',
-    defaultMessage: 'GYMI + A Karma World',
+    defaultMessage: 'GYMI + A Karma World'
   },
   {
     id: 'HomePage.donate.body',
-    defaultMessage: 'Like our cause? Donate please!',
+    defaultMessage: 'Like our cause? Donate please!'
   },
   {
     id: 'HomePage.donate.learnMoreButton',
-    defaultMessage: 'Learn More',
+    defaultMessage: 'Learn More'
   },
   {
     id: 'HomePage.joinUs.title',
-    defaultMessage: 'Join Us',
+    defaultMessage: 'Join Us'
   },
   {
     id: 'HomePage.joinUs.body',
     defaultMessage: 'Like our cause? There are many ways for you to help! Join our team of ' +
-      'fantastic volunteers, donate to our program, or help us spread the word about GYMI!',
+      'fantastic volunteers, donate to our program, or help us spread the word about GYMI!'
   },
   {
     id: 'HomePage.joinUs.becomeMentorButton',
-    defaultMessage: 'Become a Mentor',
+    defaultMessage: 'Become a Mentor'
   },
   {
     id: 'HomePage.joinUs.donate',
-    defaultMessage: 'Donate',
+    defaultMessage: 'Donate'
   },
   {
     id: 'HomePage.joinUs.viewProjectProgress',
-    defaultMessage: 'View Current Projects',
+    defaultMessage: 'View Current Projects'
   },
   {
     id: 'HomePage.joinUs.followUsButton',
-    defaultMessage: 'Follow Us',
-  },
+    defaultMessage: 'Follow Us'
+  }
 ];

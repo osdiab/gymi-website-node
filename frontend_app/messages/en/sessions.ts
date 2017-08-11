@@ -1,32 +1,34 @@
-/* eslint-disable max-len */
+/**
+ * Messages related to sessions, i.e. logging in
+ */
 
 export default [
   {
     id: 'sessions.username',
-    defaultMessage: 'Username',
+    defaultMessage: 'Username'
   },
   {
     id: 'sessions.password',
-    defaultMessage: 'Password',
+    defaultMessage: 'Password'
   },
   {
     id: 'sessions.name',
-    defaultMessage: 'Your name',
+    defaultMessage: 'Your name'
   },
   {
     id: 'sessions.rememberMe',
-    defaultMessage: 'Remember Me',
+    defaultMessage: 'Remember Me'
   },
   {
     id: 'sessions.signUp',
-    defaultMessage: 'Sign Up',
+    defaultMessage: 'Sign Up'
   },
   {
     id: 'sessions.logIn',
-    defaultMessage: 'Log In',
+    defaultMessage: 'Log In'
   },
   {
     id: 'sessions.logOut',
-    defaultMessage: 'Log Out',
-  },
+    defaultMessage: 'Log Out'
+  }
 ];

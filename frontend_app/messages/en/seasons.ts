@@ -1,35 +1,38 @@
+/**
+ * Messages related to the formatting of seasons
+ */
 // NOTE: unsure if there is a better way to do this
 export default [
   {
     id: 'seasons.summer',
-    defaultMessage: 'Summer',
+    defaultMessage: 'Summer'
   },
   {
     id: 'seasons.winter',
-    defaultMessage: 'Winter',
+    defaultMessage: 'Winter'
   },
   {
     id: 'seasons.fall',
-    defaultMessage: 'Fall',
+    defaultMessage: 'Fall'
   },
   {
     id: 'seasons.spring',
-    defaultMessage: 'Spring',
+    defaultMessage: 'Spring'
   },
   {
     id: 'seasons.seasonalDate.summer',
-    defaultMessage: 'Summer {year}',
+    defaultMessage: 'Summer {year}'
   },
   {
     id: 'seasons.seasonalDate.winter',
-    defaultMessage: 'Winter {year}',
+    defaultMessage: 'Winter {year}'
   },
   {
     id: 'seasons.seasonalDate.fall',
-    defaultMessage: 'Fall {year}',
+    defaultMessage: 'Fall {year}'
   },
   {
     id: 'seasons.seasonalDate.spring',
-    defaultMessage: 'Spring {year}',
-  },
+    defaultMessage: 'Spring {year}'
+  }
 ];

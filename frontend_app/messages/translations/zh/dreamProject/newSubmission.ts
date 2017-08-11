@@ -1,18 +1,21 @@
+/**
+ * Messages related to new submissions for the dream project app
+ */
 export default [
   {
     id: 'dreamProject.newSubmission.inputPlaceholder',
-    defaultMessage: '请在此输入你的回答',
+    defaultMessage: '请在此输入你的回答'
   },
   {
     id: 'dreamProject.newSubmission.submissionForDate',
-    defaultMessage: '{date}提交的信息',
+    defaultMessage: '{date}提交的信息'
   },
   {
     id: 'dreamProject.newSubmission.submit',
-    defaultMessage: '提交',
+    defaultMessage: '提交'
   },
   {
     id: 'dreamProject.newSubmission.submitted',
-    defaultMessage: '已提交',
-  },
+    defaultMessage: '已提交'
+  }
 ];

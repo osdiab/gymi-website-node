@@ -1,26 +1,29 @@
+/**
+ * Messages related to the global site navigation view
+ */
 export default [
   {
     id: 'SiteNavigation.home',
-    defaultMessage: 'Home',
+    defaultMessage: 'Home'
   },
   {
     id: 'SiteNavigation.aboutUs',
-    defaultMessage: 'About Us',
+    defaultMessage: 'About Us'
   },
   {
     id: 'SiteNavigation.timeline',
-    defaultMessage: 'Timeline',
+    defaultMessage: 'Timeline'
   },
   {
     id: 'SiteNavigation.joinUs',
-    defaultMessage: 'Join Us',
+    defaultMessage: 'Join Us'
   },
   {
     id: 'SiteNavigation.contactUs',
-    defaultMessage: 'Contact Us',
+    defaultMessage: 'Contact Us'
   },
   {
     id: 'SiteNavigation.dreamProject',
-    defaultMessage: 'Dream Project',
-  },
+    defaultMessage: 'Dream Project'
+  }
 ];

@@ -1,14 +1,17 @@
+/**
+ * Messages in the 404 page
+ */
 export default [
   {
     id: 'NotFoundPage.uhOh',
-    defaultMessage: 'Uh Oh!',
+    defaultMessage: 'Uh Oh!'
   },
   {
     id: 'NotFoundPage.pageNonexistent',
-    defaultMessage: 'This page does not exist.',
+    defaultMessage: 'This page does not exist.'
   },
   {
     id: 'NotFoundPage.returnHome',
-    defaultMessage: 'Return home',
-  },
+    defaultMessage: 'Return home'
+  }
 ];

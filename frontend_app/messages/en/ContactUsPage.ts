@@ -1,62 +1,65 @@
+/**
+ * Messages in contact us page
+ */
 export default [
   {
     id: 'ContactUsPage.splash.title',
-    defaultMessage: 'Contact Us',
+    defaultMessage: 'Contact Us'
   },
   {
     id: 'ContactUsPage.address.title',
-    defaultMessage: 'Columbia University GYMI Leadership Team',
+    defaultMessage: 'Columbia University GYMI Leadership Team'
   },
   {
     id: 'ContactUsPage.address.firstLine',
-    defaultMessage: '116th St & Broadway',
+    defaultMessage: '116th St & Broadway'
   },
   {
     id: 'ContactUsPage.address.secondLine',
-    defaultMessage: 'New York, NY 10027, United States',
+    defaultMessage: 'New York, NY 10027, United States'
   },
   {
     id: 'ContactUsPage.emails.general',
-    defaultMessage: 'General',
+    defaultMessage: 'General'
   },
   {
     id: 'ContactUsPage.emails.press',
-    defaultMessage: 'Press/Sponsor',
+    defaultMessage: 'Press/Sponsor'
   },
   {
     id: 'ContactUsPage.contactForm.title',
-    defaultMessage: 'Contact Form',
+    defaultMessage: 'Contact Form'
   },
   {
     id: 'ContactUsPage.contactForm.name',
-    defaultMessage: 'Name',
+    defaultMessage: 'Name'
   },
   {
     id: 'ContactUsPage.contactForm.email',
-    defaultMessage: 'Email',
+    defaultMessage: 'Email'
   },
   {
     id: 'ContactUsPage.contactForm.occasion',
-    defaultMessage: 'Occasion',
+    defaultMessage: 'Occasion'
   },
   {
     id: 'ContactUsPage.contactForm.generalInquiries',
-    defaultMessage: 'General Inquiries',
+    defaultMessage: 'General Inquiries'
   },
   {
     id: 'ContactUsPage.contactForm.pressInformation',
-    defaultMessage: 'Press Information',
+    defaultMessage: 'Press Information'
   },
   {
     id: 'ContactUsPage.contactForm.message',
-    defaultMessage: 'Message',
+    defaultMessage: 'Message'
   },
   {
     id: 'ContactUsPage.contactForm.send',
-    defaultMessage: 'Send',
+    defaultMessage: 'Send'
   },
   {
     id: 'ContactUsPage.contactForm.sent',
-    defaultMessage: 'Sent!',
-  },
+    defaultMessage: 'Sent!'
+  }
 ];

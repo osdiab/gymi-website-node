@@ -1,4 +1,7 @@
-/* eslint-disable max-len */
+// tslint:disable:max-line-length
+/**
+ * Messages related to the summer 2016 period
+ */
 
 export default [
   {
@@ -13,14 +16,14 @@ export default [
   },
   {
     id: 'periods.summer2016.sections.1',
-    defaultMessage: 'Students create their unique Arduino robots and design them using their own imaginations.',
+    defaultMessage: 'Students create their unique Arduino robots and design them using their own imaginations.'
   },
   {
     id: 'periods.summer2016.sections.2',
-    defaultMessage: 'GYMI invited a professional break dance teacher to give students a chance to express themselves using body language and to free themselves from societal constrains through dancing.',
+    defaultMessage: 'GYMI invited a professional break dance teacher to give students a chance to express themselves using body language and to free themselves from societal constrains through dancing.'
   },
   {
     id: 'periods.summer2016.sections.3',
-    defaultMessage: 'During PE class, students bonded through group activities and learn to work in groups.',
-  },
+    defaultMessage: 'During PE class, students bonded through group activities and learn to work in groups.'
+  }
 ];

@@ -1,18 +1,21 @@
+/**
+ * Messages related to passwords
+ */
 export default [
   {
     id: 'errors.password.missing',
-    defaultMessage: 'Please enter your password.',
+    defaultMessage: 'Please enter your password.'
   },
   {
     id: 'errors.password.tooShort',
-    defaultMessage: 'Too short',
+    defaultMessage: 'Too short'
   },
   {
     id: 'errors.password.tooLong',
-    defaultMessage: 'Too long',
+    defaultMessage: 'Too long'
   },
   {
     id: 'errors.password.hasBadCharacters',
-    defaultMessage: 'Only English letters, numbers, symbols allowed',
-  },
+    defaultMessage: 'Only English letters, numbers, symbols allowed'
+  }
 ];
