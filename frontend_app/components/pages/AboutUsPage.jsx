@@ -126,10 +126,16 @@ function AboutUsPage({ intl }) {
                 logo: '/media/page_assets/about_us/collaborator_logos/pci.jpg',
                 id: 'pandeagleCulturalInstitute',
               },
+              {
+                name: 'Global Young Voices',
+                logo: '/media/page_assets/about_us/collaborator_logos/global_young_voices.png',
+                id: 'globalYoungVoices',
+              },
             ].map(({ name, logo, id }) => (
               <div key={id} className="AboutUsPage--orgProfile">
                 <div className="AboutUsPage--orgProfile--column">
                   <img
+                    className="AboutUsPage--orgProfile--logo"
                     alt={`${name} logo`}
                     src={logo}
                   />
