@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, FormattedDate, intlShape, injectIntl } from 'react-intl';
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 import LoadingSpinner from '../../LoadingSpinner';
 import Submissions, { submissionType } from './Submissions';

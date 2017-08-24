@@ -25,9 +25,9 @@ module.exports = [
       extensions: ['', '.js', '.jsx', '.ts', '.tsx'],
     },
     alias: {
-      backend: path.join("__dirname", "backend_app"),
-      frontend: path.join("__dirname", "frontend_app"),
-      common: path.join("__dirname", "common"),
+      backend: path.join(__dirname, "backend_app"),
+      frontend: path.join(__dirname, "frontend_app"),
+      common: path.join(__dirname, "common"),
     },
     module: {
       devtool: 'eval-source-map',

@@ -1,5 +1,31 @@
+/**
+ * Defines all actions the store can handle
+ */
+import * as moment from 'moment';
 import { browserHistory } from 'react-router';
-import moment from 'moment';
+import {Dispatch} from 'redux';
+
+import {Id} from 'common/entities';
+import {SupportedLocaleCode} from 'common/languages';
+import {Role} from 'common/roles';
+import {SubmissionQuestion} from 'common/submissionQuestions';
+import {Submission} from 'common/submissions';
+import {User} from 'common/users';
+import {IState} from 'frontend/reducers';
+
+import {IProps as ILogInModalProps} from 'frontend/components/LogInModal';
+
+import {Action as InterestsAction} from 'frontend/reducers/interests';
+import {Action as LanguageAction} from 'frontend/reducers/language';
+import {Action as ModalAction, ModalData} from 'frontend/reducers/modal';
+import {Action as PeriodsAction} from 'frontend/reducers/periods';
+import {Action as SessionAction} from 'frontend/reducers/session';
+import {
+  Action as SubmissionQuestionsAction
+} from 'frontend/reducers/submissionQuestions';
+import {Action as SubmissionsAction} from 'frontend/reducers/submissions';
+import {Action as TopicsAction} from 'frontend/reducers/topics';
+import {Action as UsersAction} from 'frontend/reducers/users';
 
 // Actions define what events can cause application state to change. How the application state
 // actually changes is defined by each reducer in the Redux store (see the store/ directory).
@@ -7,47 +33,54 @@ import moment from 'moment';
 // Synchronous actions are just Javascript objects that contain a `type` and other metadata. The
 // `type` allows the `store` to distinguish what action is occurring, and, if present, the Redux
 // reducers can use the metadata in other fields to modify the state properly.
-export function setCurrentLanguage(localeCode) {
+export function setCurrentLanguage(localeCode: SupportedLocaleCode): LanguageAction {
   return { type: 'SET_CURRENT_LANGUAGE', localeCode };
 }
 
-export const logInRequest = { type: 'LOGIN_REQUEST' };
-export function logInSuccess(token, user, remember) {
+export function logInRequest(): SessionAction {
+  return { type: 'LOGIN_REQUEST' };
+}
+export function logInSuccess(
+  token: string, user: User, remember: boolean
+): SessionAction {
   return { type: 'LOGIN_SUCCESS', token, user, remember };
 }
-export function logInFailure(errMessage) {
+export function logInFailure(errMessage: string): SessionAction {
   return { type: 'LOGIN_FAILURE', errMessage };
 }
-export function showModal(modalId, props = {}) {
-  return { type: 'SHOW_MODAL', modalId, props };
+export function showModal(modalData: ModalData): ModalAction {
+  return { type: 'SHOW_MODAL', modalData};
 }
-export function hideModal() {
+
+export function hideModal(): ModalAction {
   return { type: 'HIDE_MODAL' };
 }
-export function logOut() {
+export function logOut(): SessionAction {
   browserHistory.push('/');
+
   return { type: 'LOGOUT' };
 }
 
 // Asynchronous actions depend on redux-thunk to function correctly.  Asynchronous actions are
 // functions that can dispatch synchronous actions as they please. Hence, this function receives
 // `dispatch` as a parameter.
-export function logIn(username, password, remember) {
-  return (dispatch) => {
-    dispatch(logInRequest);
+export function logIn(username: string, password: string, remember: boolean) {
+  return (dispatch: Dispatch<IState>) => {
+    dispatch(logInRequest());
     fetch('/api/sessions', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, password })
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
       if (response.status >= 200 && response.status <= 299) {
         dispatch(logInSuccess(responseData.data.token, responseData.data.user, remember));
         dispatch(hideModal());
         browserHistory.push('/dreamProject');
+
         return;
       }
       let errMessage;
@@ -73,28 +106,35 @@ export function loadOtherSubmissionsRequest() {
   return { type: 'OTHER_SUBMISSIONS_REQUEST' };
 }
 
-export function loadOtherSubmissionsFailure(err) {
+export function loadOtherSubmissionsFailure(err: Error) {
   return { type: 'OTHER_SUBMISSIONS_FAILURE', err };
 }
 
-export function loadOtherSubmissionsSuccess(submissions) {
+export function loadOtherSubmissionsSuccess(submissions: Submission[]) {
   return { type: 'OTHER_SUBMISSIONS_SUCCESS', submissions };
 }
 
-export function loadOtherSubmissions(userId, token) {
-  return (dispatch) => {
+export function loadOtherSubmissions(userId: Id, token: string) {
+  return (dispatch: Dispatch<IState>) => {
     dispatch(loadOtherSubmissionsRequest());
     const after = moment().subtract(1, 'month').toISOString();
+
     return fetch(`/api/submissions?after=${encodeURIComponent(after)}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
       if (response.status >= 200 && response.status <= 299) {
+        const retrievedSubmissions: Submission[] = responseData.data;
+        // convert string timestamps to actual date objects
         dispatch(loadOtherSubmissionsSuccess(
-          responseData.data.map(s => Object.assign({}, s, { timestamp: new Date(s.timestamp) }))
+          retrievedSubmissions.map(s => ({
+            ...s,
+            timestamp: new Date(s.timestamp)
+          }))
         ));
+
         return;
       }
       let errMessage;
@@ -133,12 +173,12 @@ export function loadOwnSubmissionsSuccess(submissions) {
 }
 
 export function loadOwnSubmissions(userId, token) {
-  return (dispatch) => {
+  return (dispatch: Dispatch<IState>) => {
     dispatch(loadOwnSubmissionsRequest());
     return fetch(`/api/users/${userId}/submissions`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
       if (response.status >= 200 && response.status <= 299) {
@@ -183,12 +223,13 @@ export function loadOwnInterestsSuccess(otherInterests, primaryInterest) {
 }
 
 export function loadOwnInterests(userId, token) {
-  return (dispatch) => {
+  return (dispatch: Dispatch<IState>) => {
     dispatch(loadOwnInterestsRequest());
+
     return fetch(`/api/users/${userId}/interests`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
       if (response.status >= 200 && response.status <= 299) {
@@ -233,18 +274,18 @@ export function createSubmissionSuccess() {
 }
 
 export function createSubmission(userId, token, answers) {
-  return (dispatch) => {
+  return (dispatch: Dispatch<IState>) => {
     dispatch(createSubmissionRequest());
     return fetch(`/api/users/${userId}/submissions`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
-        answers,
-      }),
+        answers
+      })
     }).then((response) => {
       if (response.status === 201) {
         dispatch(createSubmissionSuccess());
@@ -288,12 +329,12 @@ export function loadSubmissionQuestionsSuccess(questions) {
 }
 
 export function loadSubmissionQuestions(userId, token) {
-  return (dispatch) => {
+  return (dispatch: Dispatch<IState>) => {
     dispatch(loadSubmissionQuestionsRequest());
     return fetch('/api/submissionQuestions', {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
       if (response.status >= 200 && response.status <= 299) {
@@ -335,12 +376,12 @@ export function loadPeriodsSuccess(periods) {
 }
 
 export function loadPeriods(token) {
-  return (dispatch) => {
+  return (dispatch: Dispatch<IState>) => {
     dispatch(loadPeriodsRequest());
     return fetch('/api/periods', {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
       if (response.status >= 200 && response.status <= 299) {
@@ -382,12 +423,12 @@ export function loadTopicsSuccess(topics) {
 }
 
 export function loadTopics(token) {
-  return (dispatch) => {
+  return (dispatch: Dispatch<IState>) => {
     dispatch(loadTopicsRequest());
     return fetch('/api/topics', {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
       if (response.status >= 200 && response.status <= 299) {
@@ -429,19 +470,19 @@ export function addInterestSuccess() {
 }
 
 export function addInterest(userId, token, topicId, primary = false) {
-  return (dispatch) => {
+  return (dispatch: Dispatch<IState>) => {
     dispatch(addInterestRequest());
     return fetch(`/api/users/${userId}/interests`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
         topicId,
-        primary,
-      }),
+        primary
+      })
     }).then((response) => {
       if (response.status >= 200 && response.status <= 299) {
         dispatch(addInterestSuccess());
@@ -484,19 +525,19 @@ export function removeInterestSuccess() {
 }
 
 export function removeInterest(userId, token, topicId, primary = false) {
-  return (dispatch) => {
+  return (dispatch: Dispatch<IState>) => {
     dispatch(removeInterestRequest());
     return fetch(`/api/users/${userId}/interests`, {
       method: 'DELETE',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
         topicId,
-        primary,
-      }),
+        primary
+      })
     }).then((response) => {
       if (response.status >= 200 && response.status <= 299) {
         dispatch(removeInterestSuccess());
@@ -539,21 +580,22 @@ export function changePasswordSuccess() {
 }
 
 export function changePassword(userId, token, newPassword) {
-  return (dispatch) => {
+  return (dispatch: Dispatch<IState>) => {
     dispatch(changePasswordRequest());
     return fetch(`/api/users/${userId}/credentials`, {
       method: 'PATCH',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
-        newPassword,
-      }),
+        newPassword
+      })
     }).then((response) => {
       if (response.status >= 200 && response.status <= 299) {
         dispatch(changePasswordSuccess());
+
         return;
       }
 
@@ -591,12 +633,18 @@ export function signUpUserSuccess() {
   return { type: 'SIGN_UP_USER_SUCCESS' };
 }
 
-export function signUpUser(username, name, password, role, loggedInToken = '') {
-  return (dispatch) => {
+export function signUpUser(username: string, name: string, password: string, role: Role, loggedInToken = '') {
+  return (dispatch: Dispatch<IState>) => {
     dispatch(signUpUserRequest());
-    const headers = {
+    type SignUpHeaders = {
+      Accept: string,
+      'Content-Type': string,
+      Authorization: string
+    };
+
+    const headers: SignUpHeaders = <SignUpHeaders>{
       Accept: 'application/json',
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     };
 
     if (loggedInToken) {
@@ -610,8 +658,8 @@ export function signUpUser(username, name, password, role, loggedInToken = '') {
         username,
         name,
         password,
-        role,
-      }),
+        role
+      })
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
       if (response.status >= 200 && response.status <= 299) {
@@ -622,6 +670,7 @@ export function signUpUser(username, name, password, role, loggedInToken = '') {
           dispatch(logInSuccess(token, user));
           browserHistory.push('/dreamProject');
         }
+
         return;
       }
 
@@ -647,7 +696,7 @@ export function signUpUser(username, name, password, role, loggedInToken = '') {
   };
 }
 
-export function loadUserRequest(id) {
+export function loadUserRequest(id: Id) {
   return { type: 'LOAD_USER_REQUEST', id };
 }
 
@@ -660,12 +709,12 @@ export function loadUserSuccess(user) {
 }
 
 export function loadUser(userId, token) {
-  return (dispatch) => {
+  return (dispatch: Dispatch<IState>) => {
     dispatch(loadUserRequest(userId));
     return fetch(`/api/users/${userId}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
       if (response.status >= 200 && response.status <= 299) {
@@ -692,12 +741,12 @@ export function loadAllUsersSuccess(users) {
 }
 
 export function loadAllUsers(token) {
-  return (dispatch) => {
+  return (dispatch: Dispatch<IState>) => {
     dispatch(loadAllUsersRequest());
     return fetch('/api/users', {
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        Authorization: `Bearer ${token}`
+      }
     }).then(response => Promise.all([response, response.json()])
     ).then(([response, responseData]) => {
       if (response.status >= 200 && response.status <= 299) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import Helmet from 'react-helmet';
 

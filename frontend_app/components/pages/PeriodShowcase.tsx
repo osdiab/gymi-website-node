@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import React, { PropTypes } from 'react';
+import * as _ from 'lodash';
+import * as React from 'react';
 import Helmet from 'react-helmet';
 import { FormattedMessage, FormattedHTMLMessage, injectIntl, intlShape } from 'react-intl';
 import ImageGallery from 'react-image-gallery';

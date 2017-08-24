@@ -1,11 +1,17 @@
-export const VALID_ROLES = [
-  'admin', 'teacher', 'student',
-];
+/**
+ * Helpers and constants related to user roles.
+ */
 
-export function validateRole(role) {
-  if (!VALID_ROLES.includes(role)) {
-    return 'errors.roles.invalidRole';
-  }
-
-  return null;
+/**
+ * Types of roles a user can have
+ */
+export enum Role {
+  student = 'student',
+  teacher = 'teacher',
+  admin = 'admin'
 }
+
+/**
+ * Types of roles, expressed as an array of strings
+ */
+export const VALID_ROLES = Object.keys(Role).map((k: keyof typeof Role) => Role[k]);

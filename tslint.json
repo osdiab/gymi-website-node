@@ -8,6 +8,25 @@
     // Policy: if you add a rule to ignore, give a reason why it is good to
     // disable
     "rules": {
+        // allows the word "type" to be used in a type, which is idiomatic in React
+        "no-reserved-keywords": [false],
+        // allow CSS to be imported with side effects
+        "no-import-side-effect": [true, {
+            "ignore-module": "(\\.(le|c)ss)$"
+        }],
+        // allow capitalized letters for function-name so that pure stateless
+        // react functions aren't flagged
+        "function-name": [true, {
+            "function-regex": "^[a-zA-Z][\\w\\d]+$"
+        }],
+        // allow PascalCase var names to allow for React components to be defined
+        "variable-name": [
+            true,
+            "allow-pascal-case"
+        ],
+        // disable react-tsx-curly-spacing because it seems buggy, calling this
+        // code wrong: `store={ store }`
+        "react-tsx-curly-spacing": [false],
         // disable no-backbone-get-set-outside-model because we are not using
         // backbone
         "no-backbone-get-set-outside-model": [false],

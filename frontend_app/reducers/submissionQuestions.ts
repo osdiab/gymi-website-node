@@ -1,24 +1,60 @@
-export default function submissionQuestions(state = {}, action) {
+/**
+ * Describes state transitions related to submission questions
+ */
+
+import {Reducer} from 'redux';
+
+import {SubmissionQuestion} from 'common/submissionQuestions';
+
+export type Action = {
+  type: 'SUBMISSION_QUESTIONS_REQUEST'
+} | {
+  type: 'SUBMISSION_QUESTIONS_SUCCESS',
+  questions: SubmissionQuestion[]
+} | {
+  type: 'SUBMISSION_QUESTIONS_FAILURE',
+  err: Error
+};
+
+export interface IState {
+  readonly requestingQuestions: boolean;
+  readonly questionsError?: Error;
+  readonly questions?: SubmissionQuestion[];
+}
+
+const initialState: IState = {
+  requestingQuestions: false
+};
+
+const submissionQuestions: Reducer<IState> = (
+  state: IState = initialState,
+  action: Action
+): IState => {
   switch (action.type) {
     case 'SUBMISSION_QUESTIONS_REQUEST':
-      return Object.assign({}, state, {
+      return {
+        ...state,
         requestingQuestions: true,
-        questionsError: null,
-      });
+        questionsError: undefined
+      };
     case 'SUBMISSION_QUESTIONS_SUCCESS': {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         questions: action.questions,
         requestingQuestions: false,
-        questionsError: null,
-      });
+        questionsError: undefined
+      };
     }
     case 'SUBMISSION_QUESTIONS_FAILURE':
-      return Object.assign({}, state, {
+      return {
+        ...state,
         requestingQuestions: false,
-        questionsError: action.err,
-      });
+        questionsError: action.err
+      };
     default: {
-      return Object.assign({}, state);
+      return {...state};
     }
   }
-}
+};
+
+export default submissionQuestions;

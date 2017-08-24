@@ -7,11 +7,12 @@ import * as _ from 'lodash';
 
 import {NextFunction, Request, Response} from 'express';
 
-import {Id} from 'backend/db';
-import usersDb, { PUBLIC_USER_FIELDS, Role, toPublicUser } from 'backend/db/users';
+import usersDb, { PUBLIC_USER_FIELDS, toPublicUser } from 'backend/db/users';
 import { ApplicationError } from 'backend/errors';
 import { comparePassword, hashPassword } from 'backend/utils/crypto';
+import {Id} from 'common/entities';
 import { validatePassword } from 'common/passwords';
+import {Role} from 'common/roles';
 
 // tslint:disable-next-line
 const TOKEN_SECRET = 'super secret'; // TODO: make this an env variable

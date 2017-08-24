@@ -5,11 +5,12 @@
 import {NextFunction, Request, Response} from 'express';
 import * as _ from 'lodash';
 
-import usersDb, { Role, VALID_LIST_FILTERS, VALID_ROLES } from 'backend/db/users';
+import usersDb, { VALID_LIST_FILTERS } from 'backend/db/users';
 import { ApplicationError } from 'backend/errors';
 import { generateToken } from 'backend/routes/sessions';
 import { hashPassword } from 'backend/utils/crypto';
 import { validatePassword } from 'common/passwords';
+import {Role, VALID_ROLES} from 'common/roles';
 
 export default {
   list: (req: Request, res: Response) => {

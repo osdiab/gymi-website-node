@@ -1,7 +1,7 @@
 // TODO: convert alerts into internationalized messages in UI
 import emailValidator from 'email-validator';
-import _ from 'lodash';
-import React from 'react';
+import * as _ from 'lodash';
+import * as React from 'react';
 import Helmet from 'react-helmet';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 

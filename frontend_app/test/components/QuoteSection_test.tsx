@@ -1,7 +1,7 @@
-import assert from 'assert';
+import * as assert from 'assert';
 import { shallow } from 'enzyme';
-import React from 'react';
-import sinon from 'sinon';
+import * as React from 'react';
+import * as sinon from 'sinon';
 
 import { QuoteSectionView } from '../../components/QuoteSection';
 

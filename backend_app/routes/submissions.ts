@@ -6,9 +6,9 @@ import {NextFunction, Request, Response} from 'express';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 
-import {Id} from 'backend/db';
 import submissionsDb from 'backend/db/submissions';
 import { ApplicationError } from 'backend/errors';
+import {Id} from 'common/entities';
 
 export default {
   list: (req: Request, res: Response, next: NextFunction) => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { FormattedMessage, FormattedDate, injectIntl, intlShape } from 'react-intl';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';

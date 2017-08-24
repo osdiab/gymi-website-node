@@ -2,7 +2,8 @@
  * Database methods related to retrieving and modifying interests—that is,
  * the topics that a user has chosen to be their primary or secondary interests.
  */
-import db, {Id} from 'backend/db';
+import db from 'backend/db';
+import {Id} from 'common/entities';
 
 const list = (userId: Id) => new Promise((resolve, reject) => {
   const columns = ['title', 'id'];

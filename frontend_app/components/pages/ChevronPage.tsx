@@ -1,6 +1,6 @@
 import browser from 'detect-browser';
-import classnames from 'classnames';
-import React, { PropTypes } from 'react';
+import * as classnames from 'classnames';
+import * as React from 'react';
 
 require('./ChevronPage.less');
 

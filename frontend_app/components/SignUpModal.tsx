@@ -1,21 +1,44 @@
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
+/**
+ * Renders a modal with a form that allows users to sign up.
+ */
+import * as _ from 'lodash';
+import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import _ from 'lodash';
+import { connect } from 'react-redux';
 
-import { validatePassword } from '../../common/passwords';
-import { validateUsername } from '../../common/usernames';
-// import { validateRole } from '../../common/roles';
-import Modal from './Modal';
-import Button from './Button';
-import TextInput from './TextInput';
-import { signUpUser } from '../actions';
+import { validatePassword } from 'common/passwords';
+import {Role, VALID_ROLES} from 'common/roles';
+import { validateUsername } from 'common/usernames';
+import { signUpUser } from 'frontend/actions';
+import Button from 'frontend/components/Button';
+import Modal from 'frontend/components/Modal';
+import TextInput from 'frontend/components/TextInput';
 
-import './SignUpModal.less';
-import messages from '../messages';
+import messages from 'frontend/messages';
 
-export class SignUpModalView extends React.Component {
-  constructor(props) {
+import 'frontend/components/SignUpModal.less';
+
+export interface IProps {
+  signUpError: string;
+  role: Role;
+  closeModal(): void;
+  signUp(username: string, name: string, password: string, role: Role): void;
+}
+
+interface IFormElems extends HTMLCollection {
+  username: HTMLInputElement;
+  name: HTMLInputElement;
+  password: HTMLInputElement;
+  role: HTMLInputElement;
+}
+
+export class SignUpModalView extends React.Component<IProps> {
+  private signUpForm: HTMLFormElement;
+  private refsHandlers = {
+    signUpForm: (el: HTMLFormElement) => { this.signUpForm = el; }
+  };
+
+  constructor(props: IProps) {
     super(props);
     this.handleSignUp = this.handleSignUp.bind(this);
     this.formIsValid = this.formIsValid.bind(this);
@@ -23,61 +46,43 @@ export class SignUpModalView extends React.Component {
     this.state = {
       usernameError: validateUsername(''),
       passwordError: validatePassword(''),
-      nameError: true,
+      nameError: true
     };
   }
 
-  componentDidMount() {
-    this.signUpForm.elements.username.focus();
+  public componentDidMount() {
+    (this.signUpForm.elements as IFormElems).username.focus();
   }
 
-  parseFormEntries() {
-    const username = this.signUpForm.elements.username.value;
-    const name = this.signUpForm.elements.name.value;
-    const password = this.signUpForm.elements.password.value;
-    const role = this.signUpForm.elements.role.value;
-    return { username, password, name, role };
-  }
-
-  handleSignUp(e) {
-    e.preventDefault();
-    const { username, password, name, role } = this.parseFormEntries();
-    this.props.signUp(username, name, password, role);
-  }
-
-  formIsValid() {
-    return !(this.state.usernameError || this.state.passwordError || this.state.nameError);
-  }
-
-  render() {
+  public render() {
     return (
       <Modal
-        title="Sign up"
+        title='Sign up'
         closeModal={this.props.closeModal}
       >
         { this.props.signUpError &&
-          <p className="SignUpModal--errors">
+          <p className='SignUpModal--errors'>
             <FormattedMessage {..._.get(messages, this.props.signUpError)} />
           </p>
         }
         <form
-          ref={(el) => { this.signUpForm = el; }}
+          ref={this.refsHandlers.signUpForm}
           onSubmit={this.handleSignUp}
-          className="SignUpModal--form"
+          className='SignUpModal--form'
         >
-          <input type="hidden" name="role" value={this.props.role} />
+          <input type='hidden' name='role' value={this.props.role} />
           { this.props.role !== 'student' &&
             <h2>
               {_.capitalize(this.props.role)} sign up
             </h2>
           }
-          <ul className="SignUpModal--form--entries">
+          <ul className='SignUpModal--form--entries'>
             <li>
               <TextInput
-                name="username"
-                labelId="sessions.username"
+                name='username'
+                labelId='sessions.username'
                 onChange={value => this.setState({
-                  usernameError: validateUsername(value),
+                  usernameError: validateUsername(value)
                 })}
                 validateFn={validateUsername}
                 required
@@ -86,10 +91,10 @@ export class SignUpModalView extends React.Component {
 
             <li>
               <TextInput
-                type="password" name="password"
-                labelId="sessions.password"
+                type='password' name='password'
+                labelId='sessions.password'
                 onChange={value => this.setState({
-                  passwordError: validatePassword(value),
+                  passwordError: validatePassword(value)
                 })}
                 validateFn={validatePassword}
                 required
@@ -98,17 +103,17 @@ export class SignUpModalView extends React.Component {
 
             <li>
               <TextInput
-                name="name" id="SignUpModal--form--name"
-                labelId="sessions.name"
+                name='name' id='SignUpModal--form--name'
+                labelId='sessions.name'
                 onChange={value => this.setState({
-                  nameError: value.length === 0,
+                  nameError: value.length === 0
                 })}
                 required
               />
             </li>
 
-            <li className="SignUpModal--form--submitItem">
-              <Button type="primary" action="submit" disabled={!this.formIsValid()}>
+            <li className='SignUpModal--form--submitItem'>
+              <Button type='primary' action='submit' disabled={!this.formIsValid()}>
                 <FormattedMessage {...messages.sessions.signUp} />
               </Button>
             </li>
@@ -117,20 +122,34 @@ export class SignUpModalView extends React.Component {
       </Modal>
     );
   }
-}
 
-SignUpModalView.propTypes = {
-  closeModal: PropTypes.func.isRequired,
-  signUp: PropTypes.func.isRequired,
-  signUpError: PropTypes.string,
-  role: PropTypes.oneOf([
-    'student', 'teacher', 'admin',
-  ]),
-};
+  private parseFormEntries() {
+    const elems = this.signUpForm.elements as IFormElems;
+    const username = elems.username.value;
+    const name = elems.name.value;
+    const password = elems.password.value;
+    const role = elems.role.value;
+
+    return { username, password, name, role };
+  }
+
+  private handleSignUp(e: React.MouseEvent<HTMLInputElement>) {
+    e.preventDefault();
+    const { username, password, name, role } = this.parseFormEntries();
+    if (!(role in Role)) {
+      throw new Error(`Role '${role} is not one of ${VALID_ROLES}`);
+    }
+    this.props.signUp(username, name, password, Role[role]);
+  }
+
+  private formIsValid() {
+    return !(this.state.usernameError || this.state.passwordError || this.state.nameError);
+  }
+}
 
 function mapStateToProps(state) {
   return {
-    signUpError: state.session.signUpError,
+    signUpError: state.session.signUpError
   };
 }
 
@@ -140,13 +159,13 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     signUp: (username, name, password, role) =>
-      dispatch(signUpUser(username, name, password, role)),
+      dispatch(signUpUser(username, name, password, role))
   };
 }
 
 const SignUpModal = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(SignUpModalView);
 
 export default SignUpModal;

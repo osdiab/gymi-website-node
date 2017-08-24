@@ -1,6 +1,6 @@
-import React, { PropTypes } from 'react';
-import classnames from 'classnames';
-import _ from 'lodash';
+import * as React from 'react';
+import * as classnames from 'classnames';
+import * as _ from 'lodash';
 import browser from 'detect-browser';
 
 require('./PageSection.less');
@@ -76,5 +76,5 @@ PageSection.propTypes = {
     tint: PropTypes.oneOf(BACKGROUND_TINTS),
   }),
   whiteText: PropTypes.bool,
-  style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  style: PropTypes.object,
 };

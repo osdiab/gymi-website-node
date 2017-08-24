@@ -1,7 +1,10 @@
+/**
+ * Common definitions and helpers for passwords
+ */
 export const MIN_PASSWORD_LENGTH = 5;
 export const MAX_PASSWORD_LENGTH = 50;
 
-export function validatePassword(password) {
+export function validatePassword(password: string) {
   if (password.length < MIN_PASSWORD_LENGTH) {
     return 'errors.password.tooShort';
   }
@@ -10,7 +13,9 @@ export function validatePassword(password) {
     return 'errors.password.tooLong';
   }
 
-  if (!/^[\x00-\x7F]*$/.test(password)) {
+  // check if ASCII characters that aren't control codes. ' ' and '~' form the
+  // bounds for the character codes, so check the range in between them
+  if (!/^[ -~]+$/.test(password)) {
     return 'errors.password.hasBadCharacters';
   }
 

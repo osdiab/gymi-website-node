@@ -3,7 +3,8 @@
  * that is, potential interests that a user can have.
  */
 
-import db, {Id} from 'backend/db';
+import db from 'backend/db';
+import {Id} from 'common/entities';
 
 const list = (showArchived = false) => new Promise((resolve, reject) => {
   const defaultColumns = ['id', 'title'];

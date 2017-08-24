@@ -2,7 +2,8 @@
  * Database methods related to retrieving and updating submission questions—
  * that is, the questions mentees are asked when they make a submission.
  */
-import db, {Id} from 'backend/db';
+import db from 'backend/db';
+import {Id} from 'common/entities';
 
 const list = (showArchived = false) => new Promise((resolve, reject) => {
   const defaultColumns = ['id', 'title'];

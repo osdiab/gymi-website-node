@@ -1,3 +1,6 @@
-import app from './app';
+/**
+ * Runs the application on the client
+ */
+import app from 'frontend/app';
 
 app();

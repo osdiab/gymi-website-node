@@ -1,43 +1,112 @@
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
+/**
+ * Renders a modal that displays a login form.
+ */
+import * as _ from 'lodash';
+import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
-import _ from 'lodash';
+import { connect } from 'react-redux';
+import {Dispatch} from 'redux';
 
-import { validatePassword } from '../../common/passwords';
-import { validateUsername } from '../../common/usernames';
-import Modal from './Modal';
-import Button from './Button';
-import TextInput from './TextInput';
-import { logIn } from '../actions';
+import { validatePassword } from 'common/passwords';
+import { validateUsername } from 'common/usernames';
+import {hideModal} from 'frontend/actions';
+import { logIn } from 'frontend/actions';
+import Button from 'frontend/components/Button';
+import Modal from 'frontend/components/Modal';
+import TextInput from 'frontend/components/TextInput';
+import {IState as IApplicationState} from 'frontend/reducers';
 
-import './LogInModal.less';
-import messages from '../messages';
+import messages from 'frontend/messages';
 
-export class LogInModalView extends React.Component {
-  constructor(props) {
+import 'frontend/components/LogInModal.less';
+
+interface IProps {
+  logInError?: string;
+  hideModal(): void;
+  logIn(username: string, password: string, remember: boolean): void;
+}
+
+interface IFormElems extends HTMLCollection {
+  username: HTMLInputElement;
+  password: HTMLInputElement;
+  remember: HTMLInputElement;
+}
+
+export class LogInModalView extends React.Component<IProps> {
+  private loginForm: HTMLFormElement;
+  private refHandlers = {
+    form: (el: HTMLFormElement) => { this.loginForm = el; }
+  };
+
+  constructor(props: IProps) {
     super(props);
-    this.parseLoginEntries = this.parseLoginEntries.bind(this);
-    this.handleLogIn = this.handleLogIn.bind(this);
-    this.validateForm = this.validateForm.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.state = {
       formIsValid: false,
-      validationError: null,
+      validationError: null
     };
   }
 
-  componentDidMount() {
-    this.loginForm.elements.username.focus();
+  public componentDidMount() {
+    (this.loginForm.elements as IFormElems).username.focus();
   }
 
-  parseLoginEntries() {
-    const username = this.loginForm.elements.username.value;
-    const password = this.loginForm.elements.password.value;
-    const remember = this.loginForm.elements.remember.checked;
+  public render() {
+    return (
+      <Modal
+        title='Log in'
+        closeModal={this.props.hideModal}
+      >
+        { this.props.logInError &&
+          <p className='LoginModal--errors'>
+            <FormattedMessage {..._.get(messages, this.props.logInError)} />
+          </p>
+        }
+        <form
+          ref={this.refHandlers.form}
+          onSubmit={this.handleLogIn}
+          className='LogInModal--form'
+        >
+          <ul className='LoginModal--form--entries'>
+            <li>
+              <TextInput
+                type='text' name='username' required labelId='sessions.username'
+                onChange={this.handleChange} validateFn={validateUsername}
+              />
+            </li>
+
+            <li>
+              <TextInput
+                type='password' name='password' required labelId='sessions.password'
+                onChange={this.handleChange} validateFn={validatePassword}
+              />
+            </li>
+            <li className='LogInModal--form--rememberItem'>
+              <input type='checkbox' name='remember' id='LogInModal--form--remember' />
+              <label htmlFor='LogInModal--form--remember'>
+                <FormattedMessage {...messages.sessions.rememberMe} />
+              </label>
+            </li>
+            <li className='LogInModal--form--submitItem'>
+              <Button type='primary' action='submit' disabled={!this.state.formIsValid}>
+                <FormattedMessage {...messages.sessions.logIn} />
+              </Button>
+            </li>
+          </ul>
+        </form>
+      </Modal>
+    );
+  }
+
+  private parseLoginEntries = () => {
+    const elems = this.loginForm.elements as IFormElems;
+    const username = elems.username.value;
+    const password = elems.password.value;
+    const remember = elems.remember.checked;
+
     return { username, password, remember };
   }
 
-  validateForm() {
+  private validateForm = () => {
     const { username, password } = this.parseLoginEntries();
 
     if (username.length === 0) {
@@ -61,91 +130,42 @@ export class LogInModalView extends React.Component {
     return null;
   }
 
-  handleLogIn(e) {
+  private handleLogIn = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { username, password, remember } = this.parseLoginEntries();
     this.props.logIn(username, password, remember);
   }
 
-  handleChange() {
+  private handleChange = () => {
     const formValidation = this.validateForm();
     this.setState({
-      formIsValid: !formValidation,
+      formIsValid: !formValidation
     });
-  }
-
-  render() {
-    return (
-      <Modal
-        title="Log in"
-        closeModal={this.props.closeModal}
-      >
-        { this.props.logInError &&
-          <p className="LoginModal--errors">
-            <FormattedMessage {..._.get(messages, this.props.logInError)} />
-          </p>
-        }
-        <form
-          ref={(el) => { this.loginForm = el; }}
-          onSubmit={this.handleLogIn}
-          className="LogInModal--form"
-        >
-          <ul className="LoginModal--form--entries">
-            <li>
-              <TextInput
-                type="text" name="username" required labelId="sessions.username"
-                onChange={this.handleChange} validateFn={validateUsername}
-              />
-            </li>
-
-            <li>
-              <TextInput
-                type="password" name="password" required labelId="sessions.password"
-                onChange={this.handleChange} validateFn={validatePassword}
-              />
-            </li>
-            <li className="LogInModal--form--rememberItem">
-              <input type="checkbox" name="remember" id="LogInModal--form--remember" />
-              <label htmlFor="LogInModal--form--remember">
-                <FormattedMessage {...messages.sessions.rememberMe} />
-              </label>
-            </li>
-            <li className="LogInModal--form--submitItem">
-              <Button type="primary" action="submit" disabled={!this.state.formIsValid}>
-                <FormattedMessage {...messages.sessions.logIn} />
-              </Button>
-            </li>
-          </ul>
-        </form>
-      </Modal>
-    );
   }
 }
 
-LogInModalView.propTypes = {
-  closeModal: PropTypes.func.isRequired,
-  logIn: PropTypes.func.isRequired,
-  logInError: PropTypes.string,
-};
-
-function mapStateToProps(state) {
+function mapStateToProps(state: IState) {
   return {
-    logInError: state.session.logInError,
+    logInError: state.session.logInError
   };
 }
 
 // Container
 // Injects state and action dispatchers into the Component, thus decoupling the
 // presentation from state management.
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch<IApplicationState>) {
   return {
-    logIn: (username, password, remember) => dispatch(logIn(username, password, remember)),
+    logIn: (
+      username: string, password: string, remember: boolean
+    ) =>
+      dispatch(logIn(username, password, remember)),
+    hideModal: () => dispatch(hideModal())
   };
 }
 
 const LogInModal = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(LogInModalView);
 
 export default LogInModal;

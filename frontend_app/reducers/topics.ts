@@ -1,24 +1,58 @@
-export default function topics(state = {}, action) {
+/**
+ * Describes state transitions related to topics, i.e. things someone can
+ * be interested in.
+ */
+
+import {Topic} from 'common/topics';
+
+export type Action = {
+  type: 'LOAD_TOPICS_REQUEST'
+} | {
+  type: 'LOAD_TOPICS_SUCCESS',
+  topics: Topic[]
+} | {
+  type: 'LOAD_TOPICS_FAILURE',
+  err: Error
+};
+
+export interface IState {
+  readonly requestingTopics: boolean;
+  readonly topicsError?: Error;
+  readonly topics?: Topic[];
+}
+const initialState: IState = {
+  requestingTopics: false
+};
+
+const topics = (
+  state: IState = initialState,
+  action: Action
+): IState => {
   switch (action.type) {
     case 'LOAD_TOPICS_REQUEST':
-      return Object.assign({}, state, {
+      return {
+        ...state,
         requestingTopics: true,
-        topicsError: null,
-      });
+        topicsError: undefined
+      };
     case 'LOAD_TOPICS_SUCCESS': {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         topics: action.topics,
         requestingTopics: false,
-        topicsError: null,
-      });
+        topicsError: undefined
+      };
     }
     case 'LOAD_TOPICS_FAILURE':
-      return Object.assign({}, state, {
+      return {
+        ...state,
         requestingTopics: false,
-        topicsError: action.err,
-      });
+        topicsError: action.err
+      };
     default: {
-      return Object.assign({}, state);
+      return state;
     }
   }
-}
+};
+
+export default topics;

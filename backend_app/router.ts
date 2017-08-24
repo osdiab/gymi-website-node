@@ -8,7 +8,6 @@ import * as express from 'express';
 import * as requestLanguage from 'express-request-language';
 import * as path from 'path';
 
-import { Role } from 'backend/db/users';
 import { ApplicationError } from 'backend/errors';
 import emails from 'backend/routes/emails';
 import interests from 'backend/routes/interests';
@@ -19,6 +18,7 @@ import submissions from 'backend/routes/submissions';
 import topics from 'backend/routes/topics';
 import users from 'backend/routes/users';
 import { handleRender } from 'backend/serverRendering';
+import { Role } from 'common/roles';
 import { LANGUAGE_KEY } from 'frontend/reducers/language';
 
 // tslint:disable-next-line:max-func-body-length

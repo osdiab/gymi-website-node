@@ -1,37 +1,61 @@
-/* eslint-disable */
-import React, { PropTypes } from 'react';
-import { FormattedMessage, intlShape, injectIntl } from 'react-intl';
-import _ from 'lodash';
-import classnames from 'classnames';
+/**
+ * Renders a styled single-line text input element, with support for labels
+ * and error states
+ */
+import * as classnames from 'classnames';
+import * as _ from 'lodash';
+import * as React from 'react';
+import {
+  FormattedMessage, InjectedIntl, InjectedIntlProps, injectIntl, intlShape
+} from 'react-intl';
 
-import messages from '../messages';
+import messages from 'frontend/messages';
 
-import './TextInput.less';
+import 'frontend/components/TextInput.less';
 
 const DEFAULT_WIDTH = 400;
+
+interface IProps extends InjectedIntlProps {
+  intl: InjectedIntl;
+  placeholderId?: string;
+  labelId: string;
+  required?: boolean;
+  kind?: ('text' | 'password');
+  name: string;
+  maxLength: number;
+  onChange(value: string): void;
+  validateFn(value: string): (string | null);
+}
+
+interface IState {
+  value: string;
+  focused: boolean;
+  hasFocusedBefore: boolean;
+}
 
 /**
  * validateFn, if provided, must output a falsey value if the input is valid, or the id of an error
  * message on failure.
  */
-class TextInput extends React.Component {
-  constructor(props) {
+class TextInput extends React.Component<IProps, IState> {
+  public static defaultProps: IProps = {
+    kind: 'text'
+  } as IProps;
+
+  private input: HTMLInputElement;
+
+  constructor(props: IProps & InjectedIntlProps) {
     super(props);
     this.state = {
       value: '',
+      focused: false,
+      hasFocusedBefore: false
     };
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(e) {
-    this.setState({
-      value: this.input.value,
-    });
-  }
-
-  render() {
+  public render() {
     const {
-      type, validateFn, placeholderId, labelId, required, intl, onChange, name, maxLength
+      kind, validateFn, placeholderId, labelId, required, intl, onChange, name, maxLength
     } = this.props;
 
     const { focused, hasFocusedBefore } = this.state;
@@ -44,43 +68,39 @@ class TextInput extends React.Component {
     }
 
     const inputProps = {
-      ref: (i) => { this.input = i; },
-      type,
+      ref: (i: HTMLInputElement) => { this.input = i; },
+      kind,
       name,
-      onChange: (e) => {
-        this.handleChange(e);
+      onChange: () => {
+        this.handleChange();
         if (onChange) {
           onChange(this.input.value);
         }
       },
       onFocus: () => this.setState({ focused: true, hasFocusedBefore: true }),
       onBlur: () => this.setState({ focused: false }),
-    }
-    if (placeholderId) {
-      inputProps.placeholder = intl.formatMessage(placeholderId);
-    }
-
-    if (maxLength) {
-      inputProps.maxLength = maxLength;
-    }
+      placeholder: placeholderId === undefined ? undefined : intl.formatMessage({id: placeholderId}),
+      maxLength
+    };
 
     const colorBarClassName = classnames(
       'TextInput--colorBar',
       focused && 'TextInput--colorBar--focused',
-      !focused && hasFocusedBefore && errorId && 'TextInput--colorBar--error',
-    )
+      !focused && hasFocusedBefore && errorId && 'TextInput--colorBar--error'
+    );
+
     return (
-      <div className="TextInput">
+      <div className='TextInput'>
         <div className={colorBarClassName} />
-        <div className="TextInput--content">
+        <div className='TextInput--content'>
           <label>
-            <div className="TextInput--info">
-              <span className="TextInput--label">
+            <div className='TextInput--info'>
+              <span className='TextInput--label'>
                 <FormattedMessage {..._.get(messages, labelId)} />
               </span>
 
               {!focused && hasFocusedBefore && errorId &&
-                <span className="TextInput--error">
+                <span className='TextInput--error'>
                   <FormattedMessage {..._.get(messages, errorId)} />
                 </span>
               }
@@ -91,22 +111,12 @@ class TextInput extends React.Component {
       </div>
     );
   }
+
+  private handleChange = () => {
+    this.setState({
+      value: this.input.value
+    });
+  }
 }
-
-TextInput.propTypes = {
-  validateFn: PropTypes.func,
-  placeholderId: PropTypes.string,
-  labelId: PropTypes.string.isRequired,
-  required: PropTypes.bool,
-  type: PropTypes.oneOf(['text', 'password']),
-  onChange: PropTypes.func,
-  intl: intlShape,
-  name: PropTypes.string.isRequired,
-  maxLength: PropTypes.number,
-};
-
-TextInput.defaultProps = {
-  type: 'text',
-};
 
 export default injectIntl(TextInput);

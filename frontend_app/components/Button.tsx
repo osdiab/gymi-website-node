@@ -1,19 +1,48 @@
-import React, { PropTypes } from 'react';
+/**
+ * Defines a button
+ */
+import * as classnames from 'classnames';
+import * as _ from 'lodash';
+import * as React from 'react';
 import { Link } from 'react-router';
-import classnames from 'classnames';
-import _ from 'lodash';
 
-require('./Button.less');
+import 'frontend/components/Button.less';
 
-export default function Button({
+export enum Size {
+  small = 'small',
+  medium = 'medium',
+  large = 'large',
+  xlarge = 'xlarge'
+}
+
+export enum Kind {
+  secondary = 'secondary',
+  primary = 'primary',
+  destructive = 'destructive'
+}
+
+interface IProps {
+  children: React.ReactNode;
+  className: string;
+  action: Function | {
+    href: string,
+    target: '_self' | '_blank'
+  };
+  kind?: Kind;
+  size?: Size;
+  disabled?: boolean;
+  style: React.CSSProperties;
+}
+
+const Button: React.StatelessComponent<IProps> = ({
   children,
   className,
   action,
-  type = 'secondary',
+  kind = 'secondary',
   size = 'medium',
   disabled = false,
-  style = {},
-}) {
+  style = {}
+}) => {
   let ElemType = null;
   let actionAttributes = null;
   if (_.isFunction(action)) {
@@ -28,7 +57,7 @@ export default function Button({
     actionAttributes = {
       to: (linkIsInternal ? action.href : null),
       href: (linkIsInternal ? null : action.href),
-      target: action.target || null,
+      target: action.target || null
     };
   }
 
@@ -36,7 +65,7 @@ export default function Button({
     className,
     'Button',
     `Button--${size}`,
-    `Button--${type}`,
+    `Button--${kind}`
   );
 
   return (
@@ -49,23 +78,6 @@ export default function Button({
       {children}
     </ElemType>
   );
-}
-
-export const SIZES = ['small', 'medium', 'large', 'xlarge'];
-export const TYPES = ['secondary', 'primary', 'destructive'];
-Button.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  action: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({
-      href: PropTypes.string.isRequired,
-      target: PropTypes.oneOf(['_self', '_blank']),
-    }),
-    PropTypes.oneOf(['submit', 'reset', 'button', 'menu']),
-  ]),
-  type: PropTypes.oneOf(TYPES),
-  size: PropTypes.oneOf(SIZES),
-  disabled: PropTypes.bool,
-  style: PropTypes.objectOf(PropTypes.string),
 };
+
+export default Button;

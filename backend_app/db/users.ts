@@ -7,9 +7,11 @@
 
 import * as _ from 'lodash';
 
-import db, {Id} from 'backend/db';
+import db from 'backend/db';
 import periodsDb from 'backend/db/periods';
 import { ApplicationError } from 'backend/errors';
+import {Id} from 'common/entities';
+import {Role} from 'common/roles';
 
 export const PUBLIC_USER_FIELDS = ['id', 'username', 'role', 'name'];
 export const VALID_LIST_FILTERS = ['primaryInterest', 'period'];
@@ -28,16 +30,6 @@ export interface IFullUser extends IPublicUser {
 export function toPublicUser(user: IFullUser): IPublicUser {
   return _.pick(user, PUBLIC_USER_FIELDS);
 }
-
-// Types of roles a user can have.
-export enum Role {
-  student = 'student',
-  teacher = 'teacher',
-  admin = 'admin'
-}
-
-// Types of roles, expressed as an array of strings
-export const VALID_ROLES = Object.keys(Role).map((k: keyof typeof Role) => Role[k]);
 
 // flexible find function—can search for id or username.
 // Returns one entry, or null.

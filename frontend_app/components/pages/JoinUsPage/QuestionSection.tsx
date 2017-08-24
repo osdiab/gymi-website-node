@@ -1,6 +1,6 @@
-import React, { PropTypes } from 'react';
+import * as React from 'react';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 import Button from '../../Button';
 import messages from '../../../messages';

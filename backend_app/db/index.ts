@@ -11,10 +11,4 @@ const db = pgPromise()({
   ssl: true
 });
 
-/**
- * Represents an ID in the database. Right now they are auto-incrementing
- * integers, hence the `number` type.
- */
-export type Id = number;
-
 export default db;

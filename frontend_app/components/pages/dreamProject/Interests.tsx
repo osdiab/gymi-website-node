@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react';
+import * as React from 'react';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import Select from 'react-select';
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 import messages from '../../../messages';
 import LoadingSpinner from '../../LoadingSpinner';

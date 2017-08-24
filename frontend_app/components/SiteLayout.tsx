@@ -1,39 +1,48 @@
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
+/**
+ * Global layout for the GYMI website
+ */
+
+import * as React from 'react';
 import Helmet from 'react-helmet';
+import { connect } from 'react-redux';
 import 'react-select/dist/react-select.css';
 
-import SiteNavigation from './SiteNavigation';
-import Footer from './Footer';
-import LogInModal from './LogInModal';
-import SignUpModal from './SignUpModal';
+import Footer from 'frontend/components/Footer';
+import LogInModal from 'frontend/components/LogInModal';
+import SignUpModal from 'frontend/components/SignUpModal';
+import SiteNavigation from 'frontend/components/SiteNavigation';
+import {IState as IApplicationState} from 'frontend/reducers';
+import {SupportedLanguage} from 'frontend/reducers/language';
+import {ModalData} from 'frontend/reducers/modal';
 
-import './SiteLayout.less';
+import 'frontend/components/SiteLayout.less';
 
-export function SiteLayoutView({ children, modalId, modalProps, currentLanguage }) {
+export const SiteLayoutView: React.StatelessComponent<IProps> = (props: IProps) => {
+  const { children, modalData, currentLanguage } = props;
   let modal;
-  if (modalId) {
-    switch (modalId) {
+  if (modalData) {
+    switch (modalData.modalId) {
       case 'login':
-        modal = <LogInModal {...modalProps} />;
+        modal = <LogInModal {...modalData.props} />;
         break;
       case 'signup':
-        modal = <SignUpModal {...modalProps} />;
+        modal = <SignUpModal {...modalData.props} />;
         break;
       default:
-        console.error(`Invalid modal id: ${modalId}`); // eslint-disable-line no-console
+        console.error('Invalid modal id', modalData);
     }
   }
+
   return (
-    <div className="SiteLayout">
+    <div className='SiteLayout'>
       <Helmet
         htmlAttributes={{ lang: currentLanguage }}
-        defaultTitle="GYMI"
-        titleTemplate="%s | GYMI"
+        defaultTitle='GYMI'
+        titleTemplate='%s | GYMI'
       />
       <SiteNavigation />
-      <div className="SiteLayout--wrapper">
-        <main className="SiteLayout--content">
+      <div className='SiteLayout--wrapper'>
+        <main className='SiteLayout--content'>
           {children}
         </main>
         <Footer />
@@ -41,20 +50,18 @@ export function SiteLayoutView({ children, modalId, modalProps, currentLanguage 
       {modal}
     </div>
   );
-}
-
-SiteLayoutView.propTypes = {
-  children: PropTypes.node.isRequired,
-  modalId: PropTypes.node,
-  modalProps: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  currentLanguage: PropTypes.string.isRequired,
 };
 
-function mapStateToProps(state) {
+interface IProps {
+  readonly children?: React.ReactNode;
+  readonly modalData?: ModalData;
+  readonly currentLanguage: SupportedLanguage;
+}
+
+function mapStateToProps(state: IApplicationState) {
   return {
-    modalId: state.modal.modalId,
-    modalProps: state.modal.props,
-    currentLanguage: state.language.currentLanguage.localeCode,
+    modalData: state.modal.modalData,
+    currentLanguage: state.language.currentLanguage.localeCode
   };
 }
 

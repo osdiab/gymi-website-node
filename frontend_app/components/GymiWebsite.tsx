@@ -1,14 +1,22 @@
-// View of the React application as a whole.
-import React, { PropTypes } from 'react';
+/**
+ * Renders the website. This is the top level component.
+ */
+import * as React from 'react';
 import { IntlProvider } from 'react-intl';
 import { connect } from 'react-redux';
-import { Router, browserHistory, applyRouterMiddleware } from 'react-router';
+import { applyRouterMiddleware, browserHistory, Router } from 'react-router';
 import { useScroll } from 'react-router-scroll';
 
-import { translations } from '../messages';
-import routes from './routes';
+import {Language} from 'common/languages';
+import routes from 'frontend/components/routes';
+import { translations } from 'frontend/messages';
 
-export function GymiWebsiteView({ currentLanguage, defaultLanguage }) {
+interface IProps {
+  currentLanguage: Language;
+  defaultLanguage: Language;
+}
+
+export const GymiWebsiteView: React.StatelessComponent<IProps> = ({ currentLanguage, defaultLanguage }) => {
   // NOTE: need key on IntlProvider to trigger page rerender
   // https://github.com/yahoo/react-intl/issues/234
   return (
@@ -25,14 +33,6 @@ export function GymiWebsiteView({ currentLanguage, defaultLanguage }) {
       />
     </IntlProvider>
   );
-}
-
-const languagePropType = PropTypes.shape({
-  localeCode: PropTypes.string.isRequired,
-});
-GymiWebsiteView.propTypes = {
-  currentLanguage: languagePropType.isRequired,
-  defaultLanguage: languagePropType.isRequired,
 };
 
 // Container
@@ -42,12 +42,12 @@ GymiWebsiteView.propTypes = {
 function mapStateToProps(state) {
   return {
     currentLanguage: state.language.currentLanguage,
-    defaultLanguage: state.language.defaultLanguage,
+    defaultLanguage: state.language.defaultLanguage
   };
 }
 
 const GymiWebsite = connect(
-  mapStateToProps,
+  mapStateToProps
 )(GymiWebsiteView);
 
 export default GymiWebsite;

@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import * as _ from 'lodash';
@@ -76,15 +76,15 @@ export class DreamProjectProfilePageView extends React.Component {
             edit={this.state.editingInterests ? {
               addInterest: (id, primary) => addInterest(user.id, id, primary),
               removeInterest: id => removeInterest(user.id, id),
-              allTopics,
+              allTopics
             } : null}
           />
         }
-        <h3 className="sectionHeader">
+        <h3 className='sectionHeader'>
           <FormattedMessage {...messages.dreamProject.profile.submissions.title} />
         </h3>
         { submissions !== 'not loaded' &&
-          <Submissions submissions={submissions} displayMetadata="date" />
+          <Submissions submissions={submissions} displayMetadata='date' />
         }
       </div>
     );
@@ -94,25 +94,25 @@ export class DreamProjectProfilePageView extends React.Component {
 const userShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired
 });
 
 DreamProjectProfilePageView.propTypes = {
   params: PropTypes.shape({
-    userId: PropTypes.number,
+    userId: PropTypes.number
   }).isRequired,
   user: userShape,
   loggedInUser: userShape.isRequired,
   interests: PropTypes.oneOfType([
     PropTypes.shape({
       otherInterests: PropTypes.arrayOf(interestType).isRequired,
-      primaryInterest: interestType.isRequired,
+      primaryInterest: interestType.isRequired
     }),
     PropTypes.shape({
       loading: PropTypes.bool.isRequired,
-      error: PropTypes.string,
+      error: PropTypes.string
     }),
-    PropTypes.oneOf(['not loaded']),
+    PropTypes.oneOf(['not loaded'])
   ]).isRequired,
   submissions: PropTypes.oneOfType([
     PropTypes.arrayOf(submissionType),
@@ -120,7 +120,7 @@ DreamProjectProfilePageView.propTypes = {
       loading: PropTypes.bool.isRequired,
       error: PropTypes.string,
     }),
-    PropTypes.oneOf(['not loaded']),
+    PropTypes.oneOf(['not loaded'])
   ]).isRequired,
   allTopics: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.shape({
@@ -131,14 +131,14 @@ DreamProjectProfilePageView.propTypes = {
       loading: PropTypes.bool.isRequired,
       error: PropTypes.string,
     }),
-    PropTypes.oneOf(['not loaded']),
+    PropTypes.oneOf(['not loaded'])
   ]).isRequired,
   loadInterests: PropTypes.func.isRequired,
   loadTopics: PropTypes.func.isRequired,
   loadSubmissions: PropTypes.func.isRequired,
   loadUser: PropTypes.func.isRequired,
   addInterest: PropTypes.func.isRequired,
-  removeInterest: PropTypes.func.isRequired,
+  removeInterest: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
@@ -147,7 +147,7 @@ function mapStateToProps(state, ownProps) {
     ownInterests || requestingOwnInterests || ownInterestsError ? (
       ownInterests || {
         loading: requestingOwnInterests,
-        error: ownInterestsError,
+        error: ownInterestsError
       }
     ) : 'not loaded';
 
@@ -157,7 +157,7 @@ function mapStateToProps(state, ownProps) {
       (
         ownSubmissions || {
           loading: requestingOwnSubmissions,
-          error: ownSubmissionsError,
+          error: ownSubmissionsError
         }
       ) : 'not loaded';
 
@@ -167,18 +167,18 @@ function mapStateToProps(state, ownProps) {
       (
         topics || {
           loading: requestingTopics,
-          error: topicsError,
+          error: topicsError
         }
       ) : 'not loaded';
 
   const loggedInUser = state.session.user;
   return {
     loggedInUser,
-    user: state.users.loadedUsers[ownProps.params.userId || loggedInUser.id],
+    user: state.users.loadedUsers.get(ownProps.params.userId) || loggedInUser.id],
     token: state.session.token,
     interests,
     submissions,
-    allTopics,
+    allTopics
   };
 }
 
@@ -191,7 +191,7 @@ function mapDispatchToProps(dispatch) {
     addInterest: (userId, topicId, primary, token) =>
       dispatch(addInterestAction(userId, token, topicId, primary)),
     removeInterest: (userId, topicId, token) =>
-      dispatch(removeInterestAction(userId, token, topicId)),
+      dispatch(removeInterestAction(userId, token, topicId))
   };
 }
 
@@ -205,7 +205,7 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     addInterest: (userId, topicId, primary) => dispatchProps.addInterest(
       userId, topicId, primary, token),
     removeInterest: (userId, topicId) => dispatchProps.removeInterest(
-      userId, topicId, token),
+      userId, topicId, token)
   };
   const newStateProps = _.omit(stateProps, ['token']);
   return Object.assign({}, ownProps, newStateProps, newDispatchProps);
@@ -214,7 +214,7 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 const DreamProjectProfilePage = connect(
   mapStateToProps,
   mapDispatchToProps,
-  mergeProps,
+  mergeProps
 )(DreamProjectProfilePageView);
 
 export default DreamProjectProfilePage;

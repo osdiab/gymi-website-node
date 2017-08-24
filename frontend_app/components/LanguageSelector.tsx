@@ -1,42 +1,65 @@
-// Component
-// View of the selector for which language to display the page in.
-// Presentational code only; state is passed as properties by the container.
-import React, { PropTypes } from 'react';
+/**
+ * Element that lets you select from a list of langauges.
+ */
+import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { setCurrentLanguage as setLanguageAction } from '../actions';
+import {Language} from 'common/languages';
+import { setCurrentLanguage as setLanguageAction } from 'frontend/actions';
 
-require('./LanguageSelector.less');
+import 'frontend/components/LanguageSelector.less';
 
-export function LanguageSelectorView({
-  currentLanguage, validLanguages, setCurrentLanguage,
-}) {
-  const languageButtons = validLanguages.map(lang => (
-    <li className="LanguageSelector--languages--entry" key={lang.localeCode}>
+interface ILangOptionProps {
+  language: Language;
+  disabled: boolean;
+  setLanguage(lang: Language): void;
+}
+
+interface IProps {
+  currentLanguage: Language;
+  validLanguages: Language[];
+  setCurrentLanguage(newLanguage: Language): void;
+}
+
+class LanguageOption extends React.Component<ILangOptionProps> {
+  public render() {
+    const {
+      disabled, language
+    } = this.props;
+
+    return (
       <button
-        disabled={currentLanguage.localeCode === lang.localeCode}
-        onClick={() => setCurrentLanguage(lang.localeCode)}
+        disabled={disabled}
+        onClick={this.setLanguage}
       >
-        {lang.shortDisplayName}
+        {language.shortDisplayName}
       </button>
+    );
+  }
+
+  private setLanguage = () => {
+    this.props.setLanguage(this.props.language);
+  }
+}
+
+export const LanguageSelectorView: React.StatelessComponent<IProps> = ({
+  currentLanguage, validLanguages, setCurrentLanguage
+}) => {
+  const languageButtons = validLanguages.map(lang => (
+    <li className='LanguageSelector--languages--entry' key={lang.localeCode}>
+      <LanguageOption
+        disabled={currentLanguage.localeCode === lang.localeCode}
+        language={lang}
+        setLanguage={setCurrentLanguage}
+      />
     </li>
   ));
 
-  return (<div className="LanguageSelector">
-    <ul className="LanguageSelector--languages">
+  return (<div className='LanguageSelector'>
+    <ul className='LanguageSelector--languages'>
       {languageButtons}
     </ul>
   </div>);
-}
-
-const languagePropType = PropTypes.shape({
-  localeCode: PropTypes.string.isRequired,
-  shortDisplayName: PropTypes.string.isRequired,
-});
-LanguageSelectorView.propTypes = {
-  currentLanguage: languagePropType.isRequired,
-  validLanguages: PropTypes.arrayOf(languagePropType).isRequired,
-  setCurrentLanguage: PropTypes.func.isRequired,
 };
 
 // Container
@@ -45,13 +68,13 @@ LanguageSelectorView.propTypes = {
 function mapStateToProps(state) {
   return {
     currentLanguage: state.language.currentLanguage,
-    validLanguages: state.language.validLanguages,
+    validLanguages: state.language.validLanguages
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return { setCurrentLanguage: localeCode =>
-    dispatch(setLanguageAction(localeCode)) };
+  return { setCurrentLanguage: (language: Language) =>
+    dispatch(setLanguageAction(language.localeCode)) };
 }
 
 const LanguageSelector = connect(

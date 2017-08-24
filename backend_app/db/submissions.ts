@@ -6,7 +6,8 @@
 import * as _ from 'lodash';
 import * as pgPromise from 'pg-promise';
 
-import db, {Id} from 'backend/db';
+import db from 'backend/db';
+import {Id} from 'common/entities';
 
 const pgpHelpers = pgPromise().helpers;
 
