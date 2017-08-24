@@ -76,4 +76,12 @@ export default [
     id: 'AboutUsPage.collaborators.pandeagleCulturalInstitute.description',
     defaultMessage: 'Pandeagle Cultural Institute is based in Florida and is a non-profit organization dedicated to promoting a better understanding of Chinese culture in communities.',
   },
+  {
+    id: 'AboutUsPage.collaborators.globalYoungVoices.name',
+    defaultMessage: 'Global Young Voices',
+  },
+  {
+    id: 'AboutUsPage.collaborators.globalYoungVoices.description',
+    defaultMessage: 'Global Young Voices is a worldwide media outlet with a wide reach of over 190 countries alongside collaborations with organisations such as the UN Youth, the UN Academic Impact and the European Youth Forum. They are excited to be partnering with FAF for the first time at the 2017 Summer Youth Assembly at the United Nations.',
+  }
 ];
