@@ -28,7 +28,8 @@ export default function LeadershipTeamSection() {
         <div
           className="LeadershipTeamSection--profile"
           key={id}
-          // tabIndex="0" // TODO: uncomment when bios present
+          // make selectable if description is present
+          tabIndex={teamMessages[id].description ? '0' : undefined}
         >
           <img role="presentation" src={`/media/team_photos/${id}.png`} />
           <h4>
@@ -37,18 +38,20 @@ export default function LeadershipTeamSection() {
           <h5>
             <FormattedMessage {...teamMessages[id].title} />
           </h5>
-          {/* TODO: uncomment when bios are present */}
-          {/* <div className="LeadershipTeamSection--details">
-            <h4>
-              <FormattedMessage {...teamMessages[id].name} />
-            </h4>
-            <h5>
-              <FormattedMessage {...teamMessages[id].title} />
-            </h5>
-            <p>
-              <FormattedMessage {...teamMessages[id].description} />
-            </p>
-          </div> */}
+          {/* // show description only if present */}
+          {teamMessages[id].description && (
+            <div className="LeadershipTeamSection--details">
+              <h4>
+                <FormattedMessage {...teamMessages[id].name} />
+              </h4>
+              <h5>
+                <FormattedMessage {...teamMessages[id].title} />
+              </h5>
+              <p>
+                <FormattedMessage {...teamMessages[id].description} />
+              </p>
+            </div>
+          )}
         </div>
       ))}
     </section>
