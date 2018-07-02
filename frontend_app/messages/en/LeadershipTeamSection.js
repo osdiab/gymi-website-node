@@ -59,7 +59,7 @@ export default [
   },
   {
     id: 'LeadershipTeamSection.YilinWei.title',
-    defaultMessage: 'Co-president of Education',
+    defaultMessage: 'VP of Education and Curriculum',
   },
   {
     id: 'LeadershipTeamSection.YilinWei.description',
