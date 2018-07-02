@@ -33,7 +33,7 @@ export default [
   },
   {
     id: 'LeadershipTeamSection.YunQu.title',
-    defaultMessage: 'Vice President of Administration',
+    defaultMessage: 'VP of Operations',
   },
   {
     id: 'LeadershipTeamSection.YunQu.description',
