@@ -29,7 +29,8 @@ export default function LeadershipTeamSection() {
           className="LeadershipTeamSection--profile"
           key={id}
           // make selectable if description is present
-          tabIndex={teamMessages[id].description ? '0' : undefined}
+          // TODO: remove until bios are present
+          // tabIndex={teamMessages[id].description ? '0' : undefined}
         >
           <img role="presentation" src={`/media/team_photos/${id}.png`} />
           <h4>
@@ -39,7 +40,8 @@ export default function LeadershipTeamSection() {
             <FormattedMessage {...teamMessages[id].title} />
           </h5>
           {/* // show description only if present */}
-          {teamMessages[id].description && (
+          {/* // TODO: remove until bios are present */}
+          {/* {teamMessages[id].description && (
             <div className="LeadershipTeamSection--details">
               <h4>
                 <FormattedMessage {...teamMessages[id].name} />
@@ -51,7 +53,7 @@ export default function LeadershipTeamSection() {
                 <FormattedMessage {...teamMessages[id].description} />
               </p>
             </div>
-          )}
+          )} */}
         </div>
       ))}
     </section>
