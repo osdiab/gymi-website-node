@@ -16,9 +16,9 @@ const TEAM_MEMBER_IDS = [
   'NingLu',
   'KeyingQue',
   'YuqingZhang',
+  'QiaoqiaoDong',
   'PoppyTian',
   'KelinLi',
-  'QiaoqiaoDong',
 ];
 
 export default function LeadershipTeamSection() {
