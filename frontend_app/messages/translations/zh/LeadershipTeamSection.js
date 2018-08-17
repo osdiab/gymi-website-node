@@ -33,7 +33,7 @@ export default [
   },
   {
     id: 'LeadershipTeamSection.YunQu.title',
-    defaultMessage: '执行主席',
+    defaultMessage: '运营部主席',
   },
   {
     id: 'LeadershipTeamSection.YunQu.description',
@@ -79,52 +79,52 @@ export default [
     defaultMessage:
       '我在美国明尼苏达大学教育研究生院学习教育领导力和政策。 我本科的专业是戏剧影视文学。我最近的一次工作经验，是在国内的一所国际初中任了4年的英语教师。 在那之前，我也曾担任过成人的对外汉语和初中语文的教师。我对于跨文化沟通，女性主义哲学和社会性别研究有很大的兴趣。 这些额外的学习给我提供了更扎实的可能，成为一个在教育领域优秀的研究生。 总的来说，我广泛的兴趣爱好确定了我对于跨文化，国际教育发展的热忱。我希望通过吉米，我能用多角度学习的技能和生活态度去帮助中国的学生。我也相信我会在同伴们的帮助之下更多的提升自我的各项能力。',
   },
-  // {
-  //   id: 'LeadershipTeamSection.ShantingChen.name',
-  //   defaultMessage: 'Shanting Chen',
-  // },
-  // {
-  //   id: 'LeadershipTeamSection.ShantingChen.title',
-  //   defaultMessage: 'VP of Impact Evaluation',
-  // },
-  // {
-  //   id: 'LeadershipTeamSection.NingLu.name',
-  //   defaultMessage: 'Ning Lu',
-  // },
-  // {
-  //   id: 'LeadershipTeamSection.NingLu.title',
-  //   defaultMessage: 'VP of Finance',
-  // },
-  // {
-  //   id: 'LeadershipTeamSection.YuqingZhang.name',
-  //   defaultMessage: 'Yuqing Zhang',
-  // },
-  // {
-  //   id: 'LeadershipTeamSection.YuqingZhang.title',
-  //   defaultMessage: 'VP of Marketing',
-  // },
-  // {
-  //   id: 'LeadershipTeamSection.PoppyTian.name',
-  //   defaultMessage: 'Poppy Tian',
-  // },
-  // {
-  //   id: 'LeadershipTeamSection.PoppyTian.title',
-  //   defaultMessage: 'Lead of Girls Empowerment Program',
-  // },
-  // {
-  //   id: 'LeadershipTeamSection.KelinLi.name',
-  //   defaultMessage: 'Kelin Li',
-  // },
-  // {
-  //   id: 'LeadershipTeamSection.KelinLi.title',
-  //   defaultMessage: 'Fundraising Associate',
-  // },
-  // {
-  //   id: 'LeadershipTeamSection.QiaoqiaoDong.name',
-  //   defaultMessage: 'Qiaoqiao Dong',
-  // },
-  // {
-  //   id: 'LeadershipTeamSection.QiaoqiaoDong.title',
-  //   defaultMessage: 'China Representative',
-  // },
+  {
+    id: 'LeadershipTeamSection.ShantingChen.name',
+    defaultMessage: 'Shanting Chen',
+  },
+  {
+    id: 'LeadershipTeamSection.ShantingChen.title',
+    defaultMessage: '课程影响评估部主席',
+  },
+  {
+    id: 'LeadershipTeamSection.NingLu.name',
+    defaultMessage: 'Ning Lu',
+  },
+  {
+    id: 'LeadershipTeamSection.NingLu.title',
+    defaultMessage: '财务部主席',
+  },
+  {
+    id: 'LeadershipTeamSection.YuqingZhang.name',
+    defaultMessage: 'Yuqing Zhang',
+  },
+  {
+    id: 'LeadershipTeamSection.YuqingZhang.title',
+    defaultMessage: '宣传部主席',
+  },
+  {
+    id: 'LeadershipTeamSection.PoppyTian.name',
+    defaultMessage: 'Poppy Tian',
+  },
+  {
+    id: 'LeadershipTeamSection.PoppyTian.title',
+    defaultMessage: '平权项目负责人',
+  },
+  {
+    id: 'LeadershipTeamSection.KelinLi.name',
+    defaultMessage: 'Kelin Li',
+  },
+  {
+    id: 'LeadershipTeamSection.KelinLi.title',
+    defaultMessage: '募捐大使',
+  },
+  {
+    id: 'LeadershipTeamSection.QiaoqiaoDong.name',
+    defaultMessage: 'Qiaoqiao Dong',
+  },
+  {
+    id: 'LeadershipTeamSection.QiaoqiaoDong.title',
+    defaultMessage: '中国地区代表',
+  },
 ];

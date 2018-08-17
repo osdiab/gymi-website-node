@@ -104,7 +104,7 @@ export default [
   },
   {
     id: 'LeadershipTeamSection.KelinLi.title',
-    defaultMessage: 'Fundraising Associate',
+    defaultMessage: 'Fundraising Lead',
   },
   {
     id: 'LeadershipTeamSection.QiaoqiaoDong.name',

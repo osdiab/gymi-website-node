@@ -21,6 +21,42 @@ const TEAM_MEMBER_IDS = [
   'KelinLi',
 ];
 
+const TEAM_MEMBER_DATA = {
+  ChristineWang: {
+    photoUrl: '/media/team_photos/ChristineWang.png',
+  },
+  SherminLuo: {
+    photoUrl: '/media/team_photos/SherminLuo.png',
+  },
+  YunQu: {
+    photoUrl: '/media/team_photos/YunQu.png',
+  },
+  YilinWei: {
+    photoUrl: '/media/team_photos/YilinWei.png',
+  },
+  ShantingChen: {
+    photoUrl: '/media/team_photos/ShantingChen.png',
+  },
+  NingLu: {
+    photoUrl: '/media/team_photos/NingLu.png',
+  },
+  KeyingQue: {
+    photoUrl: '/media/team_photos/KeyingQue.png',
+  },
+  YuqingZhang: {
+    photoUrl: '/media/team_photos/YuqingZhang.png',
+  },
+  QiaoqiaoDong: {
+    photoUrl: '/media/team_photos/QiaoqiaoDong.png',
+  },
+  PoppyTian: {
+    photoUrl: '/media/team_photos/PoppyTian.jpg',
+  },
+  KelinLi: {
+    photoUrl: '/media/team_photos/KelinLi.png',
+  },
+};
+
 export default function LeadershipTeamSection() {
   return (
     <section className="LeadershipTeamSection">
@@ -32,7 +68,7 @@ export default function LeadershipTeamSection() {
           // TODO: remove until bios are present
           // tabIndex={teamMessages[id].description ? '0' : undefined}
         >
-          <img role="presentation" src={`/media/team_photos/${id}.png`} />
+          <img role="presentation" src={TEAM_MEMBER_DATA[id].photoUrl} />
           <h4>
             <FormattedMessage {...teamMessages[id].name} />
           </h4>
