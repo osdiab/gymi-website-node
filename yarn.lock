@@ -2938,9 +2938,9 @@ intl-format-cache@^2.0.5:
   version "2.1.0"
   resolved "https://registry.npmjs.org/intl-format-cache/-/intl-format-cache-2.1.0.tgz#04a369fecbfad6da6005bae1f14333332dcf9316"
 
-intl-locales-supported@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/intl-locales-supported/-/intl-locales-supported-1.0.0.tgz#9a9d94dbf104a87818881952dcb782053f0aeefa"
+intl-locales-supported@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/intl-locales-supported/-/intl-locales-supported-1.1.2.tgz#ffceaa862c289ed8542e21a4bc04f57dc6b42776"
 
 intl-messageformat-parser@1.4.0:
   version "1.4.0"
