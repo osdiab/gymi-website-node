@@ -93,7 +93,7 @@
     "nodemon": "^1.11.0",
     "react-addons-test-utils": "^15.3.2",
     "webpack-dev-middleware": "^1.6.1",
-    "webpack-dev-server": "^1.14.1",
+    "webpack-dev-server": "^3.1.11",
     "webpack-hot-middleware": "^2.10.0"
   }
 }
