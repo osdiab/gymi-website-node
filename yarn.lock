@@ -1829,9 +1829,9 @@ electron-to-chromium@^1.2.7:
   version "1.3.50"
   resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.3.50.tgz#7438b76f92b41b919f3fbdd350fbd0757dacddf7"
 
-email-validator@^1.0.7:
-  version "1.2.3"
-  resolved "https://registry.npmjs.org/email-validator/-/email-validator-1.2.3.tgz#3e3aa65595e079a4686b41c004485a53638a6ed5"
+email-validator@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/email-validator/-/email-validator-2.0.4.tgz#b8dfaa5d0dae28f1b03c95881d904d4e40bfe7ed"
 
 emojis-list@^2.0.0:
   version "2.1.0"

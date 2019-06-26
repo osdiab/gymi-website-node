@@ -38,7 +38,7 @@
     "cookie-parser": "^1.4.3",
     "css-loader": "^0.25.0",
     "detect-browser": "^1.5.0",
-    "email-validator": "^1.0.7",
+    "email-validator": "^2.0.4",
     "express": "^4.13.4",
     "express-force-ssl": "^0.3.2",
     "express-request-language": "^1.1.9",
