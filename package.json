@@ -51,7 +51,7 @@
     "jsonwebtoken": "^7.1.9",
     "less": "^2.6.1",
     "less-loader": "^2.2.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "moment": "^2.15.2",
     "node-fetch": "^1.5.3",
     "nodemailer": "^2.6.4",
