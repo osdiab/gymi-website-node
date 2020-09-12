@@ -53,7 +53,7 @@
     "less-loader": "^2.2.3",
     "lodash": "^4.17.13",
     "moment": "^2.15.2",
-    "node-fetch": "^1.5.3",
+    "node-fetch": "^2.6.1",
     "nodemailer": "^2.6.4",
     "pg-native": "^1.10.0",
     "pg-promise": "^5.3.5",
